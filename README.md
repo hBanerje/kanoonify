@@ -1,35 +1,54 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# Kanoonify
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+AI-powered legal awareness app for Indian citizens.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## Features
 
-### Build and Run Android Application
+- Ask legal questions in natural language
+- Get relevant Indian laws and fines instantly
+- AI-powered situation analysis using OpenAI
+- Category-based law browsing (Traffic, Criminal, Women Safety, Police Rights, Public Safety)
+- Search-optimized keyword matching for real-life queries
+- Works on both Android and iOS via Kotlin Multiplatform
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+## Tech Stack
 
-### Build and Run iOS Application
+- Kotlin Multiplatform (KMP)
+- Jetpack Compose Multiplatform (shared UI)
+- MVVM Architecture with StateFlow
+- SQLDelight (local database)
+- Ktor (networking)
+- OpenAI API (AI integration)
+- JSON-based law engine (80+ Indian laws)
+- Compose Navigation
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+## Project Structure
 
----
+```
+composeApp/
+  src/
+    commonMain/    — Shared code (UI, ViewModels, Repository, Domain models)
+    androidMain/   — Android-specific (Driver, MainActivity, assets)
+    iosMain/       — iOS-specific (Driver, MainViewController)
+iosApp/            — iOS Xcode entry point
+```
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Build and Run
+
+### Android
+
+```shell
+./gradlew :composeApp:assembleDebug
+```
+
+### iOS
+
+Open the `/iosApp` directory in Xcode and run, or use the KMP run configuration in Android Studio / Fleet.
+
+## Screenshots
+
+(Coming soon)
+
+## Goal
+
+Help Indian citizens understand their legal rights during police interactions, traffic stops, and everyday situations — in simple, real-life language.
