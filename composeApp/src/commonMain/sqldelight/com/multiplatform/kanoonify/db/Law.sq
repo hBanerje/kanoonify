@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS Law (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    category TEXT NOT NULL,
+    description TEXT NOT NULL,
+    punishment TEXT NOT NULL
+);
+
+insertLaw:
+INSERT OR REPLACE INTO Law(id, title, category, description, punishment)
+VALUES (?, ?, ?, ?, ?);
+
+getAllLaws:
+SELECT * FROM Law;
+
+searchLaws:
+SELECT * FROM Law
+WHERE title LIKE '%' || ? || '%'
+   OR category LIKE '%' || ? || '%';
+
