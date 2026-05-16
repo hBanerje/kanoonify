@@ -1,8 +1,11 @@
 package com.multiplatform.kanoonify.presentation.screens.components
 
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.StartOffset
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -12,11 +15,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,10 +32,29 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ChatBubble(message: ChatMessage) {
 
+    // Fade-in animation for AI responses
+    val isAiResponse = !message.isUser && message.text != "__typing__"
+    var appeared by remember { mutableStateOf(!isAiResponse) }
+    LaunchedEffect(Unit) {
+        appeared = true
+    }
+    val alpha by animateFloatAsState(
+        targetValue = if (appeared) 1f else 0f,
+        animationSpec = tween(durationMillis = if (isAiResponse) 600 else 0)
+    )
+    val slideUp by animateFloatAsState(
+        targetValue = if (appeared) 0f else 20f,
+        animationSpec = tween(durationMillis = if (isAiResponse) 600 else 0)
+    )
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(6.dp),
+            .padding(6.dp)
+            .graphicsLayer {
+                this.alpha = alpha
+                translationY = slideUp
+            },
         horizontalArrangement = if (message.isUser) Arrangement.End else Arrangement.Start
     ) {
 
@@ -79,27 +106,57 @@ fun TypingIndicator() {
     val dotCount = 3
     val infiniteTransition = rememberInfiniteTransition()
 
-    val alphaValues = List(dotCount) { index ->
+    // Each dot bounces with delay
+    val bounceValues = List(dotCount) { index ->
         infiniteTransition.animateFloat(
-            initialValue = 0.2f,
+            initialValue = 0f,
             targetValue = 1f,
             animationSpec = infiniteRepeatable(
-                animation = tween(600, delayMillis = index * 200),
-                repeatMode = RepeatMode.Reverse
+                animation = keyframes {
+                    durationMillis = 1200
+                    0f at 0
+                    -12f at 200 // bounce up
+                    0f at 400   // back down
+                    0f at 1200  // hold
+                },
+                repeatMode = RepeatMode.Restart,
+                initialStartOffset = StartOffset(index * 150)
+            )
+        )
+    }
+
+    val alphaValues = List(dotCount) { index ->
+        infiniteTransition.animateFloat(
+            initialValue = 0.4f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(
+                animation = keyframes {
+                    durationMillis = 1200
+                    0.4f at 0
+                    1f at 200
+                    0.4f at 400
+                    0.4f at 1200
+                },
+                repeatMode = RepeatMode.Restart,
+                initialStartOffset = StartOffset(index * 150)
             )
         )
     }
 
     Row(
         modifier = Modifier.padding(4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        alphaValues.forEach { alpha ->
+        bounceValues.forEachIndexed { index, bounce ->
             Box(
                 modifier = Modifier
-                    .size(8.dp)
+                    .size(10.dp)
+                    .graphicsLayer {
+                        translationY = bounce.value * 3f // amplify bounce
+                    }
                     .clip(CircleShape)
-                    .background(Color.Gray.copy(alpha = alpha.value))
+                    .background(Color.Gray.copy(alpha = alphaValues[index].value))
             )
         }
     }

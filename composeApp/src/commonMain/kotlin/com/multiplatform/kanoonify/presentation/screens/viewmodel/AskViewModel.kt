@@ -5,6 +5,7 @@ import com.multiplatform.kanoonify.data.remote.OpenAIService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -49,6 +50,9 @@ class AskViewModel {
 
         viewModelScope.launch {
             val result = findLaw(userQuery, laws)
+
+            // Simulate AI thinking delay
+            delay(1500L)
 
             _state.update {
                 it.copy(

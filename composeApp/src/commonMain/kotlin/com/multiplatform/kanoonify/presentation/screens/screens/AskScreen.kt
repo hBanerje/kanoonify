@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.multiplatform.kanoonify.presentation.screens.components.ChatBubble
@@ -20,7 +21,7 @@ fun AskScreen() {
 
     val listState = rememberLazyListState()
 
-    // auto-scroll
+    // auto-scroll when new messages arrive or loading state changes
     LaunchedEffect(state.messages.size, state.isLoading) {
         val totalItems =
             state.messages.size + if (state.isLoading) 1 else 0
@@ -31,7 +32,9 @@ fun AskScreen() {
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding(),
         contentWindowInsets = WindowInsets(0)
     ) { paddingValues ->
 
@@ -41,7 +44,6 @@ fun AskScreen() {
                 .padding(paddingValues)
                 .statusBarsPadding()
                 .navigationBarsPadding()
-                .imePadding()
         ) {
 
             // CHAT LIST
@@ -53,7 +55,6 @@ fun AskScreen() {
                     .padding(horizontal = 8.dp),
                 contentPadding = PaddingValues(vertical = 8.dp)
             ) {
-
                 itemsIndexed(state.messages) { _, message ->
                     ChatBubble(message)
                 }
@@ -71,7 +72,8 @@ fun AskScreen() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 OutlinedTextField(
