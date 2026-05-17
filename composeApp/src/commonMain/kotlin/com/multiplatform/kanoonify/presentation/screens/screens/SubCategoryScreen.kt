@@ -1,26 +1,33 @@
 package com.multiplatform.kanoonify.presentation.screens.screens
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.multiplatform.kanoonify.data.CategoryDataProvider
 import com.multiplatform.kanoonify.domain.model.SubCategory
-import kotlinx.coroutines.delay
+import com.multiplatform.kanoonify.presentation.theme.Dimens
+import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
+import com.multiplatform.kanoonify.presentation.ui.components.AppCard
+import com.multiplatform.kanoonify.presentation.ui.components.MonogramIcon
+import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
 
 @Composable
 fun SubCategoryScreen(
@@ -31,92 +38,69 @@ fun SubCategoryScreen(
         CategoryDataProvider.getSubcategories(category)
     }
 
-    // Staggered entry
-    val visibleStates = remember { List(subcategories.size) { mutableStateOf(false) } }
-    LaunchedEffect(Unit) {
-        subcategories.indices.forEach { index ->
-            delay(index * 80L)
-            visibleStates[index].value = true
-        }
-    }
-
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .background(MaterialTheme.colorScheme.background)
     ) {
-        Text(
-            text = category,
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(bottom = 24.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .padding(horizontal = Dimens.ScreenHorizontal),
+            verticalArrangement = Arrangement.spacedBy(Dimens.SpaceM),
+            contentPadding = PaddingValues(
+                top    = Dimens.SpaceXL,
+                bottom = Dimens.SpaceXXL
+            )
         ) {
-            itemsIndexed(subcategories) { index, subCategory ->
-                val isVisible = if (index < visibleStates.size) visibleStates[index].value else true
-
-                val alpha by animateFloatAsState(
-                    targetValue = if (isVisible) 1f else 0f,
-                    animationSpec = tween(400, easing = FastOutSlowInEasing)
+            item {
+                SectionHeader(
+                    title   = category,
+                    caption = "${subcategories.size} topics"
                 )
-                val slideX by animateFloatAsState(
-                    targetValue = if (isVisible) 0f else 200f,
-                    animationSpec = spring(
-                        dampingRatio = 0.75f,
-                        stiffness = Spring.StiffnessLow
-                    )
-                )
-
-                SubCategoryCard(
-                    subCategory = subCategory,
-                    onClick = { onSubCategoryClick(subCategory) },
-                    modifier = Modifier.graphicsLayer {
-                        this.alpha = alpha
-                        translationX = slideX
-                    }
-                )
+                Spacer(Modifier.height(Dimens.SpaceM))
+            }
+            items(subcategories) { sc ->
+                AnimatedEntrance {
+                    SubCategoryCard(sc, onClick = { onSubCategoryClick(sc) })
+                }
             }
         }
     }
 }
 
 @Composable
-private fun SubCategoryCard(
-    subCategory: SubCategory,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 18.dp),
-        contentAlignment = Alignment.CenterStart
+private fun SubCategoryCard(sc: SubCategory, onClick: () -> Unit) {
+    AppCard(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = subCategory.title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            MonogramIcon(
+                text = sc.title,
+                background = MaterialTheme.colorScheme.primary
             )
+            Spacer(Modifier.width(Dimens.SpaceL))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text  = sc.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(Modifier.height(Dimens.SpaceXS))
+                Text(
+                    text  = sc.keywords.take(3).joinToString(" · "),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Spacer(Modifier.width(Dimens.SpaceS))
             Text(
-                text = "→",
-                fontSize = 18.sp,
-                color = MaterialTheme.colorScheme.primary
+                text  = "›",
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
 }
-
