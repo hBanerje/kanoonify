@@ -66,7 +66,7 @@ private val categoryItems = listOf(
 )
 
 @Composable
-fun CategoryScreen() {
+fun CategoryScreen(onCategoryClick: (String) -> Unit = {}) {
 
     // Staggered entry triggers
     val visibleStates = remember { List(categoryItems.size) { mutableStateOf(false) } }
@@ -159,6 +159,7 @@ fun CategoryScreen() {
 
             CategoryCard(
                 item = item,
+                onClick = { onCategoryClick(item.title) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .graphicsLayer {
@@ -178,6 +179,7 @@ fun CategoryScreen() {
 @Composable
 private fun CategoryCard(
     item: CategoryItem,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     // Press animation
@@ -229,6 +231,7 @@ private fun CategoryCard(
             }
             .clickable {
                 isPressed = !isPressed
+                onClick()
             }
             .padding(horizontal = 24.dp, vertical = 16.dp),
         contentAlignment = Alignment.CenterStart

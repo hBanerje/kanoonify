@@ -23,6 +23,8 @@ import androidx.navigation.NavController
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import com.multiplatform.kanoonify.presentation.screens.components.KanoonifyLogo
+import com.multiplatform.kanoonify.presentation.screens.navigation.AskRoute
+import com.multiplatform.kanoonify.presentation.screens.navigation.CategoriesRoute
 
 @Composable
 fun LandingScreen(navController: NavController) {
@@ -65,13 +67,13 @@ fun LandingScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Button(onClick = { navController.navigate("ask") }) {
+        Button(onClick = { navController.navigate(AskRoute) }) {
             Text("Ask a Question")
         }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Button(onClick = { navController.navigate("categories") }) {
+        Button(onClick = { navController.navigate(CategoriesRoute) }) {
             Text("Browse Laws")
         }
     }

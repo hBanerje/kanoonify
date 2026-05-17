@@ -7,6 +7,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.multiplatform.kanoonify.presentation.screens.components.KanoonifyLogo
+import com.multiplatform.kanoonify.presentation.screens.navigation.LandingRoute
+import com.multiplatform.kanoonify.presentation.screens.navigation.SplashRoute
 import kotlinx.coroutines.delay
 
 @Composable
@@ -14,8 +16,8 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         delay(2000)
-        navController.navigate("landing") {
-            popUpTo("splash") { inclusive = true }
+        navController.navigate(LandingRoute) {
+            popUpTo<SplashRoute> { inclusive = true }
         }
     }
 
