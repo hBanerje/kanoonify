@@ -1,144 +1,128 @@
 package com.multiplatform.kanoonify.presentation.screens.screens
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.multiplatform.kanoonify.data.LawListProvider
 import com.multiplatform.kanoonify.domain.model.LawItem
 import com.multiplatform.kanoonify.domain.model.SubCategory
-import kotlinx.coroutines.delay
+import com.multiplatform.kanoonify.presentation.theme.Dimens
+import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
+import com.multiplatform.kanoonify.presentation.ui.components.AppCard
+import com.multiplatform.kanoonify.presentation.ui.components.AskAiFab
+import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
+import com.multiplatform.kanoonify.presentation.ui.components.TagChip
+import com.multiplatform.kanoonify.presentation.ui.components.deriveLawTag
 
 @Composable
-fun LawListScreen(subCategory: SubCategory) {
-
+fun LawListScreen(
+    subCategory: SubCategory,
+    onLawClick: (LawItem) -> Unit = {},
+    onAskAiClick: () -> Unit = {}
+) {
     val laws = remember(subCategory) {
         LawListProvider.getLawsBySubCategory(subCategory)
     }
 
-    val visibleStates = remember(laws.size) { List(laws.size) { mutableStateOf(false) } }
-    LaunchedEffect(laws) {
-        laws.indices.forEach { index ->
-            delay(index * 60L)
-            visibleStates[index].value = true
-        }
-    }
-
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .statusBarsPadding()
-            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .background(MaterialTheme.colorScheme.background)
     ) {
-        Text(
-            text = subCategory.title,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
-
-        Text(
-            text = "${laws.size} law${if (laws.size != 1) "s" else ""} found",
-            fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        if (laws.isEmpty()) {
-            Text(
-                text = "No laws found for this subcategory.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 32.dp)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .padding(horizontal = Dimens.ScreenHorizontal),
+            verticalArrangement = Arrangement.spacedBy(Dimens.SpaceM),
+            contentPadding = PaddingValues(
+                top    = Dimens.SpaceXL,
+                bottom = Dimens.SpaceXXL + Dimens.FabSize
             )
-        } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(bottom = 24.dp)
-            ) {
-                itemsIndexed(laws) { index, law ->
-                    val isVisible = if (index < visibleStates.size) visibleStates[index].value else true
+        ) {
+            item {
+                SectionHeader(
+                    title   = subCategory.title,
+                    caption = "${laws.size} law${if (laws.size != 1) "s" else ""} found"
+                )
+                Spacer(Modifier.height(Dimens.SpaceM))
+            }
 
-                    val alpha by animateFloatAsState(
-                        targetValue = if (isVisible) 1f else 0f,
-                        animationSpec = tween(500, easing = FastOutSlowInEasing)
-                    )
-                    val slideY by animateFloatAsState(
-                        targetValue = if (isVisible) 0f else 40f,
-                        animationSpec = tween(500, easing = FastOutSlowInEasing)
-                    )
-
-                    LawCard(
-                        law = law,
-                        modifier = Modifier.graphicsLayer {
-                            this.alpha = alpha
-                            translationY = slideY
-                        }
-                    )
+            if (laws.isEmpty()) {
+                item {
+                    AppCard(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text  = "No laws found for this topic.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            } else {
+                items(laws, key = { it.id }) { law ->
+                    AnimatedEntrance {
+                        LawRowCard(law, onClick = { onLawClick(law) })
+                    }
                 }
             }
         }
+
+        AskAiFab(
+            onClick = onAskAiClick,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(Dimens.SpaceXL)
+        )
     }
 }
 
 @Composable
-private fun LawCard(
-    law: LawItem,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(14.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+private fun LawRowCard(law: LawItem, onClick: () -> Unit) {
+    AppCard(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = law.title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            Text(
-                text = law.description,
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                lineHeight = 20.sp
-            )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Row(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.errorContainer,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
-            ) {
+        Row(verticalAlignment = Alignment.Top) {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Punishment: ${law.punishment}",
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onErrorContainer
+                    text  = law.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
+                Spacer(Modifier.height(Dimens.SpaceXS))
+                Text(
+                    text  = law.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 2
+                )
+                Spacer(Modifier.height(Dimens.SpaceS))
+                TagChip(tag = deriveLawTag(law.punishment))
             }
+            Spacer(Modifier.width(Dimens.SpaceS))
+            Text(
+                text  = "›",
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }
-

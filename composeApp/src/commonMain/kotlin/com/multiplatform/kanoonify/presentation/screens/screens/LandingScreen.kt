@@ -1,80 +1,95 @@
 package com.multiplatform.kanoonify.presentation.screens.screens
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import com.multiplatform.kanoonify.presentation.screens.components.KanoonifyLogo
 import com.multiplatform.kanoonify.presentation.screens.navigation.AskRoute
 import com.multiplatform.kanoonify.presentation.screens.navigation.CategoriesRoute
+import com.multiplatform.kanoonify.presentation.theme.Dimens
+import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 
 @Composable
 fun LandingScreen(navController: NavController) {
-
-    var visible by remember { mutableStateOf(false) }
-
-    LaunchedEffect(Unit) {
-        visible = true
-    }
-
-    val scale by animateFloatAsState(
-        targetValue = if (visible) 1f else 2f,
-        animationSpec = tween(600)
-    )
-
-    val alpha by animateFloatAsState(
-        targetValue = if (visible) 1f else 0f,
-        animationSpec = tween(600)
-    )
-
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
-            .graphicsLayer {
-                this.alpha = alpha
-            },
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(MaterialTheme.colorScheme.background)
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(Dimens.SpaceXL),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AnimatedEntrance { KanoonifyLogo() }
 
-        KanoonifyLogo()
+            Spacer(Modifier.height(Dimens.SpaceL))
 
-        Spacer(modifier = Modifier.height(16.dp))
+            AnimatedEntrance(delayMillis = 100) {
+                Text(
+                    text  = "Kanoonify",
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+            Spacer(Modifier.height(Dimens.SpaceXS))
+            AnimatedEntrance(delayMillis = 160) {
+                Text(
+                    text  = "Know your rights, instantly.",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
 
-        Text(
-            text = "Know your rights instantly",
-            style = MaterialTheme.typography.bodyLarge
-        )
+            Spacer(Modifier.height(Dimens.SpaceXXL))
 
-        Spacer(modifier = Modifier.height(32.dp))
+            AnimatedEntrance(delayMillis = 240) {
+                Button(
+                    onClick = { navController.navigate(AskRoute) },
+                    shape = RoundedCornerShape(Dimens.RadiusL),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor   = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Dimens.SpaceL)
+                ) {
+                    Text("Ask Kanoonify", style = MaterialTheme.typography.labelLarge)
+                }
+            }
 
-        Button(onClick = { navController.navigate(AskRoute) }) {
-            Text("Ask a Question")
-        }
+            Spacer(Modifier.height(Dimens.SpaceM))
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Button(onClick = { navController.navigate(CategoriesRoute) }) {
-            Text("Browse Laws")
+            AnimatedEntrance(delayMillis = 300) {
+                OutlinedButton(
+                    onClick = { navController.navigate(CategoriesRoute) },
+                    shape = RoundedCornerShape(Dimens.RadiusL),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Dimens.SpaceL)
+                ) {
+                    Text("Browse Laws", style = MaterialTheme.typography.labelLarge)
+                }
+            }
         }
     }
 }

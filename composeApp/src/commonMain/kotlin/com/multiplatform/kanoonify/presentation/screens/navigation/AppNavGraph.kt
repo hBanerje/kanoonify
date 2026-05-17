@@ -1,5 +1,10 @@
 package com.multiplatform.kanoonify.presentation.screens.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
@@ -13,6 +18,7 @@ import com.multiplatform.kanoonify.db.DatabaseDriverFactory
 import com.multiplatform.kanoonify.presentation.screens.screens.AskScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.CategoryScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LandingScreen
+import com.multiplatform.kanoonify.presentation.screens.screens.LawDetailScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawListScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawsScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.SplashScreen
@@ -20,26 +26,17 @@ import com.multiplatform.kanoonify.presentation.screens.screens.SubCategoryScree
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawsViewModel
 import kotlinx.serialization.Serializable
 
-@Serializable
-object SplashRoute
+@Serializable object SplashRoute
+@Serializable object LandingRoute
+@Serializable object AskRoute
+@Serializable object CategoriesRoute
+@Serializable object LawsRoute
 
-@Serializable
-object LandingRoute
+@Serializable data class SubCategoryRoute(val category: String)
+@Serializable data class LawListRoute(val title: String, val keywords: List<String>)
+@Serializable data class LawDetailRoute(val id: Int)
 
-@Serializable
-object AskRoute
-
-@Serializable
-object CategoriesRoute
-
-@Serializable
-object LawsRoute
-
-@Serializable
-data class SubCategoryRoute(val category: String)
-
-@Serializable
-data class LawListRoute(val title: String, val keywords: List<String>)
+private const val TransitionDuration = 280
 
 @Composable
 fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
@@ -53,7 +50,13 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
 
     NavHost(
         navController = navController,
-        startDestination = SplashRoute
+        startDestination = SplashRoute,
+        enterTransition  = { fadeIn(tween(TransitionDuration)) +
+            slideInHorizontally(tween(TransitionDuration)) { it / 8 } },
+        exitTransition   = { fadeOut(tween(TransitionDuration)) },
+        popEnterTransition = { fadeIn(tween(TransitionDuration)) },
+        popExitTransition  = { fadeOut(tween(TransitionDuration)) +
+            slideOutHorizontally(tween(TransitionDuration)) { it / 8 } }
     ) {
         composable<SplashRoute> {
             SplashScreen(navController)
@@ -89,7 +92,18 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
         composable<LawListRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<LawListRoute>()
             val subCategory = SubCategory(title = route.title, keywords = route.keywords)
-            LawListScreen(subCategory = subCategory)
+            LawListScreen(
+                subCategory = subCategory,
+                onLawClick = { law -> navController.navigate(LawDetailRoute(id = law.id)) },
+                onAskAiClick = { navController.navigate(AskRoute) }
+            )
+        }
+        composable<LawDetailRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<LawDetailRoute>()
+            LawDetailScreen(
+                lawId = route.id,
+                onAskAiClick = { navController.navigate(AskRoute) }
+            )
         }
     }
 }
