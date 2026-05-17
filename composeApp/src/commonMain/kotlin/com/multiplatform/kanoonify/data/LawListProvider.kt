@@ -15,6 +15,10 @@ object LawListProvider {
         return cachedLaws!!
     }
 
+    fun allLaws(): List<LawItem> = getAllLaws()
+
+    fun getLawById(id: Int): LawItem? = getAllLaws().firstOrNull { it.id == id }
+
     fun getLawsBySubCategory(subCategory: SubCategory): List<LawItem> {
         return getLawsBySubCategory(getAllLaws(), subCategory.keywords)
     }

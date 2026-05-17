@@ -1,7 +1,8 @@
 package com.multiplatform.kanoonify.presentation.screens.viewmodel
 
 import com.multiplatform.kanoonify.data.local.LawDataSource
-import com.multiplatform.kanoonify.data.remote.OpenAIService
+import com.multiplatform.kanoonify.data.repository.LawRepository
+import com.multiplatform.kanoonify.domain.model.LawItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -10,56 +11,41 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.multiplatform.kanoonify.data.repository.LawRepository.findLaw
-import com.multiplatform.kanoonify.domain.model.LawItem
-import com.multiplatform.kanoonify.presentation.screens.components.ChatMessage
 
 class AskViewModel {
     private val _state = MutableStateFlow(AskState())
     val state: StateFlow<AskState> = _state
 
-    private val aiService = OpenAIService()
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-
-    var laws: List<LawItem> = emptyList()
-
-    init {
-
-        laws = LawDataSource.loadLaws()
-
-    }
+    private val laws: List<LawItem> = LawDataSource.loadLaws()
 
     fun onQueryChange(newQuery: String) {
         _state.update { it.copy(query = newQuery) }
     }
 
     fun onSubmit() {
-        val userQuery = _state.value.query
-
+        val userQuery = _state.value.query.trim()
         if (userQuery.isBlank()) return
 
-        // Add user message
         _state.update {
             it.copy(
                 query = "",
                 isLoading = true,
-                messages = it.messages + ChatMessage(userQuery, true)
+                turns = it.turns + AskTurn.User(userQuery)
             )
         }
 
-        viewModelScope.launch {
-            val result = findLaw(userQuery, laws)
-
-            // Simulate AI thinking delay
-            delay(1500L)
-
+        scope.launch {
+            val answer = LawRepository.findAnswer(userQuery, laws)
+            delay(900L) // brief "thinking" pause
             _state.update {
                 it.copy(
                     isLoading = false,
-                    messages = it.messages + ChatMessage(result, false)
+                    turns = it.turns + AskTurn.Assistant(answer)
                 )
             }
         }
     }
 }
+
