@@ -23,7 +23,11 @@ import com.multiplatform.kanoonify.presentation.screens.screens.LawListScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawsScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.SplashScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.SubCategoryScreen
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.AskViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawDetailViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawListViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawsViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.SubCategoryViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable object SplashRoute
@@ -65,7 +69,8 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
             LandingScreen(navController)
         }
         composable<AskRoute> {
-            AskScreen()
+            val viewModel = remember { AskViewModel() }
+            AskScreen(viewModel = viewModel)
         }
         composable<CategoriesRoute> {
             CategoryScreen(onCategoryClick = { category ->
@@ -77,8 +82,9 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
         }
         composable<SubCategoryRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<SubCategoryRoute>()
+            val viewModel = remember(route.category) { SubCategoryViewModel(route.category) }
             SubCategoryScreen(
-                category = route.category,
+                viewModel = viewModel,
                 onSubCategoryClick = { subCategory ->
                     navController.navigate(
                         LawListRoute(
@@ -92,16 +98,18 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
         composable<LawListRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<LawListRoute>()
             val subCategory = SubCategory(title = route.title, keywords = route.keywords)
+            val viewModel = remember(route) { LawListViewModel(subCategory) }
             LawListScreen(
-                subCategory = subCategory,
+                viewModel = viewModel,
                 onLawClick = { law -> navController.navigate(LawDetailRoute(id = law.id)) },
                 onAskAiClick = { navController.navigate(AskRoute) }
             )
         }
         composable<LawDetailRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<LawDetailRoute>()
+            val viewModel = remember(route.id) { LawDetailViewModel(route.id) }
             LawDetailScreen(
-                lawId = route.id,
+                viewModel = viewModel,
                 onAskAiClick = { navController.navigate(AskRoute) }
             )
         }

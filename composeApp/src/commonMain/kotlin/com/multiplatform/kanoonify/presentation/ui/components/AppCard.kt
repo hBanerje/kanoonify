@@ -67,7 +67,7 @@ fun AppCard(
 }
 
 /**
- * Fade-in + slide-up entrance wrapper for list items.
+ * Fade-in and slide-up entrance wrapper for list items.
  * Triggers once on first composition.
  */
 @Composable

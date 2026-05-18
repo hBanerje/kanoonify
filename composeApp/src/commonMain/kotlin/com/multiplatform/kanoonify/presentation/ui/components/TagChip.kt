@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import com.multiplatform.kanoonify.domain.model.LawTag
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KTagFineBg
 import com.multiplatform.kanoonify.presentation.theme.KTagFineFg
@@ -16,24 +17,6 @@ import com.multiplatform.kanoonify.presentation.theme.KTagJailBg
 import com.multiplatform.kanoonify.presentation.theme.KTagJailFg
 import com.multiplatform.kanoonify.presentation.theme.KTagRightBg
 import com.multiplatform.kanoonify.presentation.theme.KTagRightFg
-
-enum class LawTag(val label: String) {
-    FINE("Fine"),
-    JAIL("Jail"),
-    RIGHT("Right")
-}
-
-/** Deterministic mapping from punishment text → tag. */
-fun deriveLawTag(punishment: String): LawTag {
-    val p = punishment.lowercase()
-    return when {
-        p.contains("jail") || p.contains("imprison") || p.contains("custody") ||
-            p.contains("years") || p.contains("year ") || p.contains("month") -> LawTag.JAIL
-        p.contains("fine") || p.contains("rs") || p.contains("₹") ||
-            p.contains("challan") || p.contains("penalty") -> LawTag.FINE
-        else -> LawTag.RIGHT
-    }
-}
 
 @Composable
 fun TagChip(tag: LawTag, modifier: Modifier = Modifier) {
@@ -55,4 +38,3 @@ fun TagChip(tag: LawTag, modifier: Modifier = Modifier) {
         )
     }
 }
-

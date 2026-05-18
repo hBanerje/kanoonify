@@ -18,11 +18,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.multiplatform.kanoonify.data.CategoryDataProvider
 import com.multiplatform.kanoonify.domain.model.SubCategory
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.SubCategoryViewModel
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
@@ -31,12 +32,10 @@ import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
 
 @Composable
 fun SubCategoryScreen(
-    category: String,
+    viewModel: SubCategoryViewModel,
     onSubCategoryClick: (SubCategory) -> Unit
 ) {
-    val subcategories = remember(category) {
-        CategoryDataProvider.getSubcategories(category)
-    }
+    val state by viewModel.state.collectAsState()
 
     Box(
         modifier = Modifier
@@ -56,12 +55,12 @@ fun SubCategoryScreen(
         ) {
             item {
                 SectionHeader(
-                    title   = category,
-                    caption = "${subcategories.size} topics"
+                    title   = state.category,
+                    caption = "${state.subcategories.size} topics"
                 )
                 Spacer(Modifier.height(Dimens.SpaceM))
             }
-            items(subcategories) { sc ->
+            items(state.subcategories) { sc ->
                 AnimatedEntrance {
                     SubCategoryCard(sc, onClick = { onSubCategoryClick(sc) })
                 }
