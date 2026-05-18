@@ -17,35 +17,36 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.multiplatform.kanoonify.data.LawListProvider
 import com.multiplatform.kanoonify.domain.model.LawItem
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawDetailViewModel
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.AskAiFab
 import com.multiplatform.kanoonify.presentation.ui.components.CardSectionTitle
 import com.multiplatform.kanoonify.presentation.ui.components.TagChip
-import com.multiplatform.kanoonify.presentation.ui.components.deriveLawTag
 
 @Composable
 fun LawDetailScreen(
-    lawId: Int,
+    viewModel: LawDetailViewModel,
     onAskAiClick: () -> Unit = {}
 ) {
-    val law = remember(lawId) { LawListProvider.getLawById(lawId) }
+    val state by viewModel.state.collectAsState()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
+        val law = state.law
         if (law == null) {
             EmptyDetail()
         } else {
-            DetailContent(law)
+            DetailContent(law, state.userAction, state.tag)
         }
 
         AskAiFab(
@@ -58,7 +59,11 @@ fun LawDetailScreen(
 }
 
 @Composable
-private fun DetailContent(law: LawItem) {
+private fun DetailContent(
+    law: LawItem,
+    userAction: String,
+    tag: com.multiplatform.kanoonify.domain.model.LawTag
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -81,7 +86,7 @@ private fun DetailContent(law: LawItem) {
                     )
                     Spacer(Modifier.height(Dimens.SpaceS))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        TagChip(tag = deriveLawTag(law.punishment))
+                        TagChip(tag = tag)
                         if (law.category.isNotBlank()) {
                             Spacer(Modifier.width(Dimens.SpaceS))
                             Text(
@@ -96,6 +101,7 @@ private fun DetailContent(law: LawItem) {
             Spacer(Modifier.height(Dimens.SpaceS))
         }
 
+        // Description section
         item {
             AnimatedEntrance(delayMillis = 80) {
                 DetailSectionCard(
@@ -105,6 +111,7 @@ private fun DetailContent(law: LawItem) {
             }
         }
 
+        // Punishment section
         item {
             AnimatedEntrance(delayMillis = 160) {
                 DetailSectionCard(
@@ -114,11 +121,12 @@ private fun DetailContent(law: LawItem) {
             }
         }
 
+        // User action section
         item {
             AnimatedEntrance(delayMillis = 240) {
                 DetailSectionCard(
                     title = "WHAT YOU SHOULD DO",
-                    body  = deriveUserAction(law)
+                    body  = userAction
                 )
             }
         }
@@ -156,26 +164,3 @@ private fun EmptyDetail() {
         )
     }
 }
-
-/** Deterministic helpful action derived from punishment / keywords. */
-private fun deriveUserAction(law: LawItem): String {
-    val tag = deriveLawTag(law.punishment)
-    return when (tag) {
-        com.multiplatform.kanoonify.presentation.ui.components.LawTag.JAIL ->
-            "1. Stay calm. Do not resist or self-incriminate.\n" +
-            "2. Ask the officer for ID and reason for action.\n" +
-            "3. Contact a lawyer or legal aid cell immediately.\n" +
-            "4. Request bail where the offence is bailable."
-        com.multiplatform.kanoonify.presentation.ui.components.LawTag.FINE ->
-            "1. Request a written challan with section reference.\n" +
-            "2. Pay only via official e-Challan portals.\n" +
-            "3. Keep the receipt safely.\n" +
-            "4. Contest in court within the allowed window if unjust."
-        com.multiplatform.kanoonify.presentation.ui.components.LawTag.RIGHT ->
-            "1. Politely assert your right and ask for written grounds.\n" +
-            "2. Document the incident (time, place, witnesses).\n" +
-            "3. File an FIR or written complaint if denied.\n" +
-            "4. Reach out to free legal aid services for support."
-    }
-}
-

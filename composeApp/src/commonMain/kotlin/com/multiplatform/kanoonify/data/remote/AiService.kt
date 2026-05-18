@@ -9,7 +9,7 @@ import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import com.multiplatform.kanoonify.data.remote.dto.GeminiResponse
 
-class AiService {
+class AiService(private val apiKey: String) {
 
     private val client = HttpClient {
         install(ContentNegotiation) {
@@ -26,7 +26,8 @@ class AiService {
 
         println("AI SERVICE CALLED: $query")
 
-        val apiKey = "AIzaSyAaLIVBdjAXckirsRacMF5rtatIQF6J0V8"
+        // apiKey is now injected via constructor — never hardcode secrets in source.
+        require(apiKey.isNotBlank()) { "AI API key must not be blank" }
 
         val requestBody = mapOf(
             "contents" to listOf(

@@ -25,7 +25,7 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 
 /**
  * Floating "Ask AI" action button with a subtle pulse ring.
- * Tap → navigates / expands into the Ask screen.
+ * Tap navigates / expands into the Ask screen.
  */
 @Composable
 fun AskAiFab(

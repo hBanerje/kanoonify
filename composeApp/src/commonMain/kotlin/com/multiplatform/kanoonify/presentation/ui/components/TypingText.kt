@@ -13,7 +13,7 @@ import androidx.compose.ui.text.TextStyle
 import kotlinx.coroutines.delay
 
 /**
- * Reveals [text] character-by-character to mimic a typing effect.
+ * Reveals text character-by-character to mimic a typing effect.
  */
 @Composable
 fun TypingText(
@@ -28,7 +28,7 @@ fun TypingText(
     LaunchedEffect(text) {
         displayed = ""
         text.forEachIndexed { index, _ ->
-            displayed = text.substring(0, index + 1)
+            displayed = text.take(index + 1)
             delay(charDelayMillis)
         }
     }
