@@ -29,6 +29,8 @@ import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.AskAiFab
 import com.multiplatform.kanoonify.presentation.ui.components.CardSectionTitle
 import com.multiplatform.kanoonify.presentation.ui.components.TagChip
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LawDetailScreen(
@@ -105,8 +107,8 @@ private fun DetailContent(
         item {
             AnimatedEntrance(delayMillis = 80) {
                 DetailSectionCard(
-                    title = "DESCRIPTION",
-                    body  = law.description.ifBlank { "No description available." }
+                    title = stringResource(Res.string.law_detail_section_description),
+                    body  = law.description.ifBlank { stringResource(Res.string.law_detail_no_description) }
                 )
             }
         }
@@ -115,8 +117,8 @@ private fun DetailContent(
         item {
             AnimatedEntrance(delayMillis = 160) {
                 DetailSectionCard(
-                    title = "PUNISHMENT",
-                    body  = law.punishment.ifBlank { "Not specified." }
+                    title = stringResource(Res.string.law_detail_section_punishment),
+                    body  = law.punishment.ifBlank { stringResource(Res.string.law_detail_no_punishment) }
                 )
             }
         }
@@ -125,7 +127,7 @@ private fun DetailContent(
         item {
             AnimatedEntrance(delayMillis = 240) {
                 DetailSectionCard(
-                    title = "WHAT YOU SHOULD DO",
+                    title = stringResource(Res.string.law_detail_section_what_to_do),
                     body  = userAction
                 )
             }
@@ -158,7 +160,7 @@ private fun EmptyDetail() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text  = "Law not found.",
+            text  = stringResource(Res.string.law_detail_not_found),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

@@ -36,6 +36,8 @@ import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.MonogramIcon
 import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LawyerProfileScreen(
@@ -51,7 +53,7 @@ fun LawyerProfileScreen(
     ) {
         if (lawyer == null) {
             Text(
-                text = "Lawyer not found",
+                text = stringResource(Res.string.lawyer_profile_not_found),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
@@ -86,7 +88,7 @@ fun LawyerProfileScreen(
                 AnimatedEntrance(delayMillis = 140) {
                     AppCard(modifier = Modifier.fillMaxWidth()) {
                         Column {
-                            SectionHeader(title = "About")
+                            SectionHeader(title = stringResource(Res.string.lawyer_profile_section_about))
                             Spacer(Modifier.height(Dimens.SpaceS))
                             Text(
                                 text = lawyer.bio,
@@ -102,13 +104,28 @@ fun LawyerProfileScreen(
                 AnimatedEntrance(delayMillis = 200) {
                     AppCard(modifier = Modifier.fillMaxWidth()) {
                         Column {
-                            SectionHeader(title = "Practice")
+                            SectionHeader(title = stringResource(Res.string.lawyer_profile_section_practice))
                             Spacer(Modifier.height(Dimens.SpaceS))
-                            DetailLine(label = "Specialisation", value = lawyer.specialization)
-                            DetailLine(label = "Experience", value = "${lawyer.experienceYears} years")
-                            DetailLine(label = "Location", value = lawyer.location)
-                            DetailLine(label = "Rating", value = "★ ${lawyer.rating}")
-                            DetailLine(label = "Fee per session", value = "₹${lawyer.feePerSession}")
+                            DetailLine(
+                                label = stringResource(Res.string.lawyer_profile_field_specialisation),
+                                value = lawyer.specialization
+                            )
+                            DetailLine(
+                                label = stringResource(Res.string.lawyer_profile_field_experience),
+                                value = stringResource(Res.string.lawyer_profile_years_value, lawyer.experienceYears)
+                            )
+                            DetailLine(
+                                label = stringResource(Res.string.lawyer_profile_field_location),
+                                value = lawyer.location
+                            )
+                            DetailLine(
+                                label = stringResource(Res.string.lawyer_profile_field_rating),
+                                value = stringResource(Res.string.lawyer_profile_rating_format, lawyer.rating.toString())
+                            )
+                            DetailLine(
+                                label = stringResource(Res.string.lawyer_profile_field_fee_per_session),
+                                value = stringResource(Res.string.lawyer_profile_fee_format, lawyer.feePerSession)
+                            )
                         }
                     }
                 }
@@ -118,7 +135,7 @@ fun LawyerProfileScreen(
                 AnimatedEntrance(delayMillis = 260) {
                     AppCard(modifier = Modifier.fillMaxWidth()) {
                         Column {
-                            SectionHeader(title = "Languages")
+                            SectionHeader(title = stringResource(Res.string.lawyer_profile_section_languages))
                             Spacer(Modifier.height(Dimens.SpaceS))
                             FlowRow(
                                 horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceS),
@@ -155,8 +172,10 @@ fun LawyerProfileScreen(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = if (lawyer.isOnline) "Chat with ${shortName(lawyer.name)}"
-                        else "Currently offline",
+                        text = if (lawyer.isOnline)
+                            stringResource(Res.string.lawyer_profile_chat_button, shortName(lawyer.name))
+                        else
+                            stringResource(Res.string.lawyer_profile_offline_button),
                         style = MaterialTheme.typography.labelLarge
                     )
                 }
@@ -200,7 +219,10 @@ private fun ProfileHeader(lawyer: Lawyer) {
                 )
                 Spacer(Modifier.width(Dimens.SpaceXS))
                 Text(
-                    text = if (lawyer.isOnline) "Online now" else "Offline",
+                    text = if (lawyer.isOnline)
+                        stringResource(Res.string.lawyer_profile_online_now)
+                    else
+                        stringResource(Res.string.lawyer_status_offline),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -215,9 +237,21 @@ private fun StatsRow(lawyer: Lawyer) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceM)
     ) {
-        StatTile(value = "${lawyer.experienceYears}+", label = "Years", modifier = Modifier.weight(1f))
-        StatTile(value = "★ ${lawyer.rating}", label = "Rating", modifier = Modifier.weight(1f))
-        StatTile(value = "₹${lawyer.feePerSession}", label = "Per session", modifier = Modifier.weight(1f))
+        StatTile(
+            value = stringResource(Res.string.lawyer_profile_years_plus, lawyer.experienceYears),
+            label = stringResource(Res.string.lawyer_profile_stat_years),
+            modifier = Modifier.weight(1f)
+        )
+        StatTile(
+            value = stringResource(Res.string.lawyer_profile_rating_format, lawyer.rating.toString()),
+            label = stringResource(Res.string.lawyer_profile_stat_rating),
+            modifier = Modifier.weight(1f)
+        )
+        StatTile(
+            value = stringResource(Res.string.lawyer_profile_fee_format, lawyer.feePerSession),
+            label = stringResource(Res.string.lawyer_profile_stat_per_session),
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 
@@ -290,4 +324,3 @@ private fun shortName(fullName: String): String {
     val cleaned = fullName.removePrefix("Adv.").trim()
     return cleaned.split(" ").firstOrNull() ?: cleaned
 }
-

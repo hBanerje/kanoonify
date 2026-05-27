@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import com.multiplatform.kanoonify.presentation.theme.Dimens
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Floating "Ask AI" action button with a subtle pulse ring.
@@ -74,7 +76,7 @@ fun AskAiFab(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "AI",
+                    text = stringResource(Res.string.ask_ai_fab_label),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -82,4 +84,3 @@ fun AskAiFab(
         }
     }
 }
-

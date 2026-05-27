@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.multiplatform.kanoonify.domain.model.Law
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawsViewModel
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LawsScreen(viewModel: LawsViewModel) {
@@ -35,7 +37,7 @@ fun LawsScreen(viewModel: LawsViewModel) {
 
             // Header
             Text(
-                text = "Browse Laws",
+                text = stringResource(Res.string.laws_screen_title),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
@@ -45,7 +47,7 @@ fun LawsScreen(viewModel: LawsViewModel) {
             OutlinedTextField(
                 value = state.searchQuery,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
-                placeholder = { Text("Search laws by title or category...") },
+                placeholder = { Text(stringResource(Res.string.laws_screen_search_placeholder)) },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -78,9 +80,9 @@ fun LawsScreen(viewModel: LawsViewModel) {
                 ) {
                     Text(
                         text = if (state.searchQuery.isBlank())
-                            "No laws in database yet."
+                            stringResource(Res.string.laws_screen_empty_default)
                         else
-                            "No laws match \"${state.searchQuery}\"",
+                            stringResource(Res.string.laws_screen_empty_search, state.searchQuery),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -152,4 +154,3 @@ private fun LawCard(law: Law) {
         }
     }
 }
-

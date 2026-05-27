@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============== App ============== -->
+    <string name="app_name">Kanoonify</string>
+
+    <!-- ============== Splash ============== -->
+    <string name="splash_logo_content_description">Kanoonify logo</string>
+    <string name="splash_tagline">Know your rights, instantly.</string>
+
+    <!-- ============== Landing Screen ============== -->
+    <string name="landing_hero_title">Know Your Rights Instantly</string>
+    <string name="landing_hero_subtitle">AI-powered Indian legal assistant</string>
+    <string name="landing_hero_badge_beta">BETA</string>
+
+    <string name="landing_ask_card_title">Ask Kanoonify</string>
+    <string name="landing_ask_card_subtitle">Describe your situation — get rights &amp; next steps</string>
+
+    <string name="landing_section_quick_access_title">Quick Access</string>
+    <string name="landing_section_quick_access_caption">Find what you need</string>
+    <string name="landing_section_trending_title">Trending</string>
+    <string name="landing_section_trending_caption">Most searched legal topics</string>
+
+    <string name="landing_feature_browse_laws_title">Browse Laws</string>
+    <string name="landing_feature_browse_laws_subtitle">Categorised legal sections</string>
+    <string name="landing_feature_constitution_title">Constitution</string>
+    <string name="landing_feature_constitution_subtitle">All 395 articles</string>
+    <string name="landing_feature_consult_lawyer_title">Consult a Lawyer</string>
+    <string name="landing_feature_consult_lawyer_subtitle">Chat with experts</string>
+    <string name="landing_feature_emergency_title">Emergency Rights</string>
+    <string name="landing_feature_emergency_subtitle">Know what to do now</string>
+
+    <string name="trending_police_stops">Police Stops</string>
+    <string name="trending_traffic_rules">Traffic Rules</string>
+    <string name="trending_women_safety">Women Safety</string>
+    <string name="trending_cyber_crime">Cyber Crime</string>
+    <string name="trending_fir_rights">FIR Rights</string>
+
+    <!-- ============== Category Screen ============== -->
+    <string name="category_screen_title">Browse by Category</string>
+    <string name="category_screen_caption">Explore laws by everyday situations</string>
+
+    <string name="category_traffic_rules_title">Traffic Rules</string>
+    <string name="category_traffic_rules_subtitle">Driving, challans &amp; road safety</string>
+    <string name="category_police_rights_title">Police Rights</string>
+    <string name="category_police_rights_subtitle">Arrest, search, FIR &amp; bail</string>
+    <string name="category_women_safety_title">Women Safety</string>
+    <string name="category_women_safety_subtitle">Harassment, stalking &amp; DV</string>
+    <string name="category_public_safety_title">Public Safety</string>
+    <string name="category_public_safety_subtitle">Noise, nuisance &amp; consumer law</string>
+
+    <!-- ============== Sub-Category Screen ============== -->
+    <string name="subcategory_topics_count">%1$d topics</string>
+
+    <!-- ============== Law List Screen ============== -->
+    <string name="law_list_no_laws">No laws found for this topic.</string>
+    <string name="law_list_count_singular">%1$d law found</string>
+    <string name="law_list_count_plural">%1$d laws found</string>
+    <string name="common_chevron_right">›</string>
+
+    <!-- ============== Law Detail Screen ============== -->
+    <string name="law_detail_section_description">DESCRIPTION</string>
+    <string name="law_detail_section_punishment">PUNISHMENT</string>
+    <string name="law_detail_section_what_to_do">WHAT YOU SHOULD DO</string>
+    <string name="law_detail_no_description">No description available.</string>
+    <string name="law_detail_no_punishment">Not specified.</string>
+    <string name="law_detail_not_found">Law not found.</string>
+
+    <!-- ============== Laws Screen ============== -->
+    <string name="laws_screen_title">Browse Laws</string>
+    <string name="laws_screen_search_placeholder">Search laws by title or category...</string>
+    <string name="laws_screen_empty_default">No laws in database yet.</string>
+    <string name="laws_screen_empty_search">No laws match \"%1$s\"</string>
+
+    <!-- ============== Constitution Screen ============== -->
+    <string name="coi_screen_title">Constitution of India</string>
+    <string name="coi_screen_search_placeholder">Search articles…</string>
+    <string name="coi_screen_articles_count">%1$d articles</string>
+    <string name="coi_detail_not_found">Article not found</string>
+    <string name="coi_detail_explain_with_ai">🤖 Explain with AI</string>
+    <string name="coi_detail_ai_explanation">AI Explanation</string>
+
+    <!-- ============== Ask Screen ============== -->
+    <string name="ask_screen_title">Ask Kanoonify</string>
+    <string name="ask_screen_caption">Describe your situation. Get rights, applicable law and next steps.</string>
+    <string name="ask_screen_thinking">Thinking…</string>
+    <string name="ask_screen_input_placeholder">Describe your situation…</string>
+    <string name="ask_screen_send">Send</string>
+
+    <!-- ============== AI Answer Card ============== -->
+    <string name="ai_answer_section_rights">Your Rights</string>
+    <string name="ai_answer_section_applicable_law">Applicable Law</string>
+    <string name="ai_answer_section_what_to_do">What You Should Do</string>
+    <string name="ai_answer_not_found_title">No matching law found</string>
+    <string name="ai_answer_not_found_body">Try describing your situation differently — e.g. \"police stopped me without warrant\".</string>
+
+    <!-- ============== Lawyer List Screen ============== -->
+    <string name="lawyer_list_title">Consult a Lawyer</string>
+    <string name="lawyer_list_caption">%1$d verified lawyers available</string>
+    <string name="lawyer_list_search_placeholder">Search by name, specialisation, language…</string>
+    <string name="lawyer_list_row_summary">%1$d yrs exp  •  ★ %2$s  •  %3$s</string>
+    <string name="lawyer_list_row_fee">₹%1$d/session</string>
+    <string name="lawyer_status_online">Online</string>
+    <string name="lawyer_status_offline">Offline</string>
+
+    <!-- ============== Lawyer Profile Screen ============== -->
+    <string name="lawyer_profile_not_found">Lawyer not found</string>
+    <string name="lawyer_profile_section_about">About</string>
+    <string name="lawyer_profile_section_practice">Practice</string>
+    <string name="lawyer_profile_section_languages">Languages</string>
+    <string name="lawyer_profile_field_specialisation">Specialisation</string>
+    <string name="lawyer_profile_field_experience">Experience</string>
+    <string name="lawyer_profile_field_location">Location</string>
+    <string name="lawyer_profile_field_rating">Rating</string>
+    <string name="lawyer_profile_field_fee_per_session">Fee per session</string>
+    <string name="lawyer_profile_years_value">%1$d years</string>
+    <string name="lawyer_profile_years_plus">%1$d+</string>
+    <string name="lawyer_profile_stat_years">Years</string>
+    <string name="lawyer_profile_stat_rating">Rating</string>
+    <string name="lawyer_profile_stat_per_session">Per session</string>
+    <string name="lawyer_profile_rating_format">★ %1$s</string>
+    <string name="lawyer_profile_fee_format">₹%1$d</string>
+    <string name="lawyer_profile_online_now">Online now</string>
+    <string name="lawyer_profile_chat_button">Chat with %1$s</string>
+    <string name="lawyer_profile_offline_button">Currently offline</string>
+    <string name="lawyer_profile_status_online">Online · %1$s</string>
+    <string name="lawyer_profile_status_offline">Offline · %1$s</string>
+
+    <!-- ============== Lawyer Chat Screen ============== -->
+    <string name="lawyer_chat_header_default">Lawyer</string>
+    <string name="lawyer_chat_typing">typing…</string>
+    <string name="lawyer_chat_input_placeholder">Type a message…</string>
+    <string name="lawyer_chat_send">Send</string>
+    <string name="lawyer_chat_initial_message">Hello, I\'m %1$s. How can I help you today?</string>
+    <string name="lawyer_chat_time_now">Now</string>
+    <string name="lawyer_chat_time_just_now">Just now</string>
+
+    <!-- ============== Chat Bubbles ============== -->
+    <string name="chat_bubble_ai_persona">Kanoonify Assistant</string>
+
+    <!-- ============== Ask AI FAB ============== -->
+    <string name="ask_ai_fab_label">AI</string>
+
+</resources>
+

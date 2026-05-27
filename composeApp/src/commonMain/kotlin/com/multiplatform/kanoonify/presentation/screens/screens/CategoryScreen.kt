@@ -26,19 +26,22 @@ import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.MonogramIcon
 import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 private data class CategoryItem(
-    val title: String,
-    val subtitle: String,
+    val titleRes: StringResource,
+    val subtitleRes: StringResource,
     val initials: String,
     val accent: Color
 )
 
 private val categoryItems = listOf(
-    CategoryItem("Traffic Rules",  "Driving, challans & road safety", "TR", Color(0xFF2962FF)),
-    CategoryItem("Police Rights",  "Arrest, search, FIR & bail",      "PR", Color(0xFF00897B)),
-    CategoryItem("Women Safety",   "Harassment, stalking & DV",       "WS", Color(0xFFAD1457)),
-    CategoryItem("Public Safety",  "Noise, nuisance & consumer law",  "PS", Color(0xFFE65100))
+    CategoryItem(Res.string.category_traffic_rules_title, Res.string.category_traffic_rules_subtitle, "TR", Color(0xFF2962FF)),
+    CategoryItem(Res.string.category_police_rights_title, Res.string.category_police_rights_subtitle, "PR", Color(0xFF00897B)),
+    CategoryItem(Res.string.category_women_safety_title,  Res.string.category_women_safety_subtitle,  "WS", Color(0xFFAD1457)),
+    CategoryItem(Res.string.category_public_safety_title, Res.string.category_public_safety_subtitle, "PS", Color(0xFFE65100))
 )
 
 @Composable
@@ -61,14 +64,15 @@ fun CategoryScreen(onCategoryClick: (String) -> Unit = {}) {
         ) {
             item {
                 SectionHeader(
-                    title   = "Browse by Category",
-                    caption = "Explore laws by everyday situations"
+                    title   = stringResource(Res.string.category_screen_title),
+                    caption = stringResource(Res.string.category_screen_caption)
                 )
                 Spacer(Modifier.height(Dimens.SpaceM))
             }
             items(categoryItems) { item ->
+                val title = stringResource(item.titleRes)
                 AnimatedEntrance {
-                    CategoryCard(item = item, onClick = { onCategoryClick(item.title) })
+                    CategoryCard(item = item, title = title, onClick = { onCategoryClick(title) })
                 }
             }
         }
@@ -76,7 +80,7 @@ fun CategoryScreen(onCategoryClick: (String) -> Unit = {}) {
 }
 
 @Composable
-private fun CategoryCard(item: CategoryItem, onClick: () -> Unit) {
+private fun CategoryCard(item: CategoryItem, title: String, onClick: () -> Unit) {
     AppCard(
         modifier = Modifier.fillMaxWidth(),
         onClick = onClick,
@@ -87,20 +91,20 @@ private fun CategoryCard(item: CategoryItem, onClick: () -> Unit) {
             Spacer(Modifier.width(Dimens.SpaceL))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text  = item.title,
+                    text  = title,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(Modifier.height(Dimens.SpaceXS))
                 Text(
-                    text  = item.subtitle,
+                    text  = stringResource(item.subtitleRes),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             Spacer(Modifier.width(Dimens.SpaceS))
             Text(
-                text  = "›",
+                text  = stringResource(Res.string.common_chevron_right),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
