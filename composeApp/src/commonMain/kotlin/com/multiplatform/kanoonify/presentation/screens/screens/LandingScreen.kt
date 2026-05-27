@@ -12,21 +12,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import com.multiplatform.kanoonify.presentation.screens.components.KanoonifyLogo
-import com.multiplatform.kanoonify.presentation.screens.navigation.AskRoute
-import com.multiplatform.kanoonify.presentation.screens.navigation.CategoriesRoute
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 
 @Composable
-fun LandingScreen(navController: NavController) {
+fun LandingScreen(
+    onAskClick: () -> Unit,
+    onBrowseLawsClick: () -> Unit,
+    onCoiClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -63,7 +66,7 @@ fun LandingScreen(navController: NavController) {
 
             AnimatedEntrance(delayMillis = 240) {
                 Button(
-                    onClick = { navController.navigate(AskRoute) },
+                    onClick = onAskClick,
                     shape = RoundedCornerShape(Dimens.RadiusL),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
@@ -81,13 +84,39 @@ fun LandingScreen(navController: NavController) {
 
             AnimatedEntrance(delayMillis = 300) {
                 OutlinedButton(
-                    onClick = { navController.navigate(CategoriesRoute) },
+                    onClick = onBrowseLawsClick,
                     shape = RoundedCornerShape(Dimens.RadiusL),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = Dimens.SpaceL)
                 ) {
                     Text("Browse Laws", style = MaterialTheme.typography.labelLarge)
+                }
+            }
+
+            Spacer(Modifier.height(Dimens.SpaceM))
+
+            AnimatedEntrance(delayMillis = 360) {
+                Card(
+                    onClick = onCoiClick,
+                    shape = RoundedCornerShape(Dimens.RadiusL),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor   = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    elevation = CardDefaults.cardElevation(defaultElevation = Dimens.SpaceXS),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Dimens.SpaceL)
+                ) {
+                    Text(
+                        text = "Constitution of India",
+                        style = MaterialTheme.typography.labelLarge,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(Dimens.SpaceL),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
                 }
             }
         }
