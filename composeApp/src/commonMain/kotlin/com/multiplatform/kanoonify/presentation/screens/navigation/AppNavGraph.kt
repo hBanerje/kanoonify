@@ -23,6 +23,9 @@ import com.multiplatform.kanoonify.presentation.screens.screens.LandingScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawDetailScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawListScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawsScreen
+import com.multiplatform.kanoonify.presentation.screens.screens.LawyerChatScreen
+import com.multiplatform.kanoonify.presentation.screens.screens.LawyerListScreen
+import com.multiplatform.kanoonify.presentation.screens.screens.LawyerProfileScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.SplashScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.SubCategoryScreen
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.AskViewModel
@@ -30,6 +33,8 @@ import com.multiplatform.kanoonify.presentation.screens.viewmodel.COIViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawDetailViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawListViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawsViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerChatViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerListViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.SubCategoryViewModel
 import kotlinx.serialization.Serializable
 
@@ -40,6 +45,9 @@ import kotlinx.serialization.Serializable
 @Serializable object LawsRoute
 @Serializable object CoiRoute
 @Serializable data class CoiDetailRoute(val id: Int)
+@Serializable object LawyersRoute
+@Serializable data class LawyerProfileRoute(val lawyerId: String)
+@Serializable data class LawyerChatRoute(val lawyerId: String)
 
 @Serializable data class SubCategoryRoute(val category: String)
 @Serializable data class LawListRoute(val title: String, val keywords: List<String>)
@@ -76,8 +84,32 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
             LandingScreen(
                 onAskClick = { navController.navigate(AskRoute) },
                 onBrowseLawsClick = { navController.navigate(CategoriesRoute) },
-                onCoiClick = { navController.navigate(CoiRoute) }
+                onCoiClick = { navController.navigate(CoiRoute) },
+                onConsultLawyerClick = { navController.navigate(LawyersRoute) }
             )
+        }
+        composable<LawyersRoute> {
+            val viewModel = remember { LawyerListViewModel() }
+            LawyerListScreen(
+                viewModel = viewModel,
+                onLawyerClick = { lawyer ->
+                    navController.navigate(LawyerProfileRoute(lawyerId = lawyer.id))
+                }
+            )
+        }
+        composable<LawyerProfileRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<LawyerProfileRoute>()
+            LawyerProfileScreen(
+                lawyerId = route.lawyerId,
+                onChatClick = { lawyer ->
+                    navController.navigate(LawyerChatRoute(lawyerId = lawyer.id))
+                }
+            )
+        }
+        composable<LawyerChatRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<LawyerChatRoute>()
+            val viewModel = remember(route.lawyerId) { LawyerChatViewModel(route.lawyerId) }
+            LawyerChatScreen(viewModel = viewModel)
         }
         composable<CoiRoute> {
             COIScreen(
