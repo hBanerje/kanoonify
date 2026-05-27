@@ -2,7 +2,6 @@ package com.multiplatform.kanoonify.presentation.screens.viewmodel
 
 import com.multiplatform.kanoonify.domain.model.AskAnswer
 
-/** A single turn in the Ask conversation. */
 sealed class AskTurn {
     data class User(val text: String) : AskTurn()
     data class Assistant(val answer: AskAnswer) : AskTurn()

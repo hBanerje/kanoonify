@@ -29,7 +29,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.AskTurn
@@ -41,8 +40,7 @@ import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
 
 @Composable
-fun AskScreen() {
-    val viewModel = remember { AskViewModel() }
+fun AskScreen(viewModel: AskViewModel) {
     val state by viewModel.state.collectAsState()
     val listState = rememberLazyListState()
 
