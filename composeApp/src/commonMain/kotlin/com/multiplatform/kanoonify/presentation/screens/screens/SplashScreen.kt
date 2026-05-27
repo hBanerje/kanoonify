@@ -36,8 +36,8 @@ import com.multiplatform.kanoonify.presentation.screens.navigation.SplashRoute
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.SplashViewModel
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import org.jetbrains.compose.resources.painterResource
-import kanoonify.composeapp.generated.resources.Res
-import kanoonify.composeapp.generated.resources.kanoonify_logo
+import org.jetbrains.compose.resources.stringResource
+import kanoonify.composeapp.generated.resources.*
 
 /* ---------- Private design tokens for the splash (intentionally dark) ---------- */
 
@@ -120,7 +120,7 @@ fun SplashScreen(
         // Centered logo with scale sequence
         Image(
             painter = painterResource(Res.drawable.kanoonify_logo),
-            contentDescription = "Kanoonify logo",
+            contentDescription = stringResource(Res.string.splash_logo_content_description),
             modifier = Modifier
                 .size(140.dp)
                 .graphicsLayer {
@@ -144,7 +144,7 @@ fun SplashScreen(
             verticalArrangement = Arrangement.Bottom
         ) {
             Text(
-                text  = "Know your rights, instantly.",
+                text  = stringResource(Res.string.splash_tagline),
                 color = SplashCaptionColor,
                 style = MaterialTheme.typography.bodyMedium
             )

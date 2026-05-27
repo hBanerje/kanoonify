@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Alignment
 import org.jetbrains.compose.resources.painterResource
-import kanoonify.composeapp.generated.resources.Res
-import kanoonify.composeapp.generated.resources.kanoonify_logo
+import org.jetbrains.compose.resources.stringResource
+import kanoonify.composeapp.generated.resources.*
 
 @Composable
 fun KanoonifyLogo() {
@@ -33,7 +33,7 @@ fun KanoonifyLogo() {
     Box(contentAlignment = Alignment.Center) {
         Image(
             painter = painterResource(Res.drawable.kanoonify_logo),
-            contentDescription = "Kanoonify Logo",
+            contentDescription = stringResource(Res.string.splash_logo_content_description),
             modifier = Modifier
                 .size(140.dp)
                 .rotate(rotation)

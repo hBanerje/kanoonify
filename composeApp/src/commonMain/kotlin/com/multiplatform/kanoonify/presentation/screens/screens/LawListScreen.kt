@@ -31,6 +31,8 @@ import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.AskAiFab
 import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
 import com.multiplatform.kanoonify.presentation.ui.components.TagChip
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LawListScreen(
@@ -57,9 +59,14 @@ fun LawListScreen(
             )
         ) {
             item {
+                val count = state.laws.size
+                val caption = if (count == 1)
+                    stringResource(Res.string.law_list_count_singular, count)
+                else
+                    stringResource(Res.string.law_list_count_plural, count)
                 SectionHeader(
                     title   = state.title,
-                    caption = "${state.laws.size} law${if (state.laws.size != 1) "s" else ""} found"
+                    caption = caption
                 )
                 Spacer(Modifier.height(Dimens.SpaceM))
             }
@@ -68,7 +75,7 @@ fun LawListScreen(
                 item {
                     AppCard(modifier = Modifier.fillMaxWidth()) {
                         Text(
-                            text  = "No laws found for this topic.",
+                            text  = stringResource(Res.string.law_list_no_laws),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -117,7 +124,7 @@ private fun LawRowCard(law: LawItem, onClick: () -> Unit) {
             }
             Spacer(Modifier.width(Dimens.SpaceS))
             Text(
-                text  = "›",
+                text  = stringResource(Res.string.common_chevron_right),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

@@ -36,6 +36,8 @@ import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.MonogramIcon
 import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LawyerListScreen(
@@ -58,8 +60,8 @@ fun LawyerListScreen(
             Spacer(Modifier.height(Dimens.SpaceL))
 
             SectionHeader(
-                title = "Consult a Lawyer",
-                caption = "${state.lawyers.size} verified lawyers available"
+                title = stringResource(Res.string.lawyer_list_title),
+                caption = stringResource(Res.string.lawyer_list_caption, state.lawyers.size)
             )
 
             Spacer(Modifier.height(Dimens.SpaceM))
@@ -68,7 +70,7 @@ fun LawyerListScreen(
                 value = state.searchQuery,
                 onValueChange = viewModel::updateSearchQuery,
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Search by name, specialisation, language…") },
+                placeholder = { Text(stringResource(Res.string.lawyer_list_search_placeholder)) },
                 shape = RoundedCornerShape(Dimens.RadiusL),
                 singleLine = true
             )
@@ -132,13 +134,18 @@ private fun LawyerRow(lawyer: Lawyer, onClick: () -> Unit) {
                 )
                 Spacer(Modifier.height(Dimens.SpaceXS))
                 Text(
-                    text = "${lawyer.experienceYears} yrs exp  •  ★ ${lawyer.rating}  •  ${lawyer.location}",
+                    text = stringResource(
+                        Res.string.lawyer_list_row_summary,
+                        lawyer.experienceYears,
+                        lawyer.rating.toString(),
+                        lawyer.location
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(Modifier.height(Dimens.SpaceXS))
                 Text(
-                    text = "₹${lawyer.feePerSession}/session",
+                    text = stringResource(Res.string.lawyer_list_row_fee, lawyer.feePerSession),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -158,7 +165,7 @@ private fun OnlineBadge() {
         )
         Spacer(Modifier.width(Dimens.SpaceXS))
         Text(
-            text = "Online",
+            text = stringResource(Res.string.lawyer_status_online),
             style = MaterialTheme.typography.labelSmall,
             color = Color(0xFF2E7D32)
         )
@@ -185,7 +192,6 @@ private fun monogramColor(id: String): Color {
     val idx = (id.toColorSeed().let { if (it < 0) -it else it }) % palette.size
     return palette[idx]
 }
-
 
 
 

@@ -44,6 +44,8 @@ import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerChatView
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.MonogramIcon
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LawyerChatScreen(viewModel: LawyerChatViewModel) {
@@ -149,8 +151,10 @@ private fun ChatHeader(lawyer: Lawyer?) {
                     )
                     Spacer(Modifier.width(Dimens.SpaceXS))
                     Text(
-                        text = if (lawyer.isOnline) "Online · ${lawyer.specialization}"
-                        else "Offline · ${lawyer.specialization}",
+                        text = if (lawyer.isOnline)
+                            stringResource(Res.string.lawyer_profile_status_online, lawyer.specialization)
+                        else
+                            stringResource(Res.string.lawyer_profile_status_offline, lawyer.specialization),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -158,7 +162,7 @@ private fun ChatHeader(lawyer: Lawyer?) {
             }
         } else {
             Text(
-                text = "Lawyer",
+                text = stringResource(Res.string.lawyer_chat_header_default),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -226,7 +230,7 @@ private fun TypingBubble() {
                 .padding(horizontal = Dimens.SpaceL, vertical = Dimens.SpaceM)
         ) {
             Text(
-                text = "typing…",
+                text = stringResource(Res.string.lawyer_chat_typing),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -254,7 +258,7 @@ private fun ChatInputBar(
             onValueChange = onValueChange,
             placeholder = {
                 Text(
-                    "Type a message…",
+                    stringResource(Res.string.lawyer_chat_input_placeholder),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -276,10 +280,9 @@ private fun ChatInputBar(
             )
         ) {
             Text(
-                text = "Send",
+                text = stringResource(Res.string.lawyer_chat_send),
                 style = MaterialTheme.typography.labelLarge
             )
         }
     }
 }
-

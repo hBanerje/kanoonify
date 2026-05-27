@@ -28,6 +28,8 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ChatBubble(message: ChatMessage) {
@@ -65,7 +67,7 @@ fun ChatBubble(message: ChatMessage) {
             // AI Persona
             if (!message.isUser) {
                 Text(
-                    text = "Kanoonify Assistant",
+                    text = stringResource(Res.string.chat_bubble_ai_persona),
                     fontSize = 12.sp,
                     color = Color.Gray,
                     modifier = Modifier.padding(start = 4.dp, bottom = 2.dp)
