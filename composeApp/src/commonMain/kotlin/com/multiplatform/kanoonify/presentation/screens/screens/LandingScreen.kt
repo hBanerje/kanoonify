@@ -28,7 +28,8 @@ import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 fun LandingScreen(
     onAskClick: () -> Unit,
     onBrowseLawsClick: () -> Unit,
-    onCoiClick: () -> Unit
+    onCoiClick: () -> Unit,
+    onConsultLawyerClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -86,6 +87,10 @@ fun LandingScreen(
                 OutlinedButton(
                     onClick = onBrowseLawsClick,
                     shape = RoundedCornerShape(Dimens.RadiusL),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor   = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = Dimens.SpaceL)
@@ -111,6 +116,32 @@ fun LandingScreen(
                 ) {
                     Text(
                         text = "Constitution of India",
+                        style = MaterialTheme.typography.labelLarge,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(Dimens.SpaceL),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(Dimens.SpaceM))
+
+            AnimatedEntrance(delayMillis = 420) {
+                Card(
+                    onClick = onConsultLawyerClick,
+                    shape = RoundedCornerShape(Dimens.RadiusL),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor   = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    elevation = CardDefaults.cardElevation(defaultElevation = Dimens.SpaceXS),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Dimens.SpaceL)
+                ) {
+                    Text(
+                        text = "Consult a Lawyer",
                         style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier
                             .fillMaxWidth()
