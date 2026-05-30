@@ -8,6 +8,8 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -27,6 +29,9 @@ import com.multiplatform.kanoonify.presentation.screens.screens.LawsScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawyerChatScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawyerListScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.LawyerProfileScreen
+import com.multiplatform.kanoonify.presentation.screens.screens.ProfileScreen
+import com.multiplatform.kanoonify.presentation.screens.screens.SavedScreen
+import com.multiplatform.kanoonify.presentation.screens.screens.SearchScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.SplashScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.SubCategoryScreen
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.AskViewModel
@@ -37,6 +42,9 @@ import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawsViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerAccessViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerChatViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerListViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.ProfileViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.SavedViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.SearchViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.SubCategoryViewModel
 import kotlinx.serialization.Serializable
 
@@ -50,6 +58,10 @@ import kotlinx.serialization.Serializable
 @Serializable object LawyersRoute
 @Serializable data class LawyerProfileRoute(val lawyerId: String)
 @Serializable data class LawyerChatRoute(val lawyerId: String)
+
+@Serializable object SearchRoute
+@Serializable object SavedRoute
+@Serializable object ProfileRoute
 
 @Serializable data class SubCategoryRoute(val category: String)
 @Serializable data class LawListRoute(val title: String, val keywords: List<String>)
@@ -69,6 +81,24 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
 
     val coiViewModel = remember { COIViewModel() }
 
+    // Bottom-tab VMs survive cross-tab navigation so user state (search history,
+    // bookmarks, settings toggles) persists while the user moves around.
+    val searchViewModel  = remember { SearchViewModel() }
+    val savedViewModel   = remember { SavedViewModel() }
+    val profileViewModel = remember { ProfileViewModel() }
+
+    // Bottom-tab switcher — singleTop + state-preserving popUpTo so we don't
+    // stack identical screens when the user toggles tabs.
+    fun NavController.switchTab(route: Any) {
+        navigate(route) {
+            popUpTo(graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
     NavHost(
         navController = navController,
         startDestination = SplashRoute,
@@ -87,7 +117,43 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
                 onAskClick = { navController.navigate(AskRoute) },
                 onBrowseLawsClick = { navController.navigate(CategoriesRoute) },
                 onCoiClick = { navController.navigate(CoiRoute) },
-                onConsultLawyerClick = { navController.navigate(LawyersRoute) }
+                onConsultLawyerClick = { navController.navigate(LawyersRoute) },
+                onSearchTabClick = { navController.switchTab(SearchRoute) },
+                onSavedTabClick = { navController.switchTab(SavedRoute) },
+                onProfileTabClick = { navController.switchTab(ProfileRoute) }
+            )
+        }
+        composable<SearchRoute> {
+            SearchScreen(
+                viewModel = searchViewModel,
+                onAskClick = { _ -> navController.navigate(AskRoute) },
+                onBrowseLawsClick = { navController.navigate(CategoriesRoute) },
+                onCoiClick = { navController.navigate(CoiRoute) },
+                onConsultLawyerClick = { navController.navigate(LawyersRoute) },
+                onEmergencyClick = { navController.navigate(AskRoute) },
+                onHomeTabClick = { navController.switchTab(LandingRoute) },
+                onSavedTabClick = { navController.switchTab(SavedRoute) },
+                onProfileTabClick = { navController.switchTab(ProfileRoute) }
+            )
+        }
+        composable<SavedRoute> {
+            SavedScreen(
+                viewModel = savedViewModel,
+                onItemClick = { /* future: route by item.type */ },
+                onExploreClick = { navController.switchTab(LandingRoute) },
+                onAskClick = { navController.navigate(AskRoute) },
+                onHomeTabClick = { navController.switchTab(LandingRoute) },
+                onSearchTabClick = { navController.switchTab(SearchRoute) },
+                onProfileTabClick = { navController.switchTab(ProfileRoute) }
+            )
+        }
+        composable<ProfileRoute> {
+            ProfileScreen(
+                viewModel = profileViewModel,
+                onAskClick = { navController.navigate(AskRoute) },
+                onHomeTabClick = { navController.switchTab(LandingRoute) },
+                onSearchTabClick = { navController.switchTab(SearchRoute) },
+                onSavedTabClick = { navController.switchTab(SavedRoute) }
             )
         }
         composable<LawyersRoute> {
