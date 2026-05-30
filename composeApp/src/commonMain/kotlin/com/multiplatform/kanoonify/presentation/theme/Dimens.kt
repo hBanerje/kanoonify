@@ -21,6 +21,8 @@ object Dimens {
     val RadiusM  = 12.dp
     val RadiusL  = 16.dp
     val RadiusXL = 20.dp
+    val RadiusXXL = 28.dp
+    val RadiusHero = 32.dp
     val RadiusPill = 999.dp
 
     // Elevation
