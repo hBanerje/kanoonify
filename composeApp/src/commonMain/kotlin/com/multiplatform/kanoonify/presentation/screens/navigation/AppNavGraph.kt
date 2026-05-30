@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,6 +34,7 @@ import com.multiplatform.kanoonify.presentation.screens.viewmodel.COIViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawDetailViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawListViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawsViewModel
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerAccessViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerChatViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerListViewModel
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.SubCategoryViewModel
@@ -99,8 +101,15 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
         }
         composable<LawyerProfileRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<LawyerProfileRoute>()
+            // Biometric-gate VM is scoped to this route entry only — disposed
+            // on leave so authentication state never crosses screen boundaries.
+            val accessViewModel = remember(route.lawyerId) { LawyerAccessViewModel() }
+            DisposableEffect(accessViewModel) {
+                onDispose { accessViewModel.dispose() }
+            }
             LawyerProfileScreen(
                 lawyerId = route.lawyerId,
+                accessViewModel = accessViewModel,
                 onChatClick = { lawyer ->
                     navController.navigate(LawyerChatRoute(lawyerId = lawyer.id))
                 }

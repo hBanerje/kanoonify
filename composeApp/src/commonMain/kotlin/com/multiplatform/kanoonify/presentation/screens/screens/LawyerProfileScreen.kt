@@ -21,16 +21,24 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.multiplatform.kanoonify.data.LawyerDataProvider
 import com.multiplatform.kanoonify.domain.model.Lawyer
+import com.multiplatform.kanoonify.presentation.screens.viewmodel.LawyerAccessViewModel
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
@@ -42,9 +50,30 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun LawyerProfileScreen(
     lawyerId: String,
+    accessViewModel: LawyerAccessViewModel,
     onChatClick: (Lawyer) -> Unit
 ) {
     val lawyer = LawyerDataProvider.findById(lawyerId)
+    val accessState by accessViewModel.state.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    // One-shot navigation effect: when authentication succeeds, navigate
+    // and immediately consume the flag so a back-press cannot re-trigger.
+    LaunchedEffect(accessState.authenticationSuccess, lawyer) {
+        if (accessState.authenticationSuccess && lawyer != null) {
+            accessViewModel.consumeAuthenticationSuccess()
+            onChatClick(lawyer)
+        }
+    }
+
+    // One-shot error snackbar.
+    LaunchedEffect(accessState.errorMessage) {
+        val msg = accessState.errorMessage
+        if (!msg.isNullOrBlank()) {
+            snackbarHostState.showSnackbar(msg)
+            accessViewModel.consumeError()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -150,7 +179,7 @@ fun LawyerProfileScreen(
                 Spacer(Modifier.height(Dimens.SpaceXXL))
             }
 
-            // Sticky CTA
+            // Sticky CTA — biometric-gated "Start Secure Consultation"
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -161,26 +190,74 @@ fun LawyerProfileScreen(
                         vertical = Dimens.SpaceM
                     )
             ) {
-                Button(
-                    onClick = { onChatClick(lawyer) },
-                    enabled = lawyer.isOnline,
-                    shape = RoundedCornerShape(Dimens.RadiusL),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    val isAuthenticating = accessState.isAuthenticating
+                    val biometricAvailable = accessState.biometricAvailable
+                    val ctaEnabled = lawyer.isOnline && !isAuthenticating
+
+                    Button(
+                        onClick = {
+                            // UI only fires intent — all biometric logic
+                            // lives in the ViewModel/data layer.
+                            accessViewModel.requestAuthentication(
+                                title = "Secure Consultation",
+                                subtitle = "Verify it's you",
+                                description = "Biometric authentication is required " +
+                                    "before connecting to your lawyer."
+                            )
+                        },
+                        enabled = ctaEnabled,
+                        shape = RoundedCornerShape(Dimens.RadiusL),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        if (isAuthenticating) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(18.dp),
+                                strokeWidth = 2.dp,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                            Spacer(Modifier.width(Dimens.SpaceS))
+                            Text(
+                                text = "Authenticating…",
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        } else {
+                            Text(
+                                text = if (lawyer.isOnline)
+                                    "🔒  Start Secure Consultation"
+                                else
+                                    stringResource(Res.string.lawyer_profile_offline_button),
+                                style = MaterialTheme.typography.labelLarge
+                            )
+                        }
+                    }
+
+                    Spacer(Modifier.height(Dimens.SpaceS))
+
                     Text(
-                        text = if (lawyer.isOnline)
-                            stringResource(Res.string.lawyer_profile_chat_button, shortName(lawyer.name))
+                        text = if (biometricAvailable)
+                            "🔒 Protected by biometric authentication"
                         else
-                            stringResource(Res.string.lawyer_profile_offline_button),
-                        style = MaterialTheme.typography.labelLarge
+                            "⚠️ Biometric unavailable on this device",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
         }
+
+        // Snackbar overlay — anchored above system bars without changing layout.
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .navigationBarsPadding()
+                .padding(bottom = 88.dp)
+        )
     }
 }
 
@@ -320,7 +397,3 @@ private fun initials(fullName: String): String =
         .take(2)
         .joinToString("")
 
-private fun shortName(fullName: String): String {
-    val cleaned = fullName.removePrefix("Adv.").trim()
-    return cleaned.split(" ").firstOrNull() ?: cleaned
-}
