@@ -9,17 +9,26 @@
     <string name="splash_tagline">Know your rights, instantly.</string>
 
     <!-- ============== Landing Screen ============== -->
+    <string name="landing_top_tagline">Know Your Rights. Anytime.</string>
+    <string name="landing_hero_title_prefix">Know Your Rights</string>
+    <string name="landing_hero_title_highlight">Instantly</string>
     <string name="landing_hero_title">Know Your Rights Instantly</string>
     <string name="landing_hero_subtitle">AI-powered Indian legal assistant</string>
     <string name="landing_hero_badge_beta">BETA</string>
+    <string name="landing_hero_trust_pill">Trusted by 50K+ users</string>
 
     <string name="landing_ask_card_title">Ask Kanoonify</string>
     <string name="landing_ask_card_subtitle">Describe your situation — get rights &amp; next steps</string>
+    <string name="landing_ask_card_badge_ai">AI-Powered</string>
+    <string name="landing_ask_card_badge_247">24/7</string>
+    <string name="landing_ask_card_badge_confidential">Confidential</string>
 
     <string name="landing_section_quick_access_title">Quick Access</string>
     <string name="landing_section_quick_access_caption">Find what you need</string>
     <string name="landing_section_trending_title">Trending</string>
     <string name="landing_section_trending_caption">Most searched legal topics</string>
+    <string name="landing_section_recent_title">Recent searches</string>
+    <string name="landing_section_recent_caption">Pick up where you left off</string>
 
     <string name="landing_feature_browse_laws_title">Browse Laws</string>
     <string name="landing_feature_browse_laws_subtitle">Categorised legal sections</string>
@@ -29,6 +38,19 @@
     <string name="landing_feature_consult_lawyer_subtitle">Chat with experts</string>
     <string name="landing_feature_emergency_title">Emergency Rights</string>
     <string name="landing_feature_emergency_subtitle">Know what to do now</string>
+
+    <string name="landing_emergency_banner_title">Emergency? Know your immediate legal rights</string>
+    <string name="landing_emergency_banner_action">Open</string>
+
+    <string name="landing_recent_example_1">Police stopped my bike</string>
+    <string name="landing_recent_example_2">Can police check my phone?</string>
+    <string name="landing_recent_example_3">Noise complaint in my area</string>
+
+    <string name="landing_bottom_nav_home">Home</string>
+    <string name="landing_bottom_nav_search">Search</string>
+    <string name="landing_bottom_nav_ask">Ask AI</string>
+    <string name="landing_bottom_nav_saved">Saved</string>
+    <string name="landing_bottom_nav_profile">Profile</string>
 
     <string name="trending_police_stops">Police Stops</string>
     <string name="trending_traffic_rules">Traffic Rules</string>
