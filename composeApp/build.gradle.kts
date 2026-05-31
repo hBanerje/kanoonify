@@ -25,6 +25,10 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            // SQLDelight's native-driver delegates to system SQLite; expose
+            // the dependency so the consuming Xcode app links it. Required
+            // when using `-ld_classic` (which doesn't implicitly link tbds).
+            linkerOpts.add("-lsqlite3")
         }
     }
 
