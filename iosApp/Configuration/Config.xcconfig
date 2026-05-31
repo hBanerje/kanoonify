@@ -5,3 +5,17 @@ PRODUCT_BUNDLE_IDENTIFIER=com.multiplatform.kanoonify.Kanoonify$(TEAM_ID)
 
 CURRENT_PROJECT_VERSION=1
 MARKETING_VERSION=1.0
+
+// Workaround for Xcode 16 / iOS 18 SDK: the new linker (`ld_prime`)
+// tries to link `SwiftUICore.tbd` directly, which Apple restricts to
+// first-party clients. Switching to the classic linker avoids the
+// implicit-linkage rule and resolves:
+//   "cannot link directly with 'SwiftUICore' because product being
+//    built is not an allowed client of it"
+// Remove once Apple fixes the SDK in a future Xcode release.
+//
+// `-lsqlite3` is required because SQLDelight's native-driver delegates
+// to the system SQLite library; the classic linker (unlike ld_prime)
+// does not implicitly pick this up from the static framework's metadata.
+OTHER_LDFLAGS = $(inherited) -ld_classic -lsqlite3
+

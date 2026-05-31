@@ -43,7 +43,9 @@ actual class PlatformBiometricAuth actual constructor() {
         val context = LAContext()
 
         if (!context.canEvaluatePolicy(LAPolicyDeviceOwnerAuthentication, null)) {
-            return@withContext BiometricResult.NotAvailable
+            // Upcast so the surrounding lambda is inferred as BiometricResult,
+            // not the specific NotAvailable subtype.
+            return@withContext BiometricResult.NotAvailable as BiometricResult
         }
 
         // Localised reason shown beneath the system prompt.
@@ -52,7 +54,9 @@ actual class PlatformBiometricAuth actual constructor() {
             .joinToString(separator = " — ")
             .ifBlank { "Authenticate to continue" }
 
-        suspendCancellableCoroutine { cont ->
+        // Explicit type parameter pins `cont` to `Continuation<BiometricResult>`
+        // so resume(Success) / resume(mapped) both type-check.
+        suspendCancellableCoroutine<BiometricResult> { cont ->
             context.evaluatePolicy(
                 policy = LAPolicyDeviceOwnerAuthentication,
                 localizedReason = reason
