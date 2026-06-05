@@ -4,12 +4,6 @@ import com.multiplatform.kanoonify.news.domain.model.NewsArticle
 import com.multiplatform.kanoonify.news.domain.model.NewsCategory
 import com.multiplatform.kanoonify.utils.SystemClock
 
-/**
- * Bundled, always-available news source. Used as the offline / no-network
- * fallback so the feed is never empty during development, demos or air-gapped
- * deployments. Production data still flows through [RemoteNewsDataSource]
- * when reachable.
- */
 class SampleNewsDataSource : NewsDataSource {
 
     override suspend fun fetchLatestNews(): List<NewsArticle> = sample()
@@ -31,8 +25,6 @@ class SampleNewsDataSource : NewsDataSource {
 
     override suspend fun fetchArticle(articleId: String): NewsArticle? =
         sample().firstOrNull { it.id == articleId }
-
-    /* ------------------------------ seed ----------------------------------- */
 
     private fun sample(): List<NewsArticle> {
         val now = SystemClock.currentTimeMillis()
@@ -185,4 +177,3 @@ class SampleNewsDataSource : NewsDataSource {
         )
     }
 }
-

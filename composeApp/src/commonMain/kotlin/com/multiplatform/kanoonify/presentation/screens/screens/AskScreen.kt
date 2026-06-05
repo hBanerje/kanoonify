@@ -63,7 +63,7 @@ fun AskScreen(viewModel: AskViewModel) {
                 .statusBarsPadding()
                 .navigationBarsPadding()
         ) {
-            // Header
+
             Column(modifier = Modifier.padding(horizontal = Dimens.ScreenHorizontal, vertical = Dimens.SpaceL)) {
                 SectionHeader(
                     title   = stringResource(Res.string.ask_screen_title),
@@ -71,7 +71,6 @@ fun AskScreen(viewModel: AskViewModel) {
                 )
             }
 
-            // Conversation
             LazyColumn(
                 state = listState,
                 modifier = Modifier
@@ -94,7 +93,6 @@ fun AskScreen(viewModel: AskViewModel) {
                 }
             }
 
-            // Input bar
             InputBar(
                 value = state.query,
                 onValueChange = viewModel::onQueryChange,

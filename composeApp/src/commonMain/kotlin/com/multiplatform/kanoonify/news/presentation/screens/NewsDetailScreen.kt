@@ -53,10 +53,6 @@ import kanoonify.composeapp.generated.resources.Res
 import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
-/**
- * Full-article detail screen. Hero image, headline, source/meta, body,
- * primary CTA to open the original URL + save & share affordances.
- */
 @Composable
 fun NewsDetailScreen(
     viewModel: NewsViewModel,
@@ -107,7 +103,7 @@ private fun Loaded(viewModel: NewsViewModel, onBack: () -> Unit) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        /* ----- Hero ----- */
+
         Box(modifier = Modifier.fillMaxWidth().fillMaxHeight(0.42f).heightDp(320)) {
             NewsImage(
                 imageUrl = article.imageUrl,
@@ -116,7 +112,7 @@ private fun Loaded(viewModel: NewsViewModel, onBack: () -> Unit) {
                 shape = RoundedCornerShape(bottomStart = Dimens.RadiusHero, bottomEnd = Dimens.RadiusHero),
                 modifier = Modifier.fillMaxSize()
             )
-            // Top bar overlay
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -131,7 +127,7 @@ private fun Loaded(viewModel: NewsViewModel, onBack: () -> Unit) {
                     SaveButton(saved = state.isSaved, onClick = { viewModel.onToggleSaved(article) })
                 }
             }
-            // Bottom category badge
+
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -159,7 +155,6 @@ private fun Loaded(viewModel: NewsViewModel, onBack: () -> Unit) {
             }
         }
 
-        /* ----- Content ----- */
         Column(modifier = Modifier.padding(horizontal = Dimens.ScreenHorizontal)) {
             Spacer(Modifier.height(Dimens.SpaceL))
 
@@ -234,8 +229,6 @@ private fun Loaded(viewModel: NewsViewModel, onBack: () -> Unit) {
         }
     }
 }
-
-/* ------------------------------ subpieces ---------------------------------- */
 
 @Composable
 private fun MetaRow(source: String, author: String, publishedAtEpochMs: Long) {
@@ -355,12 +348,8 @@ private fun UnavailableState(onBack: () -> Unit) {
     }
 }
 
-/* Small modifiers for size with Int dp values to keep call-sites compact. */
 private fun Modifier.androidx_size(dp: Int): Modifier =
     this.size(dp.dp)
 
 private fun Modifier.heightDp(dp: Int): Modifier =
     this.height(dp.dp)
-
-
-

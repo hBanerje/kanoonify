@@ -50,8 +50,6 @@ import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-/* -------------------------- view-data (UI-only) ---------------------------- */
-
 private data class CategoryVD(val category: NewsCategory, val labelRes: StringResource)
 
 private val allCategories: List<CategoryVD> = listOf(
@@ -68,16 +66,6 @@ private val allCategories: List<CategoryVD> = listOf(
     CategoryVD(NewsCategory.Sports,     Res.string.news_category_sports)
 )
 
-/* -------------------------------- Feed ------------------------------------- */
-
-/**
- * Inshorts-style vertical news feed.
- *
- *  - Sticky toolbar + category strip.
- *  - VerticalPager with parallax + scale animations per page.
- *  - Pull-down gesture (vertical drag at top) → triggers refresh.
- *  - Listens to [NewsViewModel.events] for navigation / share / external URLs.
- */
 @Composable
 fun NewsFeedScreen(
     viewModel: NewsViewModel,
@@ -92,14 +80,13 @@ fun NewsFeedScreen(
 ) {
     val state by viewModel.feed.collectAsState()
 
-    // One-shot side effects
     LaunchedEffect(viewModel) {
         viewModel.events.collect { event ->
             when (event) {
                 is NewsUiEvent.OpenDetail   -> onArticleClick(event.articleId)
                 is NewsUiEvent.OpenExternal -> onOpenExternal(event.url)
                 is NewsUiEvent.Share        -> onShareText(event.text, event.title)
-                is NewsUiEvent.Toast        -> Unit /* future snackbar host */
+                is NewsUiEvent.Toast        -> Unit
             }
         }
     }
@@ -126,7 +113,6 @@ fun NewsFeedScreen(
         ) {
             Spacer(Modifier.height(Dimens.SpaceM))
 
-            /* ----- Toolbar ----- */
             NewsToolbar(
                 title = stringResource(Res.string.news_screen_title),
                 subtitle = stringResource(Res.string.news_screen_subtitle),
@@ -139,7 +125,6 @@ fun NewsFeedScreen(
 
             Spacer(Modifier.height(Dimens.SpaceM))
 
-            /* ----- Category strip ----- */
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceS),
                 contentPadding = PaddingValues(vertical = 2.dp)
@@ -157,7 +142,6 @@ fun NewsFeedScreen(
 
             Spacer(Modifier.height(Dimens.SpaceM))
 
-            /* ----- Body ----- */
             Box(modifier = Modifier.weight(1f)) {
                 when (state.phase) {
                     LoadPhase.Loading -> NewsCardSkeleton(modifier = Modifier.fillMaxSize())
@@ -185,11 +169,9 @@ fun NewsFeedScreen(
                 }
             }
 
-            // Bottom safe area for floating bottom bar
             Spacer(Modifier.height(120.dp))
         }
 
-        /* ----- Refresh indicator (top) ----- */
         if (state.isRefreshing) {
             Box(
                 modifier = Modifier
@@ -201,7 +183,6 @@ fun NewsFeedScreen(
             }
         }
 
-        /* ----- Bottom navigation ----- */
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -217,7 +198,7 @@ fun NewsFeedScreen(
                 profileLabel = stringResource(Res.string.landing_bottom_nav_profile),
                 selectedIndex = 1,
                 onHomeClick = onHomeTabClick,
-                onNewsClick = { /* already here */ },
+                onNewsClick = {  },
                 onAskClick = onAskClick,
                 onSavedClick = onSavedTabClick,
                 onProfileClick = onProfileTabClick
@@ -239,8 +220,6 @@ private fun FeedPager(
 ) {
     val pagerState = rememberPagerState(pageCount = { articles.size })
 
-    // Reset to the first item whenever the dataset is meaningfully replaced
-    // (e.g. category changed) — avoids landing on a stale index.
     LaunchedEffect(articles.firstOrNull()?.id) {
         if (articles.isNotEmpty() && pagerState.currentPage > articles.lastIndex) {
             pagerState.scrollToPage(0)
@@ -280,7 +259,7 @@ private fun FeedPager(
             modifier = Modifier.fillMaxSize()
         ) { pageIndex ->
             val article = articles[pageIndex]
-            // pagerFraction in [-1f, 1f]
+
             val fraction by remember(pagerState) {
                 derivedStateOf {
                     (pageIndex - pagerState.currentPage) - pagerState.currentPageOffsetFraction
@@ -299,8 +278,6 @@ private fun FeedPager(
         }
     }
 }
-
-/* ----------------------------- helpers ------------------------------------- */
 
 @Composable
 private fun SearchAffordance(onClick: () -> Unit) {
@@ -373,9 +350,3 @@ private fun labelResFor(category: NewsCategory): StringResource = when (category
     NewsCategory.Business   -> Res.string.news_category_business
     NewsCategory.Sports     -> Res.string.news_category_sports
 }
-
-
-
-
-
-

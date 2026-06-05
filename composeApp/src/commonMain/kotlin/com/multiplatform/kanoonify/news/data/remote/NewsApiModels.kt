@@ -3,13 +3,6 @@ package com.multiplatform.kanoonify.news.data.remote
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-/**
- * Wire DTOs for a NewsAPI-compatible endpoint. Keep these strictly serializable
- * with no logic — domain mapping happens in [com.multiplatform.kanoonify.news.data.mapper].
- *
- * The shape mirrors the widely-used GNews / NewsAPI JSON format so the same
- * client can be pointed at any compatible provider by swapping the base URL.
- */
 @Serializable
 data class NewsApiResponse(
     @SerialName("status")       val status: String? = null,
@@ -36,4 +29,3 @@ data class NewsApiSourceDto(
     @SerialName("id")   val id: String? = null,
     @SerialName("name") val name: String? = null
 )
-

@@ -24,7 +24,6 @@ import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/** Single statistic tile — big value + label + tinted glyph. */
 @Composable
 fun StatsCard(
     label: String,
@@ -76,4 +75,3 @@ fun StatsCard(
         )
     }
 }
-

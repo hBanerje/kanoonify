@@ -34,10 +34,6 @@ import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Reusable card for any saved/bookmarked item (Law, Article, AI chat, News, Note).
- * Stateless. Caller supplies copy + remove handler.
- */
 @Composable
 fun SavedItemCard(
     title: String,
@@ -140,7 +136,7 @@ fun SavedItemCard(
         ) {
             Text("\uD83D\uDDD1", fontSize = 13.sp)
         }
-        // a11y label only
+
         Text(
             text = removeLabel,
             color = Color.Transparent,
@@ -149,4 +145,3 @@ fun SavedItemCard(
         )
     }
 }
-

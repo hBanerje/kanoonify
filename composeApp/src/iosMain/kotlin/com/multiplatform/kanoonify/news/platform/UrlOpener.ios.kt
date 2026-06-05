@@ -23,7 +23,7 @@ actual class UrlOpener actual constructor() {
             applicationActivities = null
         )
         val root = UIApplication.sharedApplication.keyWindow?.rootViewController ?: return
-        // Present from the topmost presented view controller, if any.
+
         var presenter: platform.UIKit.UIViewController = root
         while (presenter.presentedViewController != null) {
             presenter = presenter.presentedViewController!!
@@ -31,4 +31,3 @@ actual class UrlOpener actual constructor() {
         presenter.presentViewController(activityVC, animated = true, completion = null)
     }
 }
-

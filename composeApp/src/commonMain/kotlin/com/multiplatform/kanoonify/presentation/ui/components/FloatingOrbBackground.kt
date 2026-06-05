@@ -22,19 +22,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 
-/**
- * Cinematic full-screen background for the premium dark Landing.
- *
- * Layers (back → front):
- *  1. Deep diagonal gradient wash (`BgDeep` → `BgMid` → `BgSoft`).
- *  2. Three blurred neon orbs that slowly drift + breathe — they imply
- *     depth and motion without spending fillrate every frame (each orb
- *     is a single radial-gradient circle moved via [graphicsLayer]).
- *
- * Render as the very first child of a parent Box, then overlay content
- * above it. Lightweight enough for low-end devices: only 3 composables,
- * no Canvas, no per-frame allocations.
- */
 @Composable
 fun FloatingOrbBackground(
     modifier: Modifier = Modifier
@@ -77,7 +64,7 @@ fun FloatingOrbBackground(
                 )
             )
     ) {
-        // Orb A — neon blue, top-right
+
         Orb(
             size = 320,
             color = KanoonifyPremiumColors.NeonBlue,
@@ -86,7 +73,7 @@ fun FloatingOrbBackground(
             scale = breath,
             alpha = 0.45f
         )
-        // Orb B — indigo, mid-left
+
         Orb(
             size = 380,
             color = KanoonifyPremiumColors.NeonIndigo,
@@ -95,7 +82,7 @@ fun FloatingOrbBackground(
             scale = 1f,
             alpha = 0.38f
         )
-        // Orb C — soft gold, lower-right
+
         Orb(
             size = 260,
             color = KanoonifyPremiumColors.GoldMid,
@@ -133,4 +120,3 @@ private fun Orb(
             )
     )
 }
-

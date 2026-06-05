@@ -49,8 +49,6 @@ import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-/* -------------------------- view-data (UI-only) ---------------------------- */
-
 private data class TopicVD(val labelRes: StringResource, val glyph: String, val accent: Color)
 private data class QuickAccessVD(
     val titleRes: StringResource,
@@ -60,15 +58,6 @@ private data class QuickAccessVD(
     val onClick: () -> Unit
 )
 
-/* ------------------------------- Search ------------------------------------ */
-
-/**
- * Central search hub. Premium glass UI on the cinematic dark surface.
- *
- *  - Pure UI; orchestration via [SearchViewModel].
- *  - All cross-screen navigation goes through the `on*Click` callbacks the
- *    caller wires to NavController routes.
- */
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
@@ -92,7 +81,7 @@ fun SearchScreen(
                 SearchUiEvent.NavigateToCoi        -> onCoiClick()
                 SearchUiEvent.NavigateToLawyers    -> onConsultLawyerClick()
                 SearchUiEvent.NavigateToEmergency  -> onEmergencyClick()
-                is SearchUiEvent.OpenResult        -> Unit /* reserved for result-detail nav */
+                is SearchUiEvent.OpenResult        -> Unit
             }
         }
     }
@@ -193,7 +182,6 @@ fun SearchScreen(
 
             Spacer(Modifier.height(Dimens.SpaceXXL))
 
-            /* ----- Recent ----- */
             AnimatedEntrance(delayMillis = 160) {
                 SearchSectionTitle(
                     title = stringResource(Res.string.search_section_recent_title),
@@ -218,7 +206,6 @@ fun SearchScreen(
 
             Spacer(Modifier.height(Dimens.SpaceXXL))
 
-            /* ----- Popular ----- */
             AnimatedEntrance(delayMillis = 280) {
                 SearchSectionTitle(
                     title = stringResource(Res.string.search_section_popular_title),
@@ -230,7 +217,6 @@ fun SearchScreen(
 
             Spacer(Modifier.height(Dimens.SpaceXXL))
 
-            /* ----- Trending ----- */
             AnimatedEntrance(delayMillis = 360) {
                 SearchSectionTitle(
                     title = stringResource(Res.string.search_section_trending_title),
@@ -257,7 +243,6 @@ fun SearchScreen(
 
             Spacer(Modifier.height(Dimens.SpaceXXL))
 
-            /* ----- Quick Access ----- */
             AnimatedEntrance(delayMillis = 500) {
                 SearchSectionTitle(
                     title = stringResource(Res.string.search_section_quick_title),
@@ -267,7 +252,6 @@ fun SearchScreen(
             Spacer(Modifier.height(Dimens.SpaceM))
             QuickAccessGrid(features = quick)
 
-            // Bottom safe area so content clears the floating bar.
             Spacer(Modifier.height(120.dp))
         }
 
@@ -294,8 +278,6 @@ fun SearchScreen(
         }
     }
 }
-
-/* ------------------------ small private helpers ---------------------------- */
 
 @Composable
 private fun SearchSectionTitle(
@@ -431,7 +413,6 @@ private fun QuickAccessGrid(features: List<QuickAccessVD>) {
     }
 }
 
-/* tiny clickable-without-ripple helper kept private to this file */
 @Composable
 private fun Modifier.clickableNoIndication(onClick: () -> Unit): Modifier {
     val interaction = remember { MutableInteractionSource() }
@@ -441,8 +422,3 @@ private fun Modifier.clickableNoIndication(onClick: () -> Unit): Modifier {
         onClick = onClick
     )
 }
-
-
-
-
-

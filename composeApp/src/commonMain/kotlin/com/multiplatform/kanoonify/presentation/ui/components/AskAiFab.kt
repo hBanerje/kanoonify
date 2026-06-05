@@ -25,10 +25,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
-/**
- * Floating "Ask AI" action button with a subtle pulse ring.
- * Tap navigates / expands into the Ask screen.
- */
 @Composable
 fun AskAiFab(
     onClick: () -> Unit,
@@ -48,7 +44,6 @@ fun AskAiFab(
 
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
 
-        // Pulse ring
         Box(
             modifier = Modifier
                 .size(Dimens.FabSize)

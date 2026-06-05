@@ -12,15 +12,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Backs the Search hub. Pure UI/state orchestration — repository wiring is
- * intentionally abstracted behind [SearchEntityType] so a future
- * `SearchRepository` (Laws + COI + Lawyers + News + AI history) can be slotted
- * in without changing State, Screen or composables.
- *
- * Recent search history is currently kept in-memory. When persistence lands,
- * inject a `SearchHistoryRepository` and replace the in-memory ops below.
- */
 class SearchViewModel {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -37,8 +28,6 @@ class SearchViewModel {
         onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
     val events: SharedFlow<SearchUiEvent> = _events.asSharedFlow()
-
-    /* ---------------------------- intents ---------------------------------- */
 
     fun onQueryChange(value: String) {
         _state.update { it.copy(query = value) }
@@ -79,8 +68,6 @@ class SearchViewModel {
     fun onConsultLawyer()    { emit(SearchUiEvent.NavigateToLawyers) }
     fun onEmergencyRights()  { emit(SearchUiEvent.NavigateToEmergency) }
 
-    /* ---------------------------- internals -------------------------------- */
-
     private fun emit(event: SearchUiEvent) {
         scope.launch { _events.emit(event) }
     }
@@ -108,4 +95,3 @@ class SearchViewModel {
     private var idCounter = 0L
     private fun nextId(): String = "sh-${++idCounter}"
 }
-

@@ -36,17 +36,6 @@ import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-/**
- * Premium hero header for the landing screen.
- *
- * Layered visuals (back → front):
- *   1. Animated soft radial halo (rotating + pulsing alpha)
- *   2. Floating logo (vertical bob + breathing scale)
- *   3. Title + subtitle with refined typography
- *
- * Pair with AnimatedEntrance at the call site for a fade/slide reveal.
- * All animations driven by graphicsLayer to avoid layout recompositions.
- */
 @Composable
 fun AnimatedHeroSection(
     title: String,
@@ -101,7 +90,7 @@ fun AnimatedHeroSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(contentAlignment = Alignment.Center) {
-            // Outer rotating sweep halo
+
             Box(
                 modifier = Modifier
                     .size(220.dp)
@@ -121,7 +110,7 @@ fun AnimatedHeroSection(
                         )
                     )
             )
-            // Inner radial glow
+
             Box(
                 modifier = Modifier
                     .size(180.dp)
@@ -136,7 +125,7 @@ fun AnimatedHeroSection(
                         )
                     )
             )
-            // Floating logo
+
             Image(
                 painter = painterResource(Res.drawable.kanoonify_logo),
                 contentDescription = stringResource(Res.string.splash_logo_content_description),

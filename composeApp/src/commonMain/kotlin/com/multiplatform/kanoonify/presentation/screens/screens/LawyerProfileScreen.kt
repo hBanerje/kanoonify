@@ -57,8 +57,6 @@ fun LawyerProfileScreen(
     val accessState by accessViewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    // One-shot navigation effect: when authentication succeeds, navigate
-    // and immediately consume the flag so a back-press cannot re-trigger.
     LaunchedEffect(accessState.authenticationSuccess, lawyer) {
         if (accessState.authenticationSuccess && lawyer != null) {
             accessViewModel.consumeAuthenticationSuccess()
@@ -66,7 +64,6 @@ fun LawyerProfileScreen(
         }
     }
 
-    // One-shot error snackbar.
     LaunchedEffect(accessState.errorMessage) {
         val msg = accessState.errorMessage
         if (!msg.isNullOrBlank()) {
@@ -179,7 +176,6 @@ fun LawyerProfileScreen(
                 Spacer(Modifier.height(Dimens.SpaceXXL))
             }
 
-            // Sticky CTA — biometric-gated "Start Secure Consultation"
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -197,8 +193,7 @@ fun LawyerProfileScreen(
 
                     Button(
                         onClick = {
-                            // UI only fires intent — all biometric logic
-                            // lives in the ViewModel/data layer.
+
                             accessViewModel.requestAuthentication(
                                 title = "Secure Consultation",
                                 subtitle = "Verify it's you",
@@ -250,7 +245,6 @@ fun LawyerProfileScreen(
             }
         }
 
-        // Snackbar overlay — anchored above system bars without changing layout.
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier
@@ -396,4 +390,3 @@ private fun initials(fullName: String): String =
         .mapNotNull { it.firstOrNull()?.toString() }
         .take(2)
         .joinToString("")
-

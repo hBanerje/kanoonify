@@ -46,4 +46,3 @@ object LawListProvider {
         return allLaws.filter { it.category.equals(category, ignoreCase = true) }
     }
 }
-

@@ -32,10 +32,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 
-/**
- * Glassmorphic feature card used in the home Quick-Access grid.
- * Uses a soft tinted gradient with a 1px highlight border for the glass effect.
- */
 @Composable
 fun HomeFeatureCard(
     title: String,
@@ -113,4 +109,3 @@ fun HomeFeatureCard(
         }
     }
 }
-

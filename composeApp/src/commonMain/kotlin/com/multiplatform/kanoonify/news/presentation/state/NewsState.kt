@@ -3,7 +3,6 @@ package com.multiplatform.kanoonify.news.presentation.state
 import com.multiplatform.kanoonify.news.domain.model.NewsArticle
 import com.multiplatform.kanoonify.news.domain.model.NewsCategory
 
-/** Top-level news feed UI state. */
 data class NewsFeedState(
     val articles: List<NewsArticle> = emptyList(),
     val category: NewsCategory = NewsCategory.Latest,
@@ -18,10 +17,8 @@ data class NewsFeedState(
     fun isSaved(id: String): Boolean = id in savedIds
 }
 
-/** UI phase of any list-loading screen. */
 enum class LoadPhase { Loading, Ready, Error, Empty }
 
-/** Detail screen UI state. */
 data class NewsDetailState(
     val article: NewsArticle? = null,
     val isLoading: Boolean = true,
@@ -29,7 +26,6 @@ data class NewsDetailState(
     val errorMessage: String? = null
 )
 
-/** Search UI state. */
 data class NewsSearchState(
     val query: String = "",
     val results: List<NewsArticle> = emptyList(),
@@ -44,11 +40,9 @@ data class NewsSearchState(
     fun isSaved(id: String): Boolean = id in savedIds
 }
 
-/** One-shot side effects emitted from the ViewModel. */
 sealed interface NewsUiEvent {
     data class OpenDetail(val articleId: String) : NewsUiEvent
     data class OpenExternal(val url: String) : NewsUiEvent
     data class Share(val text: String, val title: String) : NewsUiEvent
     data class Toast(val message: String) : NewsUiEvent
 }
-

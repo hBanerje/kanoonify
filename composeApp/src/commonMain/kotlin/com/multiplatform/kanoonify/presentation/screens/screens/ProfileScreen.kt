@@ -135,7 +135,7 @@ fun ProfileScreen(
                     subtitle = stringResource(Res.string.profile_settings_language_sub),
                     accent = KanoonifyPremiumColors.NeonCyan,
                     trailing = state.preferences.language,
-                    onClick = { /* future language picker */ }
+                    onClick = {  }
                 )
                 SettingsRow(
                     glyph = "\uD83C\uDFA8",
@@ -143,7 +143,7 @@ fun ProfileScreen(
                     subtitle = stringResource(Res.string.profile_settings_theme_sub),
                     accent = KanoonifyPremiumColors.NeonIndigo,
                     trailing = state.preferences.themeLabel,
-                    onClick = { /* future theme picker */ }
+                    onClick = {  }
                 )
                 SettingsRow(
                     glyph = "\uD83D\uDD12",
@@ -269,7 +269,7 @@ fun ProfileScreen(
                 onNewsClick = onNewsTabClick,
                 onAskClick = onAskClick,
                 onSavedClick = onSavedTabClick,
-                onProfileClick = { /* already here */ }
+                onProfileClick = {  }
             )
         }
     }
@@ -326,4 +326,3 @@ private fun StatsGrid(state: ProfileState) {
         }
     }
 }
-

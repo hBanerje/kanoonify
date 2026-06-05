@@ -45,15 +45,6 @@ import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 import com.multiplatform.kanoonify.utils.SystemClock
 
-/**
- * Full-bleed Inshorts-style news card. Designed for use inside a
- * VerticalPager — fills the parent box and uses the externally-driven
- * [pagerFraction] (0f = current, ±1f = neighbours) to drive a parallax
- * image translation and a scale/alpha breathing effect on the body.
- *
- *  - Pure UI; no business logic.
- *  - All actions are dispatched via the callback parameters.
- */
 @Composable
 fun NewsCard(
     article: NewsArticle,
@@ -75,7 +66,7 @@ fun NewsCard(
             .fillMaxSize()
             .padding(horizontal = Dimens.ScreenHorizontal, vertical = Dimens.SpaceM)
     ) {
-        /* ---- Hero image (top half, with parallax) ---- */
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,13 +80,13 @@ fun NewsCard(
                 modifier = Modifier
                     .fillMaxSize()
                     .graphicsLayer {
-                        // Parallax: shift image opposite to page direction.
+
                         translationY = -parallax * size.height * 0.18f
                         scaleX = 1.08f
                         scaleY = 1.08f
                     },
                 overlay = {
-                    // Top-row: category badge + source pill
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -114,7 +105,6 @@ fun NewsCard(
 
         Spacer(Modifier.height(Dimens.SpaceL))
 
-        /* ---- Body (scales/fades during paging) ---- */
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -143,7 +133,6 @@ fun NewsCard(
 
             Spacer(Modifier.weight(1f))
 
-            /* ---- Meta row ---- */
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -172,7 +161,6 @@ fun NewsCard(
 
             Spacer(Modifier.height(Dimens.SpaceL))
 
-            /* ---- Actions row ---- */
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(Dimens.SpaceM),
@@ -186,15 +174,12 @@ fun NewsCard(
     }
 }
 
-/** UI text bundle so the screen owns localisation (component stays pure). */
 data class NewsCardLabels(
     val categoryLabel: String,
     val readMoreLabel: String,
     val shareLabel: String,
     val saveLabel: String
 )
-
-/* ----------------------------- sub-pieces ---------------------------------- */
 
 @Composable
 private fun CategoryBadge(label: String, glyph: String, accent: Color) {
@@ -278,7 +263,7 @@ private fun IconCircleButton(glyph: String, onClick: () -> Unit, contentDescript
         contentAlignment = Alignment.Center
     ) {
         Text(glyph, color = Color.White, fontSize = 18.sp)
-        // a11y label (visually hidden)
+
         Text(
             text = contentDescription,
             color = Color.Transparent,
@@ -288,9 +273,6 @@ private fun IconCircleButton(glyph: String, onClick: () -> Unit, contentDescript
     }
 }
 
-/* --------------------- shimmer skeleton variant ---------------------------- */
-
-/** Loading-state skeleton with the same vertical rhythm as [NewsCard]. */
 @Composable
 fun NewsCardSkeleton(modifier: Modifier = Modifier) {
     val transition = rememberInfiniteTransition(label = "newsCardSkeleton")
@@ -362,4 +344,3 @@ private fun SkeletonBlock(
             )
     )
 }
-

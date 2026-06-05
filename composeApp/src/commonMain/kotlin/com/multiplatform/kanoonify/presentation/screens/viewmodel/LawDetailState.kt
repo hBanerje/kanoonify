@@ -9,4 +9,3 @@ data class LawDetailState(
     val userAction: String = "",
     val isLoading: Boolean = false
 )
-

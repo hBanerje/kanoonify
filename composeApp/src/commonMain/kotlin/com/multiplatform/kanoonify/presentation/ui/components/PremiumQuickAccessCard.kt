@@ -35,15 +35,6 @@ import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Dark-glass feature tile for the 2×2 Quick-Access grid.
- *
- *  - Accent-tinted glow shadow (different per tile)
- *  - Glass surface + 1dp bright hairline
- *  - Gradient icon container with glow
- *  - Subtle arrow indicator (top-right)
- *  - Press-scale only (no idle animations → list-safe)
- */
 @Composable
 fun PremiumQuickAccessCard(
     title: String,
@@ -132,4 +123,3 @@ private fun IconBubble(glyph: String, accent: Color) {
         Text(text = glyph, color = Color.White, fontSize = 18.sp)
     }
 }
-

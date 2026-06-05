@@ -11,24 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Drives the personal Library screen.
- *
- *  - In-memory seed for the always-present sections (Laws, COI, AI chats,
- *    Lawyer notes) — these will move to persistence later.
- *  - **Live news bookmarks** are merged in via [newsRepository] so anything
- *    the user saves from the News module appears here automatically.
- *
- * The contract `addItem` / `removeItem` / `clearSection` lets a future
- * `SavedRepository` (Room / SQLDelight) slot in without UI changes.
- */
 class SavedViewModel(
     private val newsRepository: NewsRepository? = null
 ) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    // Seeded once; the News section is recomputed on every newsRepository emit.
     private val baseItems: List<SavedItem> = seed()
 
     private val _state = MutableStateFlow(SavedState(items = baseItems))
@@ -42,7 +30,7 @@ class SavedViewModel(
                 newsRepository.observeSaved().collect { savedNews ->
                     val newsItems = savedNews.map { it.toSavedItem() }
                     _state.update { current ->
-                        // Replace any prior news-derived rows; keep the rest.
+
                         val nonNews = current.items.filterNot { it.id.startsWith(NEWS_PREFIX) }
                         current.copy(items = nonNews + newsItems)
                     }
@@ -51,8 +39,6 @@ class SavedViewModel(
         }
     }
 
-    /* ------------------------------ intents -------------------------------- */
-
     fun onFilterChange(filter: SavedFilter) {
         _state.update { it.copy(filter = filter) }
     }
@@ -60,7 +46,7 @@ class SavedViewModel(
     fun onRemoveItem(id: String) {
         if (id.startsWith(NEWS_PREFIX)) {
             newsRepository?.removeSavedArticle(id.removePrefix(NEWS_PREFIX))
-            // The Flow collector above will reconcile UI state.
+
             return
         }
         _state.update { s -> s.copy(items = s.items.filterNot { it.id == id }) }
@@ -79,7 +65,6 @@ class SavedViewModel(
         _state.update { it.copy(items = emptyList()) }
     }
 
-    /** Public for future repository writes / bookmarking. */
     fun addItem(item: SavedItem) {
         _state.update { it.copy(items = listOf(item) + it.items) }
     }
@@ -88,8 +73,6 @@ class SavedViewModel(
         newsJob?.cancel()
         scope.coroutineContext[Job]?.cancel()
     }
-
-    /* ------------------------------ seed ----------------------------------- */
 
     private fun seed(): List<SavedItem> = listOf(
         SavedItem(
@@ -145,8 +128,7 @@ class SavedViewModel(
     )
 
     companion object {
-        /** Prefix used to identify news-derived saved items vs in-memory seed. */
+
         const val NEWS_PREFIX = "news:"
     }
 }
-

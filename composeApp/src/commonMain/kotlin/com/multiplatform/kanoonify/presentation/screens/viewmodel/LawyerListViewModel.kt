@@ -28,4 +28,3 @@ class LawyerListViewModel {
         _state.update { it.copy(searchQuery = query) }
     }
 }
-

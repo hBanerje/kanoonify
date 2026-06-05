@@ -12,9 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import kotlinx.coroutines.delay
 
-/**
- * Reveals text character-by-character to mimic a typing effect.
- */
 @Composable
 fun TypingText(
     text: String,
@@ -40,4 +37,3 @@ fun TypingText(
         color = color
     )
 }
-

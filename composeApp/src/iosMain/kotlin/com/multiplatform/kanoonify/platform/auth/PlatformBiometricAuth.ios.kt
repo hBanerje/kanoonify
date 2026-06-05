@@ -16,17 +16,6 @@ import platform.LocalAuthentication.LAErrorUserFallback
 import platform.LocalAuthentication.LAPolicyDeviceOwnerAuthentication
 import kotlin.coroutines.resume
 
-/**
- * iOS implementation of [PlatformBiometricAuth] using LocalAuthentication.
- *
- * Uses `LAPolicyDeviceOwnerAuthentication`, which allows:
- *  - Face ID
- *  - Touch ID
- *  - Device passcode fallback
- *
- * A fresh [LAContext] is constructed per call so previous authentication
- * state never leaks across requests (security requirement).
- */
 @OptIn(ExperimentalForeignApi::class)
 actual class PlatformBiometricAuth actual constructor() {
 
@@ -43,19 +32,15 @@ actual class PlatformBiometricAuth actual constructor() {
         val context = LAContext()
 
         if (!context.canEvaluatePolicy(LAPolicyDeviceOwnerAuthentication, null)) {
-            // Upcast so the surrounding lambda is inferred as BiometricResult,
-            // not the specific NotAvailable subtype.
+
             return@withContext BiometricResult.NotAvailable as BiometricResult
         }
 
-        // Localised reason shown beneath the system prompt.
         val reason = listOf(title, subtitle, description)
             .filter { it.isNotBlank() }
             .joinToString(separator = " — ")
             .ifBlank { "Authenticate to continue" }
 
-        // Explicit type parameter pins `cont` to `Continuation<BiometricResult>`
-        // so resume(Success) / resume(mapped) both type-check.
         suspendCancellableCoroutine<BiometricResult> { cont ->
             context.evaluatePolicy(
                 policy = LAPolicyDeviceOwnerAuthentication,
@@ -88,4 +73,3 @@ actual class PlatformBiometricAuth actual constructor() {
         }
     }
 }
-

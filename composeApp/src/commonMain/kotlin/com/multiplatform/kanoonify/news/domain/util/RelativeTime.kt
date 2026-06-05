@@ -2,13 +2,6 @@ package com.multiplatform.kanoonify.news.domain.util
 
 import kotlin.math.max
 
-/**
- * Lightweight "X minutes/hours/days ago" formatter. KMP-friendly (no
- * platform date libs) and stable for use inside Composables.
- *
- *  - Returns "Just now" for <60s diffs.
- *  - Falls back to "long ago" for >365d to avoid noisy output.
- */
 object RelativeTime {
 
     private const val MINUTE_MS = 60_000L
@@ -29,4 +22,3 @@ object RelativeTime {
         }
     }
 }
-

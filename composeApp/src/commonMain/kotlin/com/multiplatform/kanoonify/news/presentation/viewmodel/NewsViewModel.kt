@@ -24,36 +24,18 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Single ViewModel backing all three news surfaces (feed, detail, search).
- *
- * Keeps coroutine work scoped to [scope] (cancelled on [dispose]) and never
- * exposes mutable state. UI events are pushed through a [SharedFlow] so the
- * composable layer can react without storing them.
- *
- * No business logic ever runs in composables — the repo is the only thing
- * this VM talks to, and the repo is the only thing that talks to data/network.
- */
 class NewsViewModel(private val repository: NewsRepository) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    /* ----------------------------- feed ------------------------------------ */
-
     private val _feed = MutableStateFlow(NewsFeedState())
     val feed: StateFlow<NewsFeedState> = _feed
-
-    /* ---------------------------- detail ----------------------------------- */
 
     private val _detail = MutableStateFlow(NewsDetailState())
     val detail: StateFlow<NewsDetailState> = _detail
 
-    /* ---------------------------- search ----------------------------------- */
-
     private val _search = MutableStateFlow(NewsSearchState())
     val search: StateFlow<NewsSearchState> = _search
-
-    /* ----------------------------- events ---------------------------------- */
 
     private val _events = MutableSharedFlow<NewsUiEvent>(
         extraBufferCapacity = 8,
@@ -65,8 +47,7 @@ class NewsViewModel(private val repository: NewsRepository) {
     private var searchJob: Job? = null
 
     init {
-        // Wire saved-ids stream so the bookmark indicator in the feed/search
-        // updates the moment the user saves/unsaves anywhere in the app.
+
         scope.launch {
             repository.observeSavedIds().collect { ids ->
                 _feed.update   { it.copy(savedIds = ids) }
@@ -81,8 +62,6 @@ class NewsViewModel(private val repository: NewsRepository) {
         }
         loadFeed(NewsCategory.Latest, forceRefresh = false)
     }
-
-    /* ============================= feed intents ============================ */
 
     fun onCategorySelected(category: NewsCategory) {
         if (category == _feed.value.category && _feed.value.articles.isNotEmpty()) return
@@ -123,8 +102,6 @@ class NewsViewModel(private val repository: NewsRepository) {
             }
         }
     }
-
-    /* ========================== article actions =========================== */
 
     fun onArticleClick(article: NewsArticle) {
         _detail.update { NewsDetailState(article = article, isLoading = false, isSaved = repository.isSaved(article.id)) }
@@ -175,8 +152,6 @@ class NewsViewModel(private val repository: NewsRepository) {
         scope.launch { _events.emit(NewsUiEvent.OpenExternal(article.articleUrl)) }
     }
 
-    /* ============================ search intents ========================== */
-
     fun onSearchQueryChange(value: String) {
         _search.update { it.copy(query = value) }
         searchJob?.cancel()
@@ -184,7 +159,7 @@ class NewsViewModel(private val repository: NewsRepository) {
             _search.update { it.copy(results = emptyList(), phase = LoadPhase.Ready, isSearching = false) }
             return
         }
-        // Debounce → 300ms, then dispatch real search.
+
         searchJob = scope.launch {
             delay(300L)
             doSearch(value)
@@ -229,10 +204,7 @@ class NewsViewModel(private val repository: NewsRepository) {
         }
     }
 
-    /* ============================== lifecycle ============================== */
-
     fun dispose() {
         scope.coroutineContext[Job]?.cancel()
     }
 }
-

@@ -33,10 +33,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 
-/**
- * Recent-search row: translucent glass strip with clock glyph + timestamp.
- * Stateless. The caller supplies the text — no business logic in UI.
- */
 @Composable
 fun SearchHistoryCard(
     query: String,
@@ -101,4 +97,3 @@ fun SearchHistoryCard(
         )
     }
 }
-

@@ -31,10 +31,6 @@ import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Profile hero header. Avatar + name + meta + membership pill + edit CTA.
- * Stateless.
- */
 @Composable
 fun ProfileHeader(
     name: String,
@@ -60,7 +56,7 @@ fun ProfileHeader(
             .padding(Dimens.SpaceL)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // Avatar
+
             Box(
                 modifier = Modifier
                     .size(72.dp)
@@ -160,5 +156,3 @@ fun ProfileHeader(
         }
     }
 }
-
-

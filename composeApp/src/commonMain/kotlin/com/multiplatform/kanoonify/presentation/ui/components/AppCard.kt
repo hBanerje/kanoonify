@@ -26,10 +26,6 @@ import androidx.compose.ui.unit.Dp
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import kotlinx.coroutines.delay
 
-/**
- * Standard rounded surface used for content cards.
- * Subtle elevation, consistent radius, optional press-scale interaction.
- */
 @Composable
 fun AppCard(
     modifier: Modifier = Modifier,
@@ -66,10 +62,6 @@ fun AppCard(
     ) { content() }
 }
 
-/**
- * Fade-in and slide-up entrance wrapper for list items.
- * Triggers once on first composition.
- */
 @Composable
 fun AnimatedEntrance(
     delayMillis: Long = 0L,
@@ -97,4 +89,3 @@ fun AnimatedEntrance(
         }
     ) { content() }
 }
-

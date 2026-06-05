@@ -26,14 +26,6 @@ import kanoonify.composeapp.generated.resources.*
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.stringResource
 
-/**
- * Structured AI response broken into three cards:
- *  - Your Rights
- *  - Applicable Law
- *  - What You Should Do
- *
- * Each card animates in sequentially with a typing reveal effect for its body.
- */
 @Composable
 fun AiAnswerCard(
     answer: AskAnswer,

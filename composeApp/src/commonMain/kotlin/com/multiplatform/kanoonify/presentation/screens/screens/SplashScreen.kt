@@ -39,11 +39,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import kanoonify.composeapp.generated.resources.*
 
-/* ---------- Private design tokens for the splash (intentionally dark) ---------- */
-
 private val SplashTopColor       = Color(0xFF071A2B)
-private val SplashBottomColor    = Color(0xFF0B3C5D) // brand primary
-private val SplashAccentColor    = Color(0xFFF2C94C) // brand accent
+private val SplashBottomColor    = Color(0xFF0B3C5D)
+private val SplashAccentColor    = Color(0xFFF2C94C)
 private val SplashProgressTrack  = Color(0x33FFFFFF)
 private val SplashCaptionColor   = Color(0xCCFFFFFF)
 
@@ -80,18 +78,15 @@ fun SplashScreen(
         )
     }
 
-    // Full-screen fade-in
     LaunchedEffect(Unit) {
         screenAlpha.animateTo(1f, tween(ScreenFadeDuration, easing = FastOutSlowInEasing))
     }
 
-    // Progress fades in slightly after the logo starts
     LaunchedEffect(Unit) {
         kotlinx.coroutines.delay(300)
         progressAlpha.animateTo(1f, tween(ProgressFadeDuration, easing = FastOutSlowInEasing))
     }
 
-    // (logo stays visible during the navigation transition fade).
     LaunchedEffect(state.navigateToLanding) {
         if (state.navigateToLanding) {
             logoScale.animateTo(
@@ -117,7 +112,6 @@ fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
 
-        // Centered logo with scale sequence
         Image(
             painter = painterResource(Res.drawable.kanoonify_logo),
             contentDescription = stringResource(Res.string.splash_logo_content_description),

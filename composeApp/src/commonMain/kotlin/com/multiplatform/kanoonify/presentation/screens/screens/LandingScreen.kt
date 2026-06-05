@@ -41,8 +41,6 @@ import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
-/* -------------------------- view-data (UI-only) ---------------------------- */
-
 private data class QuickAccessFeature(
     val titleRes: StringResource,
     val subtitleRes: StringResource,
@@ -62,21 +60,6 @@ private data class RecentSearch(
     val timestamp: String
 )
 
-/* ------------------------------- Landing ----------------------------------- */
-
-/**
- * Premium cinematic landing screen.
- *
- * Architecture notes:
- *  - Pure UI — no business logic, no data fetching, no NavController.
- *  - All navigation is dispatched via the `on*Click` callback parameters.
- *  - The screen paints its own dark cinematic surface independent of the
- *    global [com.multiplatform.kanoonify.presentation.theme.KanoonifyTheme],
- *    so other screens remain on the light scheme until they opt-in.
- *  - `recentSearches` defaults to the three localized samples from
- *    `strings.xml`; a future `LandingViewModel` can supply real data without
- *    changing the composable contract.
- */
 @Composable
 fun LandingScreen(
     onAskClick: () -> Unit,
@@ -86,9 +69,9 @@ fun LandingScreen(
     onEmergencyRightsClick: () -> Unit = onAskClick,
     onTrendingClick: (String) -> Unit = { onAskClick() },
     onRecentSearchClick: (String) -> Unit = { onAskClick() },
-    onNewsTabClick: () -> Unit = { /* reserved for future News screen */ },
-    onSavedTabClick: () -> Unit = { /* reserved for future Saved screen */ },
-    onProfileTabClick: () -> Unit = { /* reserved for future Profile screen */ }
+    onNewsTabClick: () -> Unit = {  },
+    onSavedTabClick: () -> Unit = {  },
+    onProfileTabClick: () -> Unit = {  }
 ) {
     val features = remember {
         listOf(
@@ -223,11 +206,9 @@ fun LandingScreen(
 
             RecentSearchesColumn(items = recent, onClick = onRecentSearchClick)
 
-            // Bottom safe area so content clears the floating bottom bar.
             Spacer(Modifier.height(120.dp))
         }
 
-        // Floating glass bottom navigation
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -242,7 +223,7 @@ fun LandingScreen(
                 savedLabel = stringResource(Res.string.landing_bottom_nav_saved),
                 profileLabel = stringResource(Res.string.landing_bottom_nav_profile),
                 selectedIndex = 0,
-                onHomeClick = { /* already here */ },
+                onHomeClick = {  },
                 onNewsClick = onNewsTabClick,
                 onAskClick = onAskClick,
                 onSavedClick = onSavedTabClick,

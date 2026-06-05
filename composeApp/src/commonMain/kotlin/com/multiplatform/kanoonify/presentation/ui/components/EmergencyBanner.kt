@@ -42,13 +42,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * High-attention emergency rights banner.
- *
- *  - Red→orange diagonal gradient with strong glow
- *  - Pulsing heartbeat ring around the "🚨" glyph
- *  - "Open" pill action on the right
- */
 @Composable
 fun EmergencyBanner(
     title: String,
@@ -106,7 +99,7 @@ fun EmergencyBanner(
             )
             .padding(horizontal = Dimens.SpaceL, vertical = Dimens.SpaceL)
     ) {
-        // Pulsing heartbeat glyph
+
         Box(contentAlignment = Alignment.Center) {
             Box(
                 modifier = Modifier
@@ -159,7 +152,6 @@ fun EmergencyBanner(
     }
 }
 
-/** Subtle scrolling heartbeat-style sparkline rendered with bars. */
 @Composable
 private fun HeartbeatWaveform() {
     val t = rememberInfiniteTransition(label = "waveform")
@@ -189,4 +181,3 @@ private fun HeartbeatWaveform() {
         }
     }
 }
-

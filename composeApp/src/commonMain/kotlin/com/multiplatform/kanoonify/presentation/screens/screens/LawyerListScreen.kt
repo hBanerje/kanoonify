@@ -192,7 +192,3 @@ private fun monogramColor(id: String): Color {
     val idx = (id.toColorSeed().let { if (it < 0) -it else it }) % palette.size
     return palette[idx]
 }
-
-
-
-

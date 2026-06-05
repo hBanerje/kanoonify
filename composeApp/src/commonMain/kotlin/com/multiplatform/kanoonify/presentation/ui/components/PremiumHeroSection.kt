@@ -36,20 +36,6 @@ import androidx.compose.ui.unit.sp
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 
-/**
- * Premium cinematic hero header.
- *
- * Composition (left column / right ornament):
- *  - Top tagline pill
- *  - Massive 2-line title with a gold-gradient highlighted word
- *  - Subtitle line
- *  - "Trusted by …" floating pill
- *  - Right side: low-opacity dome+pillars+scales silhouette built from
- *    primitives (no image asset required) with a soft halo behind it.
- *
- * Stateless. Animations are only on the ornament halo (one cheap
- * `rememberInfiniteTransition`).
- */
 @Composable
 fun PremiumHeroSection(
     tagline: String,
@@ -173,10 +159,6 @@ private fun TrustPill(text: String) {
     }
 }
 
-/**
- * Stylised low-opacity Supreme-Court silhouette (dome + pillars + scales)
- * built from primitives so no drawable asset is needed and it stays vector-crisp.
- */
 @Composable
 private fun LegalOrnament(modifier: Modifier = Modifier) {
     val transition = rememberInfiniteTransition(label = "ornament")
@@ -190,7 +172,7 @@ private fun LegalOrnament(modifier: Modifier = Modifier) {
     )
 
     Box(modifier = modifier, contentAlignment = Alignment.Center) {
-        // Halo
+
         Box(
             modifier = Modifier
                 .size(118.dp)
@@ -210,20 +192,20 @@ private fun LegalOrnament(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.graphicsLayer { alpha = 0.55f }
         ) {
-            // Dome
+
             Box(
                 modifier = Modifier
                     .size(width = 60.dp, height = 30.dp)
                     .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
                     .background(KanoonifyPremiumColors.TextMid.copy(alpha = 0.7f))
             )
-            // Architrave
+
             Box(
                 modifier = Modifier
                     .size(width = 68.dp, height = 4.dp)
                     .background(KanoonifyPremiumColors.TextMid.copy(alpha = 0.6f))
             )
-            // Pillars
+
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.padding(top = 2.dp)
@@ -236,14 +218,14 @@ private fun LegalOrnament(modifier: Modifier = Modifier) {
                     )
                 }
             }
-            // Base
+
             Box(
                 modifier = Modifier
                     .size(width = 74.dp, height = 3.dp)
                     .background(KanoonifyPremiumColors.TextMid.copy(alpha = 0.7f))
             )
             Spacer(Modifier.height(4.dp))
-            // Scales glyph
+
             Text(
                 text = "\u2696",
                 color = KanoonifyPremiumColors.GoldMid.copy(alpha = 0.85f),
@@ -252,4 +234,3 @@ private fun LegalOrnament(modifier: Modifier = Modifier) {
         }
     }
 }
-

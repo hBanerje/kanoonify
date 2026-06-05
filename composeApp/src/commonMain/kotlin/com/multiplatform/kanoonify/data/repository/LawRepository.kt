@@ -22,7 +22,6 @@ object LawRepository {
         } ?: "No relevant law found for your query. Try describing your situation differently."
     }
 
-    /** Structured, deterministic answer used by the redesigned Ask screen. */
     fun findAnswer(query: String, laws: List<LawItem>): AskAnswer {
         val match = laws.find {
             it.keywords.any { keyword -> query.contains(keyword, ignoreCase = true) }
@@ -65,4 +64,3 @@ object LawRepository {
         }
     }
 }
-

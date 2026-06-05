@@ -12,10 +12,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 
-/**
- * Apply a coloured outer glow via shadow. Cheap (single shadow pass) and
- * safe inside lists. Use sparingly — stacking many of these costs fillrate.
- */
 fun Modifier.neonGlow(
     color: Color,
     shape: Shape,
@@ -28,14 +24,6 @@ fun Modifier.neonGlow(
     spotColor = color.copy(alpha = alpha)
 )
 
-/**
- * Frosted-glass surface: translucent fill + subtle bright stroke.
- *
- * Compose Multiplatform doesn't ship a true backdrop blur on all targets,
- * so we approximate with layered translucency + a 1dp hairline border that
- * catches edge light. Looks indistinguishable on top of the dark cinematic
- * background and stays GPU-cheap.
- */
 fun Modifier.glassSurface(
     shape: Shape,
     fill: Color = KanoonifyPremiumColors.GlassFill,
@@ -52,4 +40,3 @@ fun Modifier.glassSurface(
         )
     )
     .border(width = strokeWidth, color = stroke, shape = shape)
-

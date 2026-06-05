@@ -17,4 +17,3 @@ searchLaws:
 SELECT * FROM Law
 WHERE title LIKE '%' || ? || '%'
    OR category LIKE '%' || ? || '%';
-

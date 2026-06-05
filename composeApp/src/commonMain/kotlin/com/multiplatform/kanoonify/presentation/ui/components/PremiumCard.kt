@@ -37,10 +37,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Premium upsell card. Gold gradient, "Coming Soon" pill, benefit list, CTA button.
- * Stateless.
- */
 @Composable
 fun PremiumCard(
     title: String,
@@ -143,7 +139,7 @@ fun PremiumCard(
                 Spacer(Modifier.height(Dimens.SpaceS))
             }
             Spacer(Modifier.height(Dimens.SpaceS))
-            // CTA
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -197,5 +193,3 @@ private fun BenefitRow(text: String, accent: Color) {
         )
     }
 }
-
-

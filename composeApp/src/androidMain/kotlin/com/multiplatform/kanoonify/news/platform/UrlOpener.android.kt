@@ -32,4 +32,3 @@ actual class UrlOpener actual constructor() {
         }
     }
 }
-

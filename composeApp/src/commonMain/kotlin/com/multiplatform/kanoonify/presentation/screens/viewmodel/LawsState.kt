@@ -8,4 +8,3 @@ data class LawsState(
     val isLoading: Boolean = false,
     val error: String? = null
 )
-

@@ -34,13 +34,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 
-/**
- * Generic settings row. Supports either:
- *  - navigation row (trailing chevron) when [toggleState] is null
- *  - toggle row (trailing Switch)      when [toggleState] is non-null
- *
- * Stateless. Caller owns toggle value via [toggleState] + [onToggle].
- */
 @Composable
 fun SettingsRow(
     glyph: String,
@@ -139,4 +132,3 @@ fun SettingsRow(
         }
     }
 }
-

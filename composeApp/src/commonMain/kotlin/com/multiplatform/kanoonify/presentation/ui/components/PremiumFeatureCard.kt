@@ -35,16 +35,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 
-/**
- * Premium glassmorphic feature card for the home Quick-Access grid.
- *
- * Visuals:
- *  - Layered shadow (accent-tinted glow + neutral depth) for depth
- *  - Subtle diagonal gradient surface
- *  - 1 px highlight border for the glass edge
- *  - Gradient-filled icon container with a soft inner pop dot
- *  - Spring-based press scale
- */
 @Composable
 fun PremiumFeatureCard(
     title: String,
@@ -84,7 +74,7 @@ fun PremiumFeatureCard(
     Box(
         modifier = modifier
             .graphicsLayer { scaleX = scale; scaleY = scale }
-            // Soft outer glow (accent tint)
+
             .shadow(
                 elevation = 10.dp,
                 shape = shape,
@@ -111,7 +101,7 @@ fun PremiumFeatureCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                // Gradient icon container with inner pop highlight
+
                 Box(
                     modifier = Modifier
                         .size(44.dp)
@@ -125,7 +115,7 @@ fun PremiumFeatureCard(
                         .background(iconGradient),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Inner highlight dot
+
                     Box(
                         modifier = Modifier
                             .size(8.dp)
@@ -139,7 +129,7 @@ fun PremiumFeatureCard(
                         color = Color.White
                     )
                 }
-                // Subtle arrow indicator
+
                 Text(
                     text = "\u2197",
                     style = MaterialTheme.typography.labelLarge,
@@ -162,7 +152,5 @@ fun PremiumFeatureCard(
     }
 }
 
-/** Push a tiny decorative dot toward the top-start of its parent without layout shift. */
 private fun Modifier.offsetTopStart(): Modifier =
     this.then(Modifier.graphicsLayer { translationX = -10f; translationY = -10f })
-

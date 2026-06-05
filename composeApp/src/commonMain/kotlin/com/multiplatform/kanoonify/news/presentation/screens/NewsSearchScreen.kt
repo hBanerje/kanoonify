@@ -53,13 +53,6 @@ import kanoonify.composeapp.generated.resources.Res
 import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
-/**
- * News-specific search experience.
- *
- *  - Sticky search field (uses the shared `PremiumSearchField`).
- *  - Recent queries (persisted via repository) when idle.
- *  - Realtime results with offline indicator + empty state.
- */
 @Composable
 fun NewsSearchScreen(
     viewModel: NewsViewModel,
@@ -330,4 +323,3 @@ private fun RecentRow(query: String, onClick: () -> Unit, onDelete: () -> Unit) 
         }
     }
 }
-

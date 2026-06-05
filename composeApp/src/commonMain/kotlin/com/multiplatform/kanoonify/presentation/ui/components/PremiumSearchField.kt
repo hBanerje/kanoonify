@@ -34,10 +34,6 @@ import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Large cinematic search field — glass surface, gradient leading bubble, optional clear icon.
- * Stateless: caller owns the query string.
- */
 @Composable
 fun PremiumSearchField(
     query: String,
@@ -114,7 +110,7 @@ fun PremiumSearchField(
             ) {
                 Text("\u2715", color = KanoonifyPremiumColors.TextMid, fontSize = 12.sp)
             }
-            // Accessibility label only — visual is the glyph
+
             Text(
                 text = clearLabel,
                 color = Color.Transparent,
@@ -124,4 +120,3 @@ fun PremiumSearchField(
         }
     }
 }
-

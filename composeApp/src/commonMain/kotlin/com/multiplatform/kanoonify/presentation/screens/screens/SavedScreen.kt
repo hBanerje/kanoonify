@@ -46,8 +46,6 @@ import kanoonify.composeapp.generated.resources.Res
 import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
 
-/* -------------------------- view-data (UI-only) ---------------------------- */
-
 private data class SectionSpec(
     val type: SavedItemType,
     val titleRes: org.jetbrains.compose.resources.StringResource,
@@ -102,8 +100,6 @@ private val sectionSpecs: List<SectionSpec>
         )
     )
 
-/* --------------------------------- Saved ----------------------------------- */
-
 @Composable
 fun SavedScreen(
     viewModel: SavedViewModel,
@@ -154,7 +150,6 @@ fun SavedScreen(
 
             Spacer(Modifier.height(Dimens.SpaceL))
 
-            /* ----- Filter row ----- */
             AnimatedEntrance(delayMillis = 80) {
                 FilterRow(
                     active = state.filter,
@@ -194,7 +189,6 @@ fun SavedScreen(
                 }
             }
 
-            // Bottom safe area so content clears the floating bar.
             Spacer(Modifier.height(120.dp))
         }
 
@@ -215,14 +209,12 @@ fun SavedScreen(
                 onHomeClick = onHomeTabClick,
                 onNewsClick = onNewsTabClick,
                 onAskClick = onAskClick,
-                onSavedClick = { /* already here */ },
+                onSavedClick = {  },
                 onProfileClick = onProfileTabClick
             )
         }
     }
 }
-
-/* --------------------------- private composables --------------------------- */
 
 @Composable
 private fun FilterRow(active: SavedFilter, onChange: (SavedFilter) -> Unit) {
@@ -343,7 +335,3 @@ private fun SavedSection(
         }
     }
 }
-
-
-
-
