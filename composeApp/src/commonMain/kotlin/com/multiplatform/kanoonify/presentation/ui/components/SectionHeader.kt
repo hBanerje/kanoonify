@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 
-/** A standard "Title and optional caption" section header used across screens. */
 @Composable
 fun SectionHeader(
     title: String,
@@ -37,7 +36,6 @@ fun SectionHeader(
     }
 }
 
-/** Compact section title used inside cards. */
 @Composable
 fun CardSectionTitle(
     title: String,
@@ -63,4 +61,3 @@ fun CardSectionTitle(
         }
     }
 }
-

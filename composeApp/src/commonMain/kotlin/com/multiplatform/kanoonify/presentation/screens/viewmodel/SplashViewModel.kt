@@ -9,13 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * Drives the splash screen lifecycle.
- *
- *  On creation, waits long enough for the entrance animation (~1700 ms),
- *    then flips [SplashState.navigateToLanding] to true.
- *  The UI observes the state and triggers navigation when it becomes true.
- */
 class SplashViewModel {
 
     private val _state = MutableStateFlow(SplashState())
@@ -27,13 +20,12 @@ class SplashViewModel {
 
     private fun start() {
         scope.launch {
-            // Animation total ~1200ms + small linger so users perceive completion.
+
             delay(SPLASH_DWELL_MS)
             _state.update { it.copy(navigateToLanding = true) }
         }
     }
 
-    /** UI must call this once it has consumed the navigation event. */
     fun onNavigationHandled() {
         _state.update { it.copy(navigateToLanding = false) }
     }
@@ -42,4 +34,3 @@ class SplashViewModel {
         const val SPLASH_DWELL_MS = 1700L
     }
 }
-

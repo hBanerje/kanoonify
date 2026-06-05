@@ -12,16 +12,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 
-/**
- * Android implementation of [PlatformBiometricAuth] using AndroidX BiometricPrompt.
- *
- * Strategy:
- *  - Try BIOMETRIC_STRONG | BIOMETRIC_WEAK | DEVICE_CREDENTIAL (PIN/pattern fallback).
- *  - If the device only supports weaker auth, downgrade gracefully.
- *  - The Activity reference is read from [BiometricActivityHolder] at call-time
- *    so it always matches the currently-foregrounded screen and we never hold
- *    a stale reference.
- */
 actual class PlatformBiometricAuth actual constructor() {
 
     private val allowedAuthenticators: Int =
@@ -44,7 +34,6 @@ actual class PlatformBiometricAuth actual constructor() {
         val activity = BiometricActivityHolder.activity
             ?: return BiometricResult.Error("No active Activity for biometric prompt")
 
-        // BiometricPrompt must be built on the main thread.
         return withContext(Dispatchers.Main) {
             suspendCancellableCoroutine { cont ->
                 val executor = ContextCompat.getMainExecutor(activity)
@@ -55,8 +44,7 @@ actual class PlatformBiometricAuth actual constructor() {
                     }
 
                     override fun onAuthenticationFailed() {
-                        // Not terminal — system gives the user another try.
-                        // We do NOT resume here.
+
                     }
 
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -87,7 +75,7 @@ actual class PlatformBiometricAuth actual constructor() {
                     .setSubtitle(subtitle)
                     .setDescription(description)
                     .setAllowedAuthenticators(allowedAuthenticators)
-                    // Negative button is not allowed when DEVICE_CREDENTIAL is set.
+
                     .build()
 
                 try {
@@ -105,4 +93,3 @@ actual class PlatformBiometricAuth actual constructor() {
         }
     }
 }
-

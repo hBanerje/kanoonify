@@ -33,11 +33,6 @@ import kanoonify.composeapp.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-/**
- * Hero section for the landing screen.
- * - Breathing/floating logo on a soft radial glow background
- * - Headline + subtitle with modern typography
- */
 @Composable
 fun HeroSection(
     title: String,
@@ -69,7 +64,7 @@ fun HeroSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(contentAlignment = Alignment.Center) {
-            // Soft glow behind the logo
+
             Box(
                 modifier = Modifier
                     .size(180.dp)

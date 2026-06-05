@@ -35,14 +35,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Premium glowing pill button. Reusable across the app for primary CTAs.
- *
- *  - Linear gradient fill (default: neon blue → violet)
- *  - Accent outer glow
- *  - Subtle breathing scale + press-scale
- *  - Single composable, no recompositions on idle (graphicsLayer-driven)
- */
 @Composable
 fun GlowButton(
     text: String,
@@ -103,4 +95,3 @@ fun GlowButton(
         )
     }
 }
-

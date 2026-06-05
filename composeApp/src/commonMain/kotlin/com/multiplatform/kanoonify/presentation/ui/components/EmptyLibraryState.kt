@@ -29,7 +29,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 
-/** Rich empty state for any library/list view — illustration + copy + CTA. */
 @Composable
 fun EmptyLibraryState(
     glyph: String,
@@ -116,4 +115,3 @@ fun EmptyLibraryState(
         }
     }
 }
-

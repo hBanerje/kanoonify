@@ -38,15 +38,6 @@ import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Floating glassmorphism bottom navigation bar.
- *
- *  - Pill-shaped glass surface
- *  - 4 standard tabs + 1 elevated centre "Ask AI" FAB-style button
- *  - Tabs are pure UI; navigation is dispatched via lambdas (no NavController).
- *
- * The container is positioned by the caller (e.g. `Modifier.align(BottomCenter)`).
- */
 @Composable
 fun FloatingBottomBar(
     homeLabel: String,
@@ -66,7 +57,7 @@ fun FloatingBottomBar(
         modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        // Bar
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -82,12 +73,11 @@ fun FloatingBottomBar(
         ) {
             BarTab(homeLabel, "\uD83C\uDFE0", selected = selectedIndex == 0, onClick = onHomeClick)
             BarTab(newsLabel, "\uD83D\uDCF0", selected = selectedIndex == 1, onClick = onNewsClick)
-            Spacer(Modifier.size(64.dp)) // reserve room for centre FAB
+            Spacer(Modifier.size(64.dp))
             BarTab(savedLabel, "\uD83D\uDCD1", selected = selectedIndex == 3, onClick = onSavedClick)
             BarTab(profileLabel, "\uD83D\uDC64", selected = selectedIndex == 4, onClick = onProfileClick)
         }
 
-        // Floating centre FAB
         CentreAskButton(label = askLabel, onClick = onAskClick)
     }
 }
@@ -151,7 +141,7 @@ private fun CentreAskButton(label: String, onClick: () -> Unit) {
     )
 
     Box(contentAlignment = Alignment.Center) {
-        // Pulsing halo
+
         Box(
             modifier = Modifier
                 .size(72.dp)
@@ -168,7 +158,7 @@ private fun CentreAskButton(label: String, onClick: () -> Unit) {
                     )
                 )
         )
-        // FAB
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -207,5 +197,3 @@ private fun CentreAskButton(label: String, onClick: () -> Unit) {
         }
     }
 }
-
-

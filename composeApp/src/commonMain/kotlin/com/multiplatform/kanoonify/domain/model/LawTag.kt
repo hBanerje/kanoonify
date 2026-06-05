@@ -1,13 +1,11 @@
 package com.multiplatform.kanoonify.domain.model
 
-/** Semantic classification of a law's consequence. */
 enum class LawTag(val label: String) {
     FINE("Fine"),
     JAIL("Jail"),
     RIGHT("Right")
 }
 
-/** Deterministic mapping from punishment text → tag. Pure domain logic. */
 fun deriveLawTag(punishment: String): LawTag {
     val p = punishment.lowercase()
     return when {
@@ -19,7 +17,6 @@ fun deriveLawTag(punishment: String): LawTag {
     }
 }
 
-/** Deterministic user-action advice based on law tag. Pure domain logic. */
 fun deriveUserAction(law: LawItem): String {
     return when (deriveLawTag(law.punishment)) {
         LawTag.JAIL ->
@@ -39,4 +36,3 @@ fun deriveUserAction(law: LawItem): String {
             "4. Reach out to free legal aid services for support."
     }
 }
-

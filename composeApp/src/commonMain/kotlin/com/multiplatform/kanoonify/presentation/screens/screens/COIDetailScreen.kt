@@ -37,7 +37,6 @@ fun COIDetailScreen(
     val state by viewModel.state.collectAsState()
     val article = remember(articleId, state.allArticles) { viewModel.getArticleById(articleId) }
 
-    // Clear any stale explanation when entering / leaving this article.
     DisposableEffect(articleId) {
         if (state.explainingArticleId != null && state.explainingArticleId != articleId) {
             viewModel.clearExplanation()

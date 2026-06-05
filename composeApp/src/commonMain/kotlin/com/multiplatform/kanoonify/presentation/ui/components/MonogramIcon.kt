@@ -14,11 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 
-/**
- * Lightweight monogram badge — used as a leading icon for categories / sections.
- * Renders the first letter(s) inside a coloured rounded square.
- * Pure Compose, no external icon dependencies.
- */
 @Composable
 fun MonogramIcon(
     text: String,
@@ -42,4 +37,3 @@ fun MonogramIcon(
         )
     }
 }
-

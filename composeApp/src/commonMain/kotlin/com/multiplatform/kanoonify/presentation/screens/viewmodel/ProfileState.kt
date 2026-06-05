@@ -1,6 +1,5 @@
 package com.multiplatform.kanoonify.presentation.screens.viewmodel
 
-/** Stats summary surfaced on the Profile screen. */
 data class ProfileStats(
     val searches: Int = 0,
     val savedItems: Int = 0,
@@ -8,7 +7,6 @@ data class ProfileStats(
     val consultations: Int = 0
 )
 
-/** User-facing settings toggles (UI mirror of preferences). */
 data class ProfilePreferences(
     val notificationsEnabled: Boolean = true,
     val biometricLockEnabled: Boolean = false,
@@ -19,10 +17,6 @@ data class ProfilePreferences(
     val themeLabel: String = "System default"
 )
 
-/**
- * Lightweight user identity. Replace with [com.multiplatform.kanoonify.domain.auth]
- * model once the auth pipeline produces one — the screen contract stays the same.
- */
 data class ProfileUser(
     val name: String = "Hrithik Banerjee",
     val memberSinceLabel: String = "May 2026",
@@ -40,4 +34,3 @@ data class ProfileState(
     val preferences: ProfilePreferences = ProfilePreferences(),
     val isLoading: Boolean = false
 )
-

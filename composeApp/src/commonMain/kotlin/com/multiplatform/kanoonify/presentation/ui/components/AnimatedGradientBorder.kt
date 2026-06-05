@@ -24,25 +24,6 @@ import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/**
- * Draws a single animated gradient stroke around its content.
- *
- * Implementation note (why this is NOT a `rotate { drawRoundRect(...) }`):
- * rotating the rounded-rect path itself spins its corners along with it,
- * producing a visible "moving bar" artifact on the sides. Instead we keep
- * the rounded-rect path perfectly still and rotate the COLOURS inside the
- * sweep gradient by cyclically shifting + lerping the colour list every
- * frame. Visually identical to rotating the brush, but the geometry never
- * moves and the corners stay anchored.
- *
- * The stroke is drawn via [Modifier.drawBehind] so it re-renders each
- * animation frame without recomposing the content tree.
- *
- * @param colors        gradient stops (3-5 colours look best)
- * @param strokeWidth   border thickness
- * @param cornerRadius  radius matching the wrapped content
- * @param durationMillis full rotation period
- */
 @Composable
 fun AnimatedGradientBorder(
     modifier: Modifier = Modifier,
@@ -72,9 +53,6 @@ fun AnimatedGradientBorder(
                 val sw = strokeWidth.toPx()
                 val cr = cornerRadius.toPx()
 
-                // Rotate the sweep gradient by cyclically lerping the
-                // colour list — smooth continuous rotation, zero geometry
-                // movement.
                 val n = colors.size
                 val k = phase * n
                 val baseIdx = k.toInt()
@@ -84,7 +62,7 @@ fun AnimatedGradientBorder(
                     val b = colors[(baseIdx + i + 1) % n]
                     lerp(a, b, frac)
                 }
-                // Close the loop so the sweep wraps without a hard seam.
+
                 val ring = shifted + shifted.first()
 
                 val brush = Brush.sweepGradient(
@@ -107,4 +85,3 @@ fun AnimatedGradientBorder(
         }
     }
 }
-

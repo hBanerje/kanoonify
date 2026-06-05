@@ -6,26 +6,11 @@ import com.multiplatform.kanoonify.news.domain.model.NewsArticle
 import com.multiplatform.kanoonify.news.domain.model.NewsCategory
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Orchestrates [primary], [fallback] and [cache] sources behind a single
- * coherent API for the news feature.
- *
- *  Strategy:
- *   1. If [forceRefresh] is false and cache is fresh → serve from cache.
- *   2. Try [primary] (remote). On success → persist to cache & return.
- *   3. On failure → return cache contents (even if stale).
- *   4. If cache empty too → return [fallback] (sample) so the UI is never blank.
- *
- *  Bookmarks/Saved/Recent-search are routed straight to [cache] (the durable
- *  store).
- */
 class NewsRepository(
     private val primary: NewsDataSource,
     private val fallback: NewsDataSource,
     private val cache: NewsCache
 ) {
-
-    /* --------------------------- feed reads -------------------------------- */
 
     suspend fun loadFeed(
         category: NewsCategory,
@@ -45,7 +30,7 @@ class NewsRepository(
                 serveFallback(category)
             }
         } catch (e: Throwable) {
-            // Network unavailable / parse error → serve cache + signal offline.
+
             val cached = cache.readCategory(category)
             if (cached.isNotEmpty()) {
                 FeedResult.Success(cached, fromCache = true, isStale = true, offlineReason = e.message)
@@ -69,13 +54,10 @@ class NewsRepository(
         }
     }
 
-    /** Resolve a single article by id from saved → cache → remote. */
     suspend fun fetchArticle(id: String): NewsArticle? =
         cache.readById(id)
             ?: try { primary.fetchArticle(id) } catch (_: Throwable) { null }
             ?: fallback.fetchArticle(id)
-
-    /* --------------------------- bookmarks --------------------------------- */
 
     fun observeSaved(): Flow<List<NewsArticle>> = cache.observeSaved()
     fun observeSavedIds(): Flow<Set<String>> = cache.observeSavedIds()
@@ -85,14 +67,10 @@ class NewsRepository(
     fun clearAllSaved()                     = cache.clearAllSaved()
     fun isSaved(id: String): Boolean        = cache.isSaved(id)
 
-    /* ------------------------ recent searches ------------------------------ */
-
     fun observeRecentSearches(): Flow<List<String>> = cache.observeRecentSearches()
     fun recordSearch(query: String)                 = cache.upsertRecentSearch(query.trim())
     fun deleteRecentSearch(query: String)           = cache.deleteRecentSearch(query)
     fun clearRecentSearches()                       = cache.clearRecentSearches()
-
-    /* --------------------------- internals --------------------------------- */
 
     private suspend fun serveFallback(
         category: NewsCategory,
@@ -125,4 +103,3 @@ sealed interface SearchResult {
         val offlineReason: String? = null
     ) : SearchResult
 }
-

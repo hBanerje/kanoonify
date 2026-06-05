@@ -12,4 +12,3 @@ data class AskState(
     val turns: List<AskTurn> = emptyList(),
     val isLoading: Boolean = false
 )
-

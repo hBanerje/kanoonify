@@ -44,19 +44,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Hero "Ask Kanoonify" CTA — the screen's visual anchor.
- *
- *  - Deep glowing indigo→blue gradient
- *  - Animated rotating gradient border ([AnimatedGradientBorder])
- *  - Floating AI orb on the left (pulse + halo)
- *  - Three trust-badges (AI-Powered / 24/7 / Confidential)
- *  - Arrow affordance on the right
- *  - Breathing scale + press-scale
- *
- * Stateless. All animations use [rememberInfiniteTransition] (cheap) and
- * are scoped to this composable so they pause when offscreen.
- */
 @Composable
 fun AskKanoonifyHeroCard(
     title: String,
@@ -93,10 +80,7 @@ fun AskKanoonifyHeroCard(
                 val s = breathe * pressScale
                 scaleX = s; scaleY = s
             }
-            // Painted halo for a reliable glow on all API levels.
-            // `neonGlow` (shadow) is kept for crispness on Android 9+,
-            // but the radial gradient under it guarantees the card looks
-            // lit even when coloured shadows aren't supported.
+
             .drawBehind {
                 val haloRadius = size.minDimension * 0.85f
                 drawCircle(
@@ -140,7 +124,7 @@ fun AskKanoonifyHeroCard(
                         )
                     )
                 )
-                // Light-sweep shimmer across the surface
+
                 .shimmerEffect(
                     highlightColor = Color.White.copy(alpha = 0.10f),
                     durationMillis = 3200
@@ -188,8 +172,6 @@ fun AskKanoonifyHeroCard(
         }
     }
 }
-
-/* ----- supporting bits ----- */
 
 @Composable
 private fun AiOrb() {
@@ -285,8 +267,3 @@ private fun MiniBadge(label: String) {
         )
     }
 }
-
-// (Kept the file focused on the hero card; no extra helpers needed.)
-
-
-

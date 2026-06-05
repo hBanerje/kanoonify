@@ -21,14 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 
-/**
- * Decorative full-screen background:
- * - Soft vertical gradient wash
- * - Two slowly drifting/breathing tinted "orbs" that simulate blurred circles
- *
- * Render as the very first child of a parent Box, then overlay actual content above it.
- * Animations use rememberInfiniteTransition and graphicsLayer to avoid recomposition cost.
- */
 @Composable
 fun FloatingBackground(
     primaryTint: Color,
@@ -79,7 +71,7 @@ fun FloatingBackground(
                 )
             )
     ) {
-        // Orb A — top-right
+
         Box(
             modifier = Modifier
                 .size(260.dp)
@@ -103,7 +95,6 @@ fun FloatingBackground(
                 )
         )
 
-        // Orb B — mid-left
         Box(
             modifier = Modifier
                 .size(320.dp)
@@ -124,4 +115,3 @@ fun FloatingBackground(
         )
     }
 }
-

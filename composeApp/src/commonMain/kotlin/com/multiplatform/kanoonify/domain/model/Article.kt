@@ -9,4 +9,3 @@ data class Article(
     val subtitle: String = "",
     val description: String = ""
 )
-

@@ -158,4 +158,3 @@ object CategoryDataProvider {
         return categoryMap.keys.toList()
     }
 }
-

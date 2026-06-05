@@ -6,17 +6,6 @@ import platform.Foundation.NSString
 import platform.Foundation.NSUTF8StringEncoding
 import platform.Foundation.stringWithContentsOfFile
 
-/**
- * iOS implementation of [loadJsonFile].
- *
- * Loads a JSON file from the main app bundle (UTF-8 decoded).
- * The [fileName] is expected to include the extension, e.g. "coi_articles.json".
- * Returns an empty string if the file cannot be located or read — callers
- * are expected to handle empty input gracefully.
- *
- * IMPORTANT: the file must be added to the iOS app target in Xcode
- * (Build Phases -> Copy Bundle Resources) for it to be present at runtime.
- */
 @OptIn(ExperimentalForeignApi::class)
 actual fun loadJsonFile(fileName: String): String {
     val dotIndex = fileName.lastIndexOf('.')

@@ -22,14 +22,6 @@ import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Reusable glassmorphism container with optional accent glow + press-scale.
- * Stateless — the caller owns layout of [content].
- *
- *  - `accentGlow` adds a tinted shadow halo (set to [Color.Transparent] to disable)
- *  - `onClick` is optional; when null the card is non-interactive
- *  - Animations are press-only (no infinite transitions) → zero idle cost.
- */
 @Composable
 fun PremiumGlassCard(
     modifier: Modifier = Modifier,
@@ -67,4 +59,3 @@ fun PremiumGlassCard(
         content()
     }
 }
-

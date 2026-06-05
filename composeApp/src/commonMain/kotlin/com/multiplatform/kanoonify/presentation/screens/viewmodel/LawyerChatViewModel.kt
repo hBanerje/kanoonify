@@ -20,11 +20,6 @@ data class LawyerChatState(
     val isLawyerTyping: Boolean = false
 )
 
-/**
- * Dummy chat ViewModel for the lawyer consultation screen.
- * Generates simulated lawyer replies after a short delay so the UI feels alive.
- * Replace with a real-time transport (WebSocket or mostly ill use Firebase) later.
- */
 class LawyerChatViewModel(lawyerId: String) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -107,4 +102,3 @@ class LawyerChatViewModel(lawyerId: String) {
         }
     }
 }
-

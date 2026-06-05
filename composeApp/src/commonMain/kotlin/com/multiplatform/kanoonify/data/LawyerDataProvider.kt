@@ -2,10 +2,6 @@ package com.multiplatform.kanoonify.data
 
 import com.multiplatform.kanoonify.domain.model.Lawyer
 
-/**
- * Static in-memory list of dummy lawyers for the "Consult a lawyer" screen.
- * Replace with a network / database source when real registration backend is ready.
- */
 object LawyerDataProvider {
 
     val lawyers: List<Lawyer> = listOf(
@@ -157,4 +153,3 @@ object LawyerDataProvider {
 
     fun findById(id: String): Lawyer? = lawyers.firstOrNull { it.id == id }
 }
-

@@ -38,7 +38,7 @@ class AskViewModel {
 
         scope.launch {
             val answer = LawRepository.findAnswer(userQuery, laws)
-            delay(900L) // brief "thinking" pause
+            delay(900L)
             _state.update {
                 it.copy(
                     isLoading = false,
@@ -48,4 +48,3 @@ class AskViewModel {
         }
     }
 }
-

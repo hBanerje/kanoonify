@@ -1,16 +1,7 @@
 package com.multiplatform.kanoonify.presentation.screens.viewmodel
 
-/**
- * Categories of saved items in the personal Library. Future persistence
- * (Room / SQLDelight) maps each entity to one of these.
- */
 enum class SavedItemType { Law, ConstitutionArticle, AiConversation, News, LawyerNote }
 
-/**
- * UI-facing saved record. Persistence layer maps domain entities → this DTO.
- *  - [titleKey]/[subtitleKey] keep the seed data localisable; once real
- *    persistence lands these become plain `title`/`subtitle` strings.
- */
 data class SavedItem(
     val id: String,
     val type: SavedItemType,
@@ -52,4 +43,3 @@ data class SavedState(
 
     val isCompletelyEmpty: Boolean get() = items.isEmpty()
 }
-

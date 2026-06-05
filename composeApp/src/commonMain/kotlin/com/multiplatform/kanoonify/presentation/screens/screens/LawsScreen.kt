@@ -35,7 +35,6 @@ fun LawsScreen(viewModel: LawsViewModel) {
                 .navigationBarsPadding()
         ) {
 
-            // Header
             Text(
                 text = stringResource(Res.string.laws_screen_title),
                 fontSize = 24.sp,
@@ -43,7 +42,6 @@ fun LawsScreen(viewModel: LawsViewModel) {
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
             )
 
-            // Search bar
             OutlinedTextField(
                 value = state.searchQuery,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
@@ -54,7 +52,6 @@ fun LawsScreen(viewModel: LawsViewModel) {
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
-            // Error message
             state.error?.let { error ->
                 Text(
                     text = error,
@@ -63,7 +60,6 @@ fun LawsScreen(viewModel: LawsViewModel) {
                 )
             }
 
-            // Loading indicator
             AnimatedVisibility(visible = state.isLoading) {
                 LinearProgressIndicator(
                     modifier = Modifier
@@ -72,7 +68,6 @@ fun LawsScreen(viewModel: LawsViewModel) {
                 )
             }
 
-            // Laws list
             if (state.laws.isEmpty() && !state.isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),

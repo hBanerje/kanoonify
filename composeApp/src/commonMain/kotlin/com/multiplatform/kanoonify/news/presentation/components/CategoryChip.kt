@@ -31,10 +31,6 @@ import com.multiplatform.kanoonify.news.domain.model.NewsCategory
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 
-/**
- * Horizontal category chip. Animates colour + scale on selection/press.
- * Stateless — selection is owned by the caller.
- */
 @Composable
 fun CategoryChip(
     category: NewsCategory,
@@ -109,7 +105,6 @@ fun CategoryChip(
     }
 }
 
-/** Public so screens can reuse the same accent across image + badge + chip. */
 fun accentFor(category: NewsCategory): Color = when (category) {
     NewsCategory.Latest     -> KanoonifyPremiumColors.NeonBlue
     NewsCategory.Politics   -> KanoonifyPremiumColors.AlertOrange
@@ -137,4 +132,3 @@ fun glyphFor(category: NewsCategory): String = when (category) {
     NewsCategory.Business   -> "\uD83D\uDCBC"
     NewsCategory.Sports     -> "\uD83C\uDFC6"
 }
-

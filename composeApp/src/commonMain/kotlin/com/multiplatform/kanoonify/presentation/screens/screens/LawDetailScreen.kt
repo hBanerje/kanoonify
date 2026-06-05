@@ -77,7 +77,7 @@ private fun DetailContent(
             bottom = Dimens.SpaceXXL + Dimens.FabSize
         )
     ) {
-        // Title block
+
         item {
             AnimatedEntrance {
                 Column(modifier = Modifier.fillMaxWidth()) {
@@ -103,7 +103,6 @@ private fun DetailContent(
             Spacer(Modifier.height(Dimens.SpaceS))
         }
 
-        // Description section
         item {
             AnimatedEntrance(delayMillis = 80) {
                 DetailSectionCard(
@@ -113,7 +112,6 @@ private fun DetailContent(
             }
         }
 
-        // Punishment section
         item {
             AnimatedEntrance(delayMillis = 160) {
                 DetailSectionCard(
@@ -123,7 +121,6 @@ private fun DetailContent(
             }
         }
 
-        // User action section
         item {
             AnimatedEntrance(delayMillis = 240) {
                 DetailSectionCard(

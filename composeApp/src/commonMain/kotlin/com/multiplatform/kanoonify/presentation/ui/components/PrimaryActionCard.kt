@@ -34,12 +34,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 
-/**
- * Premium gradient CTA card for the primary action ("Ask Kanoonify").
- * - Diagonal gradient
- * - Soft outer glow via shadow + tinted blurred shape
- * - Press-scale interaction
- */
 @Composable
 fun PrimaryActionCard(
     title: String,
@@ -116,7 +110,7 @@ fun PrimaryActionCard(
                 )
             }
             Spacer(Modifier.width(Dimens.SpaceM))
-            // Trailing chevron-ish arrow
+
             Box(
                 modifier = Modifier
                     .size(36.dp)
@@ -131,8 +125,7 @@ fun PrimaryActionCard(
                 )
             }
         }
-        // accent placeholder reference to silence unused warning when theme has no tertiary
+
         @Suppress("UNUSED_EXPRESSION") accent
     }
 }
-

@@ -26,7 +26,6 @@ class AiService(private val apiKey: String) {
 
         println("AI SERVICE CALLED: $query")
 
-        // apiKey is now injected via constructor — never hardcode secrets in source.
         require(apiKey.isNotBlank()) { "AI API key must not be blank" }
 
         val requestBody = mapOf(
@@ -50,7 +49,6 @@ class AiService(private val apiKey: String) {
                 setBody(requestBody)
             }.body()
 
-            // ALWAYS log raw response
             println("RAW RESPONSE: $responseText")
 
             val parsed = Json {

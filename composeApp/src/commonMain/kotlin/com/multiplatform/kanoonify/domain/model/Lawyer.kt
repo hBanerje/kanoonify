@@ -1,8 +1,5 @@
 package com.multiplatform.kanoonify.domain.model
 
-/**
- * Represents a registered lawyer available for consultation.
- */
 data class Lawyer(
     val id: String,
     val name: String,
@@ -15,4 +12,3 @@ data class Lawyer(
     val isOnline: Boolean,
     val bio: String
 )
-

@@ -16,11 +16,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 
-/**
- * Adds an animated diagonal "light sweep" highlight on top of any composable.
- * Render after the background but before content so it sits over the surface but
- * under text/icons. Pair with .clip(...) on the parent to constrain the sweep.
- */
 fun Modifier.shimmerEffect(
     highlightColor: Color = Color.White.copy(alpha = 0.22f),
     durationMillis: Int = 2200
@@ -41,7 +36,7 @@ fun Modifier.shimmerEffect(
             drawContent()
             val width = size.width
             val sweepWidth = width * 0.55f
-            // Move the sweep from far-left (-sweepWidth) to far-right (width + sweepWidth)
+
             val travel = (width + sweepWidth * 2)
             val startX = -sweepWidth + progress * travel
             val brush = Brush.linearGradient(
@@ -58,10 +53,5 @@ fun Modifier.shimmerEffect(
     }
 }
 
-/**
- * Sample placeholder shimmer (for skeleton loaders). Renders a tinted band that
- * sweeps across the receiver. Use on a Box with a fixed size and a clip shape.
- */
 @Composable
 fun rememberShimmerHighlight(): Color = Color.White.copy(alpha = 0.22f)
-

@@ -25,10 +25,6 @@ import androidx.compose.ui.unit.sp
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Bookmark icon button. Animated press-scale and glow-on-saved feedback.
- * Stateless — caller owns the [saved] flag.
- */
 @Composable
 fun SaveButton(
     saved: Boolean,
@@ -70,4 +66,3 @@ fun SaveButton(
         )
     }
 }
-

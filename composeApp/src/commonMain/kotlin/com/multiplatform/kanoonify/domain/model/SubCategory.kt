@@ -4,4 +4,3 @@ data class SubCategory(
     val title: String,
     val keywords: List<String>
 )
-

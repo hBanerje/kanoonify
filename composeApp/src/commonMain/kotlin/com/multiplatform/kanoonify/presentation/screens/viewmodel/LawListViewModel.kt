@@ -6,10 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-/**
- * ViewModel for the law-list screen.
- * Keeps data-access out of the Composable.
- */
 class LawListViewModel(subCategory: SubCategory) {
 
     private val _state = MutableStateFlow(LawListState())
@@ -26,4 +22,3 @@ class LawListViewModel(subCategory: SubCategory) {
         }
     }
 }
-

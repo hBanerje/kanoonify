@@ -30,10 +30,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 
-/**
- * Neon-outlined trending chip — dark variant of [TrendingChip].
- * Uses a subtle accent glow on press for a tactile feel.
- */
 @Composable
 fun NeonTrendingChip(
     label: String,
@@ -78,4 +74,3 @@ fun NeonTrendingChip(
         }
     }
 }
-

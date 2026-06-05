@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 
-/** Filter chip with selected/unselected state — animated colour transitions. */
 @Composable
 fun SegmentedFilterChip(
     label: String,
@@ -65,5 +64,3 @@ fun SegmentedFilterChip(
         )
     }
 }
-
-

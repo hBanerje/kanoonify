@@ -32,16 +32,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import kotlin.math.cos
 import kotlin.math.sin
 
-/**
- * A rounded surface filled with a slowly-shifting linear gradient.
- *
- * Optional features:
- * - shimmer light sweep over the gradient
- * - press-scale interaction
- * - tinted outer glow shadow
- *
- * Stateless: the caller owns content placement.
- */
 @Composable
 fun AnimatedGradientCard(
     colors: List<Color>,
@@ -118,4 +108,3 @@ fun AnimatedGradientCard(
         content()
     }
 }
-

@@ -27,10 +27,6 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 import com.multiplatform.kanoonify.presentation.ui.modifiers.glassSurface
 
-/**
- * Top toolbar for news surfaces. Glass background, leading title, optional
- * leading back glyph and trailing actions slot.
- */
 @Composable
 fun NewsToolbar(
     title: String,
@@ -112,4 +108,3 @@ fun NewsToolbar(
         }
     }
 }
-

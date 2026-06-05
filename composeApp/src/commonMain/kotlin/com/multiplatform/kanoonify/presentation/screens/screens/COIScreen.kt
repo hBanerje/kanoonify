@@ -77,12 +77,7 @@ fun COIScreen(
                 )
             ) {
                 items(state.filteredArticles, key = { it.id }) { article ->
-                    // PERF NOTE: AnimatedEntrance runs on every item composition.
-                    // For the current ~17 articles this is fine, but for larger
-                    // datasets (e.g. >100) consider:
-                    //   - animating only first-page items (track via index),
-                    //   - or replacing per-item AnimatedEntrance with a lighter
-                    //     LazyColumn-level fade-in on initial layout.
+
                     AnimatedEntrance {
                         ArticleRow(article = article, onClick = { onArticleClick(article) })
                     }

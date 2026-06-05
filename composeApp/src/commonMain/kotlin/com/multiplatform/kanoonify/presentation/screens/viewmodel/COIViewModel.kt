@@ -13,14 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel for the Constitution of India feature.
- *
- * Owns all state and side-effects:
- *  - JSON loading is delegated to the data layer ([COIDataProvider]).
- *  - Search filtering happens here, not in the UI.
- *  - AI explanation runs as a coroutine and updates [state]; the UI only observes.
- */
 class COIViewModel(
     private val dataProvider: COIDataProvider = COIDataProvider,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -64,11 +56,6 @@ class COIViewModel(
         _state.value.allArticles.firstOrNull { it.id == id }
             ?: dataProvider.getArticleById(id)
 
-    /**
-     * Triggers an AI explanation for [article]. The UI must NOT call
-     * [explainArticle] directly — it only reads `isExplaining` /
-     * `explanationText` / `explainingArticleId` from [state].
-     */
     fun requestExplanation(article: Article) {
         explainJob?.cancel()
         _state.update {
@@ -82,7 +69,7 @@ class COIViewModel(
             val result = runCatching { explainArticle(article) }
                 .getOrElse { "Sorry, the AI explanation is unavailable right now." }
             _state.update {
-                // Only apply if user is still on the same article.
+
                 if (it.explainingArticleId == article.id) {
                     it.copy(isExplaining = false, explanationText = result)
                 } else it
@@ -97,13 +84,8 @@ class COIViewModel(
         }
     }
 
-    /**
-     * AI hook — currently a mock. Will be wired to the existing AI service
-     * (e.g. AiService / Gemini) in a follow-up. Kept `suspend` so the
-     * call-site contract does not change when the real implementation lands.
-     */
     private suspend fun explainArticle(article: Article): String {
-        delay(800L) // simulate network latency
+        delay(800L)
         return "This article means that: ${article.subtitle.ifBlank { article.title }} — " +
             "in simple terms, ${article.description.take(160)}..."
     }

@@ -23,16 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.multiplatform.kanoonify.presentation.theme.KanoonifyPremiumColors
 
-/**
- * News-card image surface.
- *
- *  - No 3rd-party image-loader dependency: paints a stable gradient seeded
- *    from the article id + an accent overlay. Works on all KMP targets,
- *    air-gapped builds and unit tests with zero IO.
- *  - When a real loader is added later (e.g. Coil 3 multiplatform), only
- *    this composable changes — call-sites stay identical.
- *  - Accepts a [Shape] so it can be used for hero, card and thumbnail roles.
- */
 @Composable
 fun NewsImage(
     imageUrl: String,
@@ -44,8 +34,7 @@ fun NewsImage(
     showShimmer: Boolean = false,
     fallbackGlyph: String = "\uD83D\uDCF0"
 ) {
-    // Stable two-color gradient derived from the seed so the same article
-    // always renders the same background.
+
     val palette = gradientPaletteFor(seed, accent)
 
     Box(
@@ -62,7 +51,7 @@ fun NewsImage(
         if (showShimmer) {
             ShimmerOverlay(modifier = Modifier.fillMaxSize())
         }
-        // Subtle bottom-to-top dark vignette so overlaid text always reads.
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -74,7 +63,7 @@ fun NewsImage(
                     )
                 )
         )
-        // Fallback glyph centered when no overlay supplied.
+
         if (overlay == null && imageUrl.isBlank()) {
             Text(
                 text = fallbackGlyph,
@@ -116,7 +105,6 @@ private fun ShimmerOverlay(modifier: Modifier) {
     )
 }
 
-/** Deterministic 2-stop gradient palette derived from [seed]. */
 private fun gradientPaletteFor(seed: String, accent: Color): List<Color> {
     val palettes = listOf(
         listOf(KanoonifyPremiumColors.NeonBlue,   KanoonifyPremiumColors.NeonViolet),
@@ -131,4 +119,3 @@ private fun gradientPaletteFor(seed: String, accent: Color): List<Color> {
     val idx = ((seed.hashCode() and 0x7FFFFFFF) % palettes.size)
     return palettes[idx]
 }
-

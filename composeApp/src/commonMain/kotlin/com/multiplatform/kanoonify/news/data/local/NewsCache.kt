@@ -12,21 +12,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-/**
- * SQLDelight-backed news cache. Provides:
- *  - read-through cache for category feeds (`writeCategory` + `readCategory`)
- *  - durable bookmark store (`saveBookmark` / `removeBookmark` / [observeSaved])
- *  - recent-search history for the in-app search screen.
- *
- * Pure infrastructure — no policy lives here. The repository decides when
- * to read vs refresh vs fall back.
- */
 class NewsCache(private val db: KanoonifyDatabase) {
 
     private val news    = db.newsQueries
-    private val cacheTtlMs: Long = 30 * 60 * 1_000L  // 30 min
-
-    /* ----------------------------- cache ----------------------------------- */
+    private val cacheTtlMs: Long = 30 * 60 * 1_000L
 
     fun writeCategory(category: NewsCategory, articles: List<NewsArticle>) {
         val now = SystemClock.currentTimeMillis()
@@ -62,15 +51,12 @@ class NewsCache(private val db: KanoonifyDatabase) {
     fun searchCached(query: String): List<NewsArticle> =
         news.searchCached(query).executeAsList().map { it.toDomain() }
 
-    /** True when we have *any* cached data for this category newer than TTL. */
     fun isFresh(category: NewsCategory): Boolean {
         val maxCachedAt = news.cachedFreshness(category.slug).executeAsOneOrNull()?.MAX ?: return false
         return SystemClock.currentTimeMillis() - maxCachedAt < cacheTtlMs
     }
 
     fun clearAllCached() = news.clearAllCached()
-
-    /* ---------------------------- bookmarks -------------------------------- */
 
     fun saveBookmark(article: NewsArticle) {
         news.insertSavedArticle(
@@ -107,8 +93,6 @@ class NewsCache(private val db: KanoonifyDatabase) {
             .mapToList(Dispatchers.Default)
             .map { it.toSet() }
 
-    /* ------------------------ recent searches ------------------------------ */
-
     fun upsertRecentSearch(query: String) {
         news.upsertRecentSearch(query, SystemClock.currentTimeMillis())
     }
@@ -123,8 +107,6 @@ class NewsCache(private val db: KanoonifyDatabase) {
             .mapToList(Dispatchers.Default)
             .map { rows -> rows.map { it.query } }
 }
-
-/* -------------------------- private mappers -------------------------------- */
 
 private fun CachedArticle.toDomain(): NewsArticle = NewsArticle(
     id = id,
@@ -151,5 +133,3 @@ private fun SavedArticle.toDomainSaved(): NewsArticle = NewsArticle(
     category = NewsCategory.fromSlug(category),
     articleUrl = articleUrl
 )
-
-

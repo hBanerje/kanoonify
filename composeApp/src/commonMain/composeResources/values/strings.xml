@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ============== App ============== -->
     <string name="app_name">Kanoonify</string>
 
-    <!-- ============== Splash ============== -->
     <string name="splash_logo_content_description">Kanoonify logo</string>
     <string name="splash_tagline">Know your rights, instantly.</string>
 
-    <!-- ============== Landing Screen ============== -->
     <string name="landing_top_tagline">Know Your Rights. Anytime.</string>
     <string name="landing_hero_title_prefix">Know Your Rights</string>
     <string name="landing_hero_title_highlight">Instantly</string>
@@ -58,7 +55,6 @@
     <string name="trending_cyber_crime">Cyber Crime</string>
     <string name="trending_fir_rights">FIR Rights</string>
 
-    <!-- ============== Category Screen ============== -->
     <string name="category_screen_title">Browse by Category</string>
     <string name="category_screen_caption">Explore laws by everyday situations</string>
 
@@ -71,16 +67,13 @@
     <string name="category_public_safety_title">Public Safety</string>
     <string name="category_public_safety_subtitle">Noise, nuisance &amp; consumer law</string>
 
-    <!-- ============== Sub-Category Screen ============== -->
     <string name="subcategory_topics_count">%1$d topics</string>
 
-    <!-- ============== Law List Screen ============== -->
     <string name="law_list_no_laws">No laws found for this topic.</string>
     <string name="law_list_count_singular">%1$d law found</string>
     <string name="law_list_count_plural">%1$d laws found</string>
     <string name="common_chevron_right">›</string>
 
-    <!-- ============== Law Detail Screen ============== -->
     <string name="law_detail_section_description">DESCRIPTION</string>
     <string name="law_detail_section_punishment">PUNISHMENT</string>
     <string name="law_detail_section_what_to_do">WHAT YOU SHOULD DO</string>
@@ -88,13 +81,11 @@
     <string name="law_detail_no_punishment">Not specified.</string>
     <string name="law_detail_not_found">Law not found.</string>
 
-    <!-- ============== Laws Screen ============== -->
     <string name="laws_screen_title">Browse Laws</string>
     <string name="laws_screen_search_placeholder">Search laws by title or category...</string>
     <string name="laws_screen_empty_default">No laws in database yet.</string>
     <string name="laws_screen_empty_search">No laws match \"%1$s\"</string>
 
-    <!-- ============== Constitution Screen ============== -->
     <string name="coi_screen_title">Constitution of India</string>
     <string name="coi_screen_search_placeholder">Search articles…</string>
     <string name="coi_screen_articles_count">%1$d articles</string>
@@ -102,21 +93,18 @@
     <string name="coi_detail_explain_with_ai">🤖 Explain with AI</string>
     <string name="coi_detail_ai_explanation">AI Explanation</string>
 
-    <!-- ============== Ask Screen ============== -->
     <string name="ask_screen_title">Ask Kanoonify</string>
     <string name="ask_screen_caption">Describe your situation. Get rights, applicable law and next steps.</string>
     <string name="ask_screen_thinking">Thinking…</string>
     <string name="ask_screen_input_placeholder">Describe your situation…</string>
     <string name="ask_screen_send">Send</string>
 
-    <!-- ============== AI Answer Card ============== -->
     <string name="ai_answer_section_rights">Your Rights</string>
     <string name="ai_answer_section_applicable_law">Applicable Law</string>
     <string name="ai_answer_section_what_to_do">What You Should Do</string>
     <string name="ai_answer_not_found_title">No matching law found</string>
     <string name="ai_answer_not_found_body">Try describing your situation differently — e.g. \"police stopped me without warrant\".</string>
 
-    <!-- ============== Lawyer List Screen ============== -->
     <string name="lawyer_list_title">Consult a Lawyer</string>
     <string name="lawyer_list_caption">%1$d verified lawyers available</string>
     <string name="lawyer_list_search_placeholder">Search by name, specialisation, language…</string>
@@ -125,7 +113,6 @@
     <string name="lawyer_status_online">Online</string>
     <string name="lawyer_status_offline">Offline</string>
 
-    <!-- ============== Lawyer Profile Screen ============== -->
     <string name="lawyer_profile_not_found">Lawyer not found</string>
     <string name="lawyer_profile_section_about">About</string>
     <string name="lawyer_profile_section_practice">Practice</string>
@@ -148,7 +135,6 @@
     <string name="lawyer_profile_status_online">Online · %1$s</string>
     <string name="lawyer_profile_status_offline">Offline · %1$s</string>
 
-    <!-- ============== Lawyer Chat Screen ============== -->
     <string name="lawyer_chat_header_default">Lawyer</string>
     <string name="lawyer_chat_typing">typing…</string>
     <string name="lawyer_chat_input_placeholder">Type a message…</string>
@@ -157,13 +143,10 @@
     <string name="lawyer_chat_time_now">Now</string>
     <string name="lawyer_chat_time_just_now">Just now</string>
 
-    <!-- ============== Chat Bubbles ============== -->
     <string name="chat_bubble_ai_persona">Kanoonify Assistant</string>
 
-    <!-- ============== Ask AI FAB ============== -->
     <string name="ask_ai_fab_label">AI</string>
 
-    <!-- ============== Search Screen ============== -->
     <string name="search_screen_title">Search</string>
     <string name="search_screen_subtitle">Find laws, rights, articles &amp; lawyers</string>
     <string name="search_field_placeholder">Search laws, rights, articles…</string>
@@ -199,7 +182,6 @@
     <string name="search_quick_lawyer_title">Consult Lawyer</string>
     <string name="search_quick_lawyer_subtitle">Verified legal experts</string>
 
-    <!-- ============== Saved Screen ============== -->
     <string name="saved_screen_title">My Library</string>
     <string name="saved_screen_subtitle">Your personal legal collection</string>
 
@@ -230,7 +212,6 @@
     <string name="saved_empty_body">Bookmark laws, articles and lawyer chats to build your personal legal library.</string>
     <string name="saved_empty_action">Explore Kanoonify</string>
 
-    <!-- Sample saved entries (UI seed data, replaced by persistence later) -->
     <string name="saved_sample_law_1_title">IPC Section 379 — Theft</string>
     <string name="saved_sample_law_1_subtitle">Punishment up to 3 years &amp; fine</string>
     <string name="saved_sample_law_2_title">MV Act §185 — Drunk driving</string>
@@ -246,7 +227,6 @@
     <string name="saved_sample_note_1_title">Notes with Adv. Mehra</string>
     <string name="saved_sample_note_1_subtitle">Property dispute consultation · last week</string>
 
-    <!-- ============== Profile Screen ============== -->
     <string name="profile_screen_title">Profile</string>
     <string name="profile_user_name_default">Hrithik Banerjee</string>
     <string name="profile_member_since">Member since %1$s</string>
@@ -298,7 +278,6 @@
 
     <string name="profile_app_version">v 1.0.0 · Kanoonify</string>
 
-    <!-- ============== News Module ============== -->
     <string name="news_screen_title">News</string>
     <string name="news_screen_subtitle">Legal &amp; current affairs, curated for you</string>
     <string name="news_search_title">Search News</string>
@@ -350,4 +329,3 @@
     <string name="landing_bottom_nav_news">News</string>
 
 </resources>
-

@@ -28,10 +28,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 
-/**
- * Compact horizontally-scrollable chip used in the Trending section.
- * Subtle press-scale and tinted background.
- */
 @Composable
 fun TrendingChip(
     label: String,

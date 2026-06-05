@@ -5,14 +5,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-/**
- * Typography hierarchy used throughout Kanoonify.
- *
- *  - Title   → screen titles (headlineMedium)
- *  - Section → section/card titles (titleMedium)
- *  - Body    → primary content (bodyMedium)
- *  - Caption → metadata / tags (labelSmall)
- */
 val KanoonifyTypography: Typography = Typography(
     // Title
     headlineLarge = TextStyle(fontSize = 32.sp, fontWeight = FontWeight.Bold,    lineHeight = 40.sp, letterSpacing = (-0.5).sp),
@@ -34,4 +26,3 @@ val KanoonifyTypography: Typography = Typography(
     labelMedium  = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, lineHeight = 16.sp, letterSpacing = 0.4.sp),
     labelSmall   = TextStyle(fontSize = 11.sp, fontWeight = FontWeight.Medium,   lineHeight = 14.sp, letterSpacing = 0.5.sp)
 )
-
