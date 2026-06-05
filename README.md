@@ -69,7 +69,28 @@ Open the `/iosApp` directory in Xcode and run, or use the KMP run configuration 
 
 ## Screenshots
 
-(Coming soon)
+<img width="332" height="726" alt="Screenshot 2026-06-06 at 2 37 58 AM" src="https://github.com/user-attachments/assets/83ba946b-6169-47a6-a6a6-f10d35bb3257" />
+<img width="257" height="563" alt="Screenshot 2026-06-06 at 2 39 35 AM" src="https://github.com/user-attachments/assets/0b13ba80-865b-45c7-9640-38fcfa14f7c0" />
+<img width="263" height="564" alt="Screenshot 2026-06-06 at 2 40 06 AM" src="https://github.com/user-attachments/assets/c74c537b-7ffd-44d4-9a16-2510465eba90" />
+<img width="262" height="567" alt="Screenshot 2026-06-06 at 2 40 51 AM" src="https://github.com/user-attachments/assets/a238b791-89b8-45c7-9cf9-56a2ce3ced57" />
+<img width="262" height="565" alt="Screenshot 2026-06-06 at 2 40 29 AM" src="https://github.com/user-attachments/assets/f8637851-0256-4e3a-bbf9-a796521e85c0" />
+
+<img width="260" height="559" alt="Screenshot 2026-06-06 at 2 41 14 AM" src="https://github.com/user-attachments/assets/37f749c3-4ad7-4645-bd32-967f15eb0933" />
+<img width="261" height="558" alt="Screenshot 2026-06-06 at 2 41 36 AM" src="https://github.com/user-attachments/assets/7b7e1c1b-ec69-43e6-b03a-e669b2cdb732" />
+<img width="262" height="565" alt="Screenshot 2026-06-06 at 2 42 09 AM" src="https://github.com/user-attachments/assets/50e48dd1-a84e-4e3f-8b84-5d29cf791065" />
+
+<img width="257" height="559" alt="Screenshot 2026-06-06 at 2 42 38 AM" src="https://github.com/user-attachments/assets/96384ec8-6505-464d-8be6-d21fccaf7c30" />
+<img width="263" height="563" alt="Screenshot 2026-06-06 at 2 43 33 AM" src="https://github.com/user-attachments/assets/e7ec0059-9bba-4166-b032-b85d46d4a432" />
+<img width="263" height="569" alt="Screenshot 2026-06-06 at 2 42 53 AM" src="https://github.com/user-attachments/assets/16971e05-0fa1-4baf-8648-e3c5adf2c5a5" />
+
+<img width="261" height="561" alt="Screenshot 2026-06-06 at 2 44 05 AM" src="https://github.com/user-attachments/assets/b40590a5-aaf6-4b7e-a421-9de4d11fae9e" />
+<img width="261" height="564" alt="Screenshot 2026-06-06 at 2 44 27 AM" src="https://github.com/user-attachments/assets/fa8e8676-692b-4ee0-9b86-867ec4a3118d" />
+<img width="258" height="563" alt="Screenshot 2026-06-06 at 2 44 51 AM" src="https://github.com/user-attachments/assets/2dd4f83c-9a12-46dd-a627-44d9223fbaab" />
+<img width="260" height="557" alt="Screenshot 2026-06-06 at 2 46 33 AM" src="https://github.com/user-attachments/assets/539a3b2f-2a8c-4be9-bce1-d606fd7ccb69" />
+<img width="259" height="562" alt="Screenshot 2026-06-06 at 2 46 10 AM" src="https://github.com/user-attachments/assets/df650443-61f9-465c-9a52-2dd3062b1d7e" />
+<img width="260" height="564" alt="Screenshot 2026-06-06 at 2 45 54 AM" src="https://github.com/user-attachments/assets/22e9caec-be72-469f-b4be-3180282cfcfd" />
+<img width="257" height="563" alt="Screenshot 2026-06-06 at 2 45 19 AM" src="https://github.com/user-attachments/assets/fd4f084e-e247-4d2b-9015-2d4c5c1ffcd0" />
+
 
 ## Goal
 
