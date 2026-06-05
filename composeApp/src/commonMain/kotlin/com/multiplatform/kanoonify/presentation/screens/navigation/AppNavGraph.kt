@@ -18,6 +18,16 @@ import com.multiplatform.kanoonify.data.LawRepository
 import com.multiplatform.kanoonify.domain.model.SubCategory
 import com.multiplatform.kanoonify.db.DatabaseHelper
 import com.multiplatform.kanoonify.db.DatabaseDriverFactory
+import com.multiplatform.kanoonify.news.data.datasource.RemoteNewsDataSource
+import com.multiplatform.kanoonify.news.data.datasource.SampleNewsDataSource
+import com.multiplatform.kanoonify.news.data.local.NewsCache
+import com.multiplatform.kanoonify.news.data.remote.NewsApiService
+import com.multiplatform.kanoonify.news.data.repository.NewsRepository
+import com.multiplatform.kanoonify.news.platform.UrlOpener
+import com.multiplatform.kanoonify.news.presentation.screens.NewsDetailScreen
+import com.multiplatform.kanoonify.news.presentation.screens.NewsFeedScreen
+import com.multiplatform.kanoonify.news.presentation.screens.NewsSearchScreen
+import com.multiplatform.kanoonify.news.presentation.viewmodel.NewsViewModel
 import com.multiplatform.kanoonify.presentation.screens.screens.AskScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.CategoryScreen
 import com.multiplatform.kanoonify.presentation.screens.screens.COIDetailScreen
@@ -63,8 +73,44 @@ import kotlinx.serialization.Serializable
 @Serializable object SavedRoute
 @Serializable object ProfileRoute
 
+@Serializable object NewsRoute
+@Serializable object NewsSearchRoute
+@Serializable data class NewsDetailRoute(val articleId: String)
+
 @Serializable data class SubCategoryRoute(val category: String)
-@Serializable data class LawListRoute(val title: String, val keywords: List<String>)
+
+/**
+ * The list-by-sub-category route used to embed `title` and `keywords` as
+ * separate path parameters. That broke whenever a sub-category title
+ * contained a `/` (e.g. "Voyeurism / secret recording") because the nav
+ * matcher splits on `/`. We now carry both fields in a single opaque
+ * URL-safe payload via [SubCategoryPayload].
+ */
+@Serializable data class LawListRoute(val payload: String) {
+    companion object {
+        fun of(title: String, keywords: List<String>): LawListRoute =
+            LawListRoute(payload = SubCategoryPayload(title, keywords).encode())
+    }
+    fun decode(): SubCategoryPayload = SubCategoryPayload.decode(payload)
+}
+
+@Serializable
+data class SubCategoryPayload(val title: String, val keywords: List<String>) {
+    @OptIn(kotlin.io.encoding.ExperimentalEncodingApi::class)
+    fun encode(): String {
+        val json = kotlinx.serialization.json.Json.encodeToString(serializer(), this)
+        return kotlin.io.encoding.Base64.UrlSafe.encode(json.encodeToByteArray())
+    }
+    companion object {
+        @OptIn(kotlin.io.encoding.ExperimentalEncodingApi::class)
+        fun decode(payload: String): SubCategoryPayload {
+            val bytes = kotlin.io.encoding.Base64.UrlSafe.decode(payload)
+            val json = bytes.decodeToString()
+            return kotlinx.serialization.json.Json.decodeFromString(serializer(), json)
+        }
+    }
+}
+
 @Serializable data class LawDetailRoute(val id: Int)
 
 private const val TransitionDuration = 280
@@ -73,18 +119,30 @@ private const val TransitionDuration = 280
 fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
     val navController = rememberNavController()
 
+    // Shared infra wired once and held for the lifetime of the navigation host.
+    val dbHelper = remember { DatabaseHelper(driverFactory) }
+
     val lawsViewModel = remember {
-        val dbHelper = DatabaseHelper(driverFactory)
         val repository = LawRepository(dbHelper.database)
         LawsViewModel(repository)
     }
 
     val coiViewModel = remember { COIViewModel() }
 
+    // News stack: cache (durable) + dual data sources (remote → sample fallback).
+    val newsRepository = remember {
+        val cache = NewsCache(dbHelper.database)
+        val remote = RemoteNewsDataSource(NewsApiService())
+        val sample = SampleNewsDataSource()
+        NewsRepository(primary = remote, fallback = sample, cache = cache)
+    }
+    val newsViewModel = remember { NewsViewModel(newsRepository) }
+    val urlOpener = remember { UrlOpener() }
+
     // Bottom-tab VMs survive cross-tab navigation so user state (search history,
     // bookmarks, settings toggles) persists while the user moves around.
     val searchViewModel  = remember { SearchViewModel() }
-    val savedViewModel   = remember { SavedViewModel() }
+    val savedViewModel   = remember { SavedViewModel(newsRepository) }
     val profileViewModel = remember { ProfileViewModel() }
 
     // Bottom-tab switcher — singleTop + state-preserving popUpTo so we don't
@@ -118,7 +176,7 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
                 onBrowseLawsClick = { navController.navigate(CategoriesRoute) },
                 onCoiClick = { navController.navigate(CoiRoute) },
                 onConsultLawyerClick = { navController.navigate(LawyersRoute) },
-                onSearchTabClick = { navController.switchTab(SearchRoute) },
+                onNewsTabClick = { navController.switchTab(NewsRoute) },
                 onSavedTabClick = { navController.switchTab(SavedRoute) },
                 onProfileTabClick = { navController.switchTab(ProfileRoute) }
             )
@@ -132,6 +190,7 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
                 onConsultLawyerClick = { navController.navigate(LawyersRoute) },
                 onEmergencyClick = { navController.navigate(AskRoute) },
                 onHomeTabClick = { navController.switchTab(LandingRoute) },
+                onNewsTabClick = { navController.switchTab(NewsRoute) },
                 onSavedTabClick = { navController.switchTab(SavedRoute) },
                 onProfileTabClick = { navController.switchTab(ProfileRoute) }
             )
@@ -139,11 +198,17 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
         composable<SavedRoute> {
             SavedScreen(
                 viewModel = savedViewModel,
-                onItemClick = { /* future: route by item.type */ },
+                onItemClick = { item ->
+                    // Route saved news items to the news detail screen.
+                    if (item.id.startsWith("news:")) {
+                        val articleId = item.id.removePrefix("news:")
+                        navController.navigate(NewsDetailRoute(articleId = articleId))
+                    }
+                },
                 onExploreClick = { navController.switchTab(LandingRoute) },
                 onAskClick = { navController.navigate(AskRoute) },
                 onHomeTabClick = { navController.switchTab(LandingRoute) },
-                onSearchTabClick = { navController.switchTab(SearchRoute) },
+                onNewsTabClick = { navController.switchTab(NewsRoute) },
                 onProfileTabClick = { navController.switchTab(ProfileRoute) }
             )
         }
@@ -152,8 +217,46 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
                 viewModel = profileViewModel,
                 onAskClick = { navController.navigate(AskRoute) },
                 onHomeTabClick = { navController.switchTab(LandingRoute) },
-                onSearchTabClick = { navController.switchTab(SearchRoute) },
+                onNewsTabClick = { navController.switchTab(NewsRoute) },
                 onSavedTabClick = { navController.switchTab(SavedRoute) }
+            )
+        }
+
+        /* ---------------------- News module ---------------------- */
+        composable<NewsRoute> {
+            NewsFeedScreen(
+                viewModel = newsViewModel,
+                onArticleClick = { articleId ->
+                    navController.navigate(NewsDetailRoute(articleId = articleId))
+                },
+                onShareText = { text, title -> urlOpener.shareText(text, title) },
+                onOpenExternal = { url -> urlOpener.openUrl(url) },
+                onSearchClick = { navController.navigate(NewsSearchRoute) },
+                onAskClick = { navController.navigate(AskRoute) },
+                onHomeTabClick = { navController.switchTab(LandingRoute) },
+                onSavedTabClick = { navController.switchTab(SavedRoute) },
+                onProfileTabClick = { navController.switchTab(ProfileRoute) }
+            )
+        }
+        composable<NewsDetailRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<NewsDetailRoute>()
+            NewsDetailScreen(
+                viewModel = newsViewModel,
+                articleId = route.articleId,
+                onBack = { navController.popBackStack() },
+                onShareText = { text, title -> urlOpener.shareText(text, title) },
+                onOpenExternal = { url -> urlOpener.openUrl(url) }
+            )
+        }
+        composable<NewsSearchRoute> {
+            NewsSearchScreen(
+                viewModel = newsViewModel,
+                onBack = { navController.popBackStack() },
+                onArticleClick = { articleId ->
+                    navController.navigate(NewsDetailRoute(articleId = articleId))
+                },
+                onShareText = { text, title -> urlOpener.shareText(text, title) },
+                onOpenExternal = { url -> urlOpener.openUrl(url) }
             )
         }
         composable<LawyersRoute> {
@@ -217,7 +320,7 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
                 viewModel = viewModel,
                 onSubCategoryClick = { subCategory ->
                     navController.navigate(
-                        LawListRoute(
+                        LawListRoute.of(
                             title = subCategory.title,
                             keywords = subCategory.keywords
                         )
@@ -227,8 +330,9 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
         }
         composable<LawListRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<LawListRoute>()
-            val subCategory = SubCategory(title = route.title, keywords = route.keywords)
-            val viewModel = remember(route) { LawListViewModel(subCategory) }
+            val payload = route.decode()
+            val subCategory = SubCategory(title = payload.title, keywords = payload.keywords)
+            val viewModel = remember(route.payload) { LawListViewModel(subCategory) }
             LawListScreen(
                 viewModel = viewModel,
                 onLawClick = { law -> navController.navigate(LawDetailRoute(id = law.id)) },

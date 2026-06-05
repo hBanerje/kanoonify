@@ -1,0 +1,117 @@
+-- News article cache (remote feed snapshot) and bookmarks store.
+-- Two distinct tables: CachedArticle is volatile (refreshed from API),
+-- SavedArticle is durable (user bookmarks).
+
+CREATE TABLE IF NOT EXISTS CachedArticle (
+    id            TEXT    NOT NULL PRIMARY KEY,
+    title         TEXT    NOT NULL,
+    description   TEXT    NOT NULL,
+    content       TEXT    NOT NULL,
+    imageUrl      TEXT    NOT NULL DEFAULT '',
+    source        TEXT    NOT NULL DEFAULT '',
+    author        TEXT    NOT NULL DEFAULT '',
+    publishedAt   INTEGER NOT NULL,
+    category      TEXT    NOT NULL,
+    articleUrl    TEXT    NOT NULL DEFAULT '',
+    cachedAt      INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_cached_category    ON CachedArticle(category);
+CREATE INDEX IF NOT EXISTS idx_cached_publishedAt ON CachedArticle(publishedAt);
+
+CREATE TABLE IF NOT EXISTS SavedArticle (
+    id           TEXT    NOT NULL PRIMARY KEY,
+    title        TEXT    NOT NULL,
+    description  TEXT    NOT NULL,
+    content      TEXT    NOT NULL,
+    imageUrl     TEXT    NOT NULL DEFAULT '',
+    source       TEXT    NOT NULL DEFAULT '',
+    author       TEXT    NOT NULL DEFAULT '',
+    publishedAt  INTEGER NOT NULL,
+    category     TEXT    NOT NULL,
+    articleUrl   TEXT    NOT NULL DEFAULT '',
+    savedAt      INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_saved_savedAt ON SavedArticle(savedAt);
+
+CREATE TABLE IF NOT EXISTS RecentNewsSearch (
+    query     TEXT    NOT NULL PRIMARY KEY,
+    queriedAt INTEGER NOT NULL
+);
+
+--  -------- CachedArticle queries --------
+
+upsertCachedArticle:
+INSERT OR REPLACE INTO CachedArticle(
+    id, title, description, content, imageUrl, source, author,
+    publishedAt, category, articleUrl, cachedAt
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+clearCachedCategory:
+DELETE FROM CachedArticle WHERE category = ?;
+
+clearAllCached:
+DELETE FROM CachedArticle;
+
+selectCachedByCategory:
+SELECT * FROM CachedArticle
+WHERE category = ?
+ORDER BY publishedAt DESC;
+
+selectAllCached:
+SELECT * FROM CachedArticle
+ORDER BY publishedAt DESC;
+
+selectCachedById:
+SELECT * FROM CachedArticle WHERE id = ?;
+
+searchCached:
+SELECT * FROM CachedArticle
+WHERE title       LIKE '%' || :q || '%'
+   OR description LIKE '%' || :q || '%'
+   OR source      LIKE '%' || :q || '%'
+ORDER BY publishedAt DESC;
+
+cachedFreshness:
+SELECT MAX(cachedAt) FROM CachedArticle WHERE category = ?;
+
+--  -------- SavedArticle queries --------
+
+insertSavedArticle:
+INSERT OR REPLACE INTO SavedArticle(
+    id, title, description, content, imageUrl, source, author,
+    publishedAt, category, articleUrl, savedAt
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteSavedArticle:
+DELETE FROM SavedArticle WHERE id = ?;
+
+clearAllSaved:
+DELETE FROM SavedArticle;
+
+selectAllSaved:
+SELECT * FROM SavedArticle ORDER BY savedAt DESC;
+
+selectSavedIds:
+SELECT id FROM SavedArticle;
+
+isArticleSaved:
+SELECT COUNT(*) > 0 FROM SavedArticle WHERE id = ?;
+
+--  -------- Recent search queries --------
+
+upsertRecentSearch:
+INSERT OR REPLACE INTO RecentNewsSearch(query, queriedAt) VALUES (?, ?);
+
+deleteRecentSearch:
+DELETE FROM RecentNewsSearch WHERE query = ?;
+
+clearRecentSearches:
+DELETE FROM RecentNewsSearch;
+
+selectRecentSearches:
+SELECT query, queriedAt FROM RecentNewsSearch
+ORDER BY queriedAt DESC
+LIMIT 10;
+

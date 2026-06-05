@@ -86,7 +86,7 @@ fun LandingScreen(
     onEmergencyRightsClick: () -> Unit = onAskClick,
     onTrendingClick: (String) -> Unit = { onAskClick() },
     onRecentSearchClick: (String) -> Unit = { onAskClick() },
-    onSearchTabClick: () -> Unit = { /* reserved for future Search screen */ },
+    onNewsTabClick: () -> Unit = { /* reserved for future News screen */ },
     onSavedTabClick: () -> Unit = { /* reserved for future Saved screen */ },
     onProfileTabClick: () -> Unit = { /* reserved for future Profile screen */ }
 ) {
@@ -237,13 +237,13 @@ fun LandingScreen(
         ) {
             FloatingBottomBar(
                 homeLabel = stringResource(Res.string.landing_bottom_nav_home),
-                searchLabel = stringResource(Res.string.landing_bottom_nav_search),
+                newsLabel = stringResource(Res.string.landing_bottom_nav_news),
                 askLabel = stringResource(Res.string.landing_bottom_nav_ask),
                 savedLabel = stringResource(Res.string.landing_bottom_nav_saved),
                 profileLabel = stringResource(Res.string.landing_bottom_nav_profile),
                 selectedIndex = 0,
                 onHomeClick = { /* already here */ },
-                onSearchClick = onSearchTabClick,
+                onNewsClick = onNewsTabClick,
                 onAskClick = onAskClick,
                 onSavedClick = onSavedTabClick,
                 onProfileClick = onProfileTabClick

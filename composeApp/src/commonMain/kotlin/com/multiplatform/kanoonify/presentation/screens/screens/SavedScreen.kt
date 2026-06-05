@@ -111,7 +111,7 @@ fun SavedScreen(
     onExploreClick: () -> Unit,
     onAskClick: () -> Unit,
     onHomeTabClick: () -> Unit,
-    onSearchTabClick: () -> Unit,
+    onNewsTabClick: () -> Unit,
     onProfileTabClick: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
@@ -207,13 +207,13 @@ fun SavedScreen(
         ) {
             FloatingBottomBar(
                 homeLabel = stringResource(Res.string.landing_bottom_nav_home),
-                searchLabel = stringResource(Res.string.landing_bottom_nav_search),
+                newsLabel = stringResource(Res.string.landing_bottom_nav_news),
                 askLabel = stringResource(Res.string.landing_bottom_nav_ask),
                 savedLabel = stringResource(Res.string.landing_bottom_nav_saved),
                 profileLabel = stringResource(Res.string.landing_bottom_nav_profile),
                 selectedIndex = 3,
                 onHomeClick = onHomeTabClick,
-                onSearchClick = onSearchTabClick,
+                onNewsClick = onNewsTabClick,
                 onAskClick = onAskClick,
                 onSavedClick = { /* already here */ },
                 onProfileClick = onProfileTabClick
