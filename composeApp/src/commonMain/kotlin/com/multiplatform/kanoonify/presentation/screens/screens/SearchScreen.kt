@@ -78,6 +78,7 @@ fun SearchScreen(
     onConsultLawyerClick: () -> Unit,
     onEmergencyClick: () -> Unit,
     onHomeTabClick: () -> Unit,
+    onNewsTabClick: () -> Unit,
     onSavedTabClick: () -> Unit,
     onProfileTabClick: () -> Unit
 ) {
@@ -279,13 +280,13 @@ fun SearchScreen(
         ) {
             FloatingBottomBar(
                 homeLabel = stringResource(Res.string.landing_bottom_nav_home),
-                searchLabel = stringResource(Res.string.landing_bottom_nav_search),
+                newsLabel = stringResource(Res.string.landing_bottom_nav_news),
                 askLabel = stringResource(Res.string.landing_bottom_nav_ask),
                 savedLabel = stringResource(Res.string.landing_bottom_nav_saved),
                 profileLabel = stringResource(Res.string.landing_bottom_nav_profile),
-                selectedIndex = 1,
+                selectedIndex = -1,
                 onHomeClick = onHomeTabClick,
-                onSearchClick = { /* already here */ },
+                onNewsClick = onNewsTabClick,
                 onAskClick = { onAskClick(null) },
                 onSavedClick = onSavedTabClick,
                 onProfileClick = onProfileTabClick

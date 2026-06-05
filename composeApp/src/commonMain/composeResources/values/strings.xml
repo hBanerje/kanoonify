@@ -298,5 +298,56 @@
 
     <string name="profile_app_version">v 1.0.0 · Kanoonify</string>
 
+    <!-- ============== News Module ============== -->
+    <string name="news_screen_title">News</string>
+    <string name="news_screen_subtitle">Legal &amp; current affairs, curated for you</string>
+    <string name="news_search_title">Search News</string>
+    <string name="news_search_placeholder">Search news articles…</string>
+    <string name="news_offline_label">Offline</string>
+    <string name="news_offline_indicator">Showing saved &amp; cached articles</string>
+    <string name="news_pull_to_refresh">Pull to refresh</string>
+    <string name="news_refreshing">Refreshing…</string>
+    <string name="news_loading">Loading the latest…</string>
+
+    <string name="news_action_save">Save</string>
+    <string name="news_action_unsave">Unsave</string>
+    <string name="news_action_share">Share</string>
+    <string name="news_action_read_more">Read More</string>
+    <string name="news_action_open_original">Open original article</string>
+    <string name="news_action_retry">Retry</string>
+    <string name="news_action_explore">Explore Kanoonify</string>
+
+    <string name="news_empty_title">No articles right now</string>
+    <string name="news_empty_body">Pull down to refresh or try a different category.</string>
+    <string name="news_error_title">Could not load news</string>
+    <string name="news_error_body">Check your connection and try again. You can still browse cached articles below.</string>
+
+    <string name="news_search_recent_title">Recent searches</string>
+    <string name="news_search_recent_clear">Clear</string>
+    <string name="news_search_empty_title">No matches</string>
+    <string name="news_search_empty_body">We could not find articles matching your query. Try different keywords.</string>
+    <string name="news_search_idle_title">Search the news</string>
+    <string name="news_search_idle_body">Find legal updates, judgments, parliament debates and more.</string>
+
+    <string name="news_detail_published_on">Published</string>
+    <string name="news_detail_by">By %1$s</string>
+    <string name="news_detail_open_original">Open original article</string>
+    <string name="news_detail_unavailable_title">Article unavailable</string>
+    <string name="news_detail_unavailable_body">This article could not be loaded. It may have expired or been removed.</string>
+
+    <string name="news_category_latest">Latest</string>
+    <string name="news_category_politics">Politics</string>
+    <string name="news_category_parliament">Parliament</string>
+    <string name="news_category_corporate">Corporate</string>
+    <string name="news_category_finance">Finance</string>
+    <string name="news_category_technology">Technology</string>
+    <string name="news_category_law">Law</string>
+    <string name="news_category_india">India</string>
+    <string name="news_category_world">World</string>
+    <string name="news_category_business">Business</string>
+    <string name="news_category_sports">Sports</string>
+
+    <string name="landing_bottom_nav_news">News</string>
+
 </resources>
 

@@ -50,13 +50,13 @@ import com.multiplatform.kanoonify.presentation.ui.modifiers.neonGlow
 @Composable
 fun FloatingBottomBar(
     homeLabel: String,
-    searchLabel: String,
+    newsLabel: String,
     askLabel: String,
     savedLabel: String,
     profileLabel: String,
     selectedIndex: Int,
     onHomeClick: () -> Unit,
-    onSearchClick: () -> Unit,
+    onNewsClick: () -> Unit,
     onAskClick: () -> Unit,
     onSavedClick: () -> Unit,
     onProfileClick: () -> Unit,
@@ -81,7 +81,7 @@ fun FloatingBottomBar(
                 .padding(horizontal = Dimens.SpaceS, vertical = 10.dp)
         ) {
             BarTab(homeLabel, "\uD83C\uDFE0", selected = selectedIndex == 0, onClick = onHomeClick)
-            BarTab(searchLabel, "\uD83D\uDD0D", selected = selectedIndex == 1, onClick = onSearchClick)
+            BarTab(newsLabel, "\uD83D\uDCF0", selected = selectedIndex == 1, onClick = onNewsClick)
             Spacer(Modifier.size(64.dp)) // reserve room for centre FAB
             BarTab(savedLabel, "\uD83D\uDCD1", selected = selectedIndex == 3, onClick = onSavedClick)
             BarTab(profileLabel, "\uD83D\uDC64", selected = selectedIndex == 4, onClick = onProfileClick)
