@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import com.multiplatform.kanoonify.presentation.screens.viewmodel.COIViewModel
 import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun COIDetailScreen(
@@ -35,7 +37,6 @@ fun COIDetailScreen(
     val state by viewModel.state.collectAsState()
     val article = remember(articleId, state.allArticles) { viewModel.getArticleById(articleId) }
 
-    // Clear any stale explanation when entering / leaving this article.
     DisposableEffect(articleId) {
         if (state.explainingArticleId != null && state.explainingArticleId != articleId) {
             viewModel.clearExplanation()
@@ -50,7 +51,7 @@ fun COIDetailScreen(
     ) {
         if (article == null) {
             Text(
-                text = "Article not found",
+                text = stringResource(Res.string.coi_detail_not_found),
                 modifier = Modifier.align(Alignment.Center),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
@@ -110,7 +111,7 @@ fun COIDetailScreen(
                     )
                 } else {
                     Text(
-                        text = "🤖 Explain with AI",
+                        text = stringResource(Res.string.coi_detail_explain_with_ai),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -122,7 +123,7 @@ fun COIDetailScreen(
                 AppCard(modifier = Modifier.fillMaxWidth()) {
                     Column {
                         Text(
-                            text = "AI Explanation",
+                            text = stringResource(Res.string.coi_detail_ai_explanation),
                             style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -140,4 +141,3 @@ fun COIDetailScreen(
         }
     }
 }
-

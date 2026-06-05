@@ -1,0 +1,43 @@
+-- Migration: schema v1 → v2
+-- Adds the news module tables (CachedArticle, SavedArticle, RecentNewsSearch).
+-- The `IF NOT EXISTS` guards make this safe to re-apply on databases that
+-- somehow already contain the tables (e.g. partially-migrated devices).
+
+CREATE TABLE IF NOT EXISTS CachedArticle (
+    id            TEXT    NOT NULL PRIMARY KEY,
+    title         TEXT    NOT NULL,
+    description   TEXT    NOT NULL,
+    content       TEXT    NOT NULL,
+    imageUrl      TEXT    NOT NULL DEFAULT '',
+    source        TEXT    NOT NULL DEFAULT '',
+    author        TEXT    NOT NULL DEFAULT '',
+    publishedAt   INTEGER NOT NULL,
+    category      TEXT    NOT NULL,
+    articleUrl    TEXT    NOT NULL DEFAULT '',
+    cachedAt      INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_cached_category    ON CachedArticle(category);
+CREATE INDEX IF NOT EXISTS idx_cached_publishedAt ON CachedArticle(publishedAt);
+
+CREATE TABLE IF NOT EXISTS SavedArticle (
+    id           TEXT    NOT NULL PRIMARY KEY,
+    title        TEXT    NOT NULL,
+    description  TEXT    NOT NULL,
+    content      TEXT    NOT NULL,
+    imageUrl     TEXT    NOT NULL DEFAULT '',
+    source       TEXT    NOT NULL DEFAULT '',
+    author       TEXT    NOT NULL DEFAULT '',
+    publishedAt  INTEGER NOT NULL,
+    category     TEXT    NOT NULL,
+    articleUrl   TEXT    NOT NULL DEFAULT '',
+    savedAt      INTEGER NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_saved_savedAt ON SavedArticle(savedAt);
+
+CREATE TABLE IF NOT EXISTS RecentNewsSearch (
+    query     TEXT    NOT NULL PRIMARY KEY,
+    queriedAt INTEGER NOT NULL
+);
+

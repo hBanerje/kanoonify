@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Kanoonify</string>
+
+    <string name="splash_logo_content_description">Kanoonify logo</string>
+    <string name="splash_tagline">Know your rights, instantly.</string>
+
+    <string name="landing_top_tagline">Know Your Rights. Anytime.</string>
+    <string name="landing_hero_title_prefix">Know Your Rights</string>
+    <string name="landing_hero_title_highlight">Instantly</string>
+    <string name="landing_hero_title">Know Your Rights Instantly</string>
+    <string name="landing_hero_subtitle">AI-powered Indian legal assistant</string>
+    <string name="landing_hero_badge_beta">BETA</string>
+    <string name="landing_hero_trust_pill">Trusted by 50K+ users</string>
+
+    <string name="landing_ask_card_title">Ask Kanoonify</string>
+    <string name="landing_ask_card_subtitle">Describe your situation — get rights &amp; next steps</string>
+    <string name="landing_ask_card_badge_ai">AI-Powered</string>
+    <string name="landing_ask_card_badge_247">24/7</string>
+    <string name="landing_ask_card_badge_confidential">Confidential</string>
+
+    <string name="landing_section_quick_access_title">Quick Access</string>
+    <string name="landing_section_quick_access_caption">Find what you need</string>
+    <string name="landing_section_trending_title">Trending</string>
+    <string name="landing_section_trending_caption">Most searched legal topics</string>
+    <string name="landing_section_recent_title">Recent searches</string>
+    <string name="landing_section_recent_caption">Pick up where you left off</string>
+
+    <string name="landing_feature_browse_laws_title">Browse Laws</string>
+    <string name="landing_feature_browse_laws_subtitle">Categorised legal sections</string>
+    <string name="landing_feature_constitution_title">Constitution</string>
+    <string name="landing_feature_constitution_subtitle">All 395 articles</string>
+    <string name="landing_feature_consult_lawyer_title">Consult a Lawyer</string>
+    <string name="landing_feature_consult_lawyer_subtitle">Chat with experts</string>
+    <string name="landing_feature_emergency_title">Emergency Rights</string>
+    <string name="landing_feature_emergency_subtitle">Know what to do now</string>
+
+    <string name="landing_emergency_banner_title">Emergency? Know your immediate legal rights</string>
+    <string name="landing_emergency_banner_action">Open</string>
+
+    <string name="landing_recent_example_1">Police stopped my bike</string>
+    <string name="landing_recent_example_2">Can police check my phone?</string>
+    <string name="landing_recent_example_3">Noise complaint in my area</string>
+
+    <string name="landing_bottom_nav_home">Home</string>
+    <string name="landing_bottom_nav_search">Search</string>
+    <string name="landing_bottom_nav_ask">Ask AI</string>
+    <string name="landing_bottom_nav_saved">Saved</string>
+    <string name="landing_bottom_nav_profile">Profile</string>
+
+    <string name="trending_police_stops">Police Stops</string>
+    <string name="trending_traffic_rules">Traffic Rules</string>
+    <string name="trending_women_safety">Women Safety</string>
+    <string name="trending_cyber_crime">Cyber Crime</string>
+    <string name="trending_fir_rights">FIR Rights</string>
+
+    <string name="category_screen_title">Browse by Category</string>
+    <string name="category_screen_caption">Explore laws by everyday situations</string>
+
+    <string name="category_traffic_rules_title">Traffic Rules</string>
+    <string name="category_traffic_rules_subtitle">Driving, challans &amp; road safety</string>
+    <string name="category_police_rights_title">Police Rights</string>
+    <string name="category_police_rights_subtitle">Arrest, search, FIR &amp; bail</string>
+    <string name="category_women_safety_title">Women Safety</string>
+    <string name="category_women_safety_subtitle">Harassment, stalking &amp; DV</string>
+    <string name="category_public_safety_title">Public Safety</string>
+    <string name="category_public_safety_subtitle">Noise, nuisance &amp; consumer law</string>
+
+    <string name="subcategory_topics_count">%1$d topics</string>
+
+    <string name="law_list_no_laws">No laws found for this topic.</string>
+    <string name="law_list_count_singular">%1$d law found</string>
+    <string name="law_list_count_plural">%1$d laws found</string>
+    <string name="common_chevron_right">›</string>
+
+    <string name="law_detail_section_description">DESCRIPTION</string>
+    <string name="law_detail_section_punishment">PUNISHMENT</string>
+    <string name="law_detail_section_what_to_do">WHAT YOU SHOULD DO</string>
+    <string name="law_detail_no_description">No description available.</string>
+    <string name="law_detail_no_punishment">Not specified.</string>
+    <string name="law_detail_not_found">Law not found.</string>
+
+    <string name="laws_screen_title">Browse Laws</string>
+    <string name="laws_screen_search_placeholder">Search laws by title or category...</string>
+    <string name="laws_screen_empty_default">No laws in database yet.</string>
+    <string name="laws_screen_empty_search">No laws match \"%1$s\"</string>
+
+    <string name="coi_screen_title">Constitution of India</string>
+    <string name="coi_screen_search_placeholder">Search articles…</string>
+    <string name="coi_screen_articles_count">%1$d articles</string>
+    <string name="coi_detail_not_found">Article not found</string>
+    <string name="coi_detail_explain_with_ai">🤖 Explain with AI</string>
+    <string name="coi_detail_ai_explanation">AI Explanation</string>
+
+    <string name="ask_screen_title">Ask Kanoonify</string>
+    <string name="ask_screen_caption">Describe your situation. Get rights, applicable law and next steps.</string>
+    <string name="ask_screen_thinking">Thinking…</string>
+    <string name="ask_screen_input_placeholder">Describe your situation…</string>
+    <string name="ask_screen_send">Send</string>
+
+    <string name="ai_answer_section_rights">Your Rights</string>
+    <string name="ai_answer_section_applicable_law">Applicable Law</string>
+    <string name="ai_answer_section_what_to_do">What You Should Do</string>
+    <string name="ai_answer_not_found_title">No matching law found</string>
+    <string name="ai_answer_not_found_body">Try describing your situation differently — e.g. \"police stopped me without warrant\".</string>
+
+    <string name="lawyer_list_title">Consult a Lawyer</string>
+    <string name="lawyer_list_caption">%1$d verified lawyers available</string>
+    <string name="lawyer_list_search_placeholder">Search by name, specialisation, language…</string>
+    <string name="lawyer_list_row_summary">%1$d yrs exp  •  ★ %2$s  •  %3$s</string>
+    <string name="lawyer_list_row_fee">₹%1$d/session</string>
+    <string name="lawyer_status_online">Online</string>
+    <string name="lawyer_status_offline">Offline</string>
+
+    <string name="lawyer_profile_not_found">Lawyer not found</string>
+    <string name="lawyer_profile_section_about">About</string>
+    <string name="lawyer_profile_section_practice">Practice</string>
+    <string name="lawyer_profile_section_languages">Languages</string>
+    <string name="lawyer_profile_field_specialisation">Specialisation</string>
+    <string name="lawyer_profile_field_experience">Experience</string>
+    <string name="lawyer_profile_field_location">Location</string>
+    <string name="lawyer_profile_field_rating">Rating</string>
+    <string name="lawyer_profile_field_fee_per_session">Fee per session</string>
+    <string name="lawyer_profile_years_value">%1$d years</string>
+    <string name="lawyer_profile_years_plus">%1$d+</string>
+    <string name="lawyer_profile_stat_years">Years</string>
+    <string name="lawyer_profile_stat_rating">Rating</string>
+    <string name="lawyer_profile_stat_per_session">Per session</string>
+    <string name="lawyer_profile_rating_format">★ %1$s</string>
+    <string name="lawyer_profile_fee_format">₹%1$d</string>
+    <string name="lawyer_profile_online_now">Online now</string>
+    <string name="lawyer_profile_chat_button">Chat with %1$s</string>
+    <string name="lawyer_profile_offline_button">Currently offline</string>
+    <string name="lawyer_profile_status_online">Online · %1$s</string>
+    <string name="lawyer_profile_status_offline">Offline · %1$s</string>
+
+    <string name="lawyer_chat_header_default">Lawyer</string>
+    <string name="lawyer_chat_typing">typing…</string>
+    <string name="lawyer_chat_input_placeholder">Type a message…</string>
+    <string name="lawyer_chat_send">Send</string>
+    <string name="lawyer_chat_initial_message">Hello, I\'m %1$s. How can I help you today?</string>
+    <string name="lawyer_chat_time_now">Now</string>
+    <string name="lawyer_chat_time_just_now">Just now</string>
+
+    <string name="chat_bubble_ai_persona">Kanoonify Assistant</string>
+
+    <string name="ask_ai_fab_label">AI</string>
+
+    <string name="search_screen_title">Search</string>
+    <string name="search_screen_subtitle">Find laws, rights, articles &amp; lawyers</string>
+    <string name="search_field_placeholder">Search laws, rights, articles…</string>
+    <string name="search_field_clear">Clear</string>
+    <string name="search_field_action">Search</string>
+
+    <string name="search_section_recent_title">Recent Searches</string>
+    <string name="search_section_recent_caption">Your last queries</string>
+    <string name="search_section_recent_clear">Clear all</string>
+    <string name="search_recent_empty_title">No recent searches</string>
+    <string name="search_recent_empty_body">Your search history will appear here.</string>
+
+    <string name="search_section_popular_title">Popular Topics</string>
+    <string name="search_section_popular_caption">What India is searching</string>
+    <string name="search_topic_police_rights">Police Rights</string>
+    <string name="search_topic_traffic_rules">Traffic Rules</string>
+    <string name="search_topic_women_safety">Women Safety</string>
+    <string name="search_topic_cyber_crime">Cyber Crime</string>
+    <string name="search_topic_fir_rights">FIR Rights</string>
+    <string name="search_topic_constitution">Constitution</string>
+
+    <string name="search_section_trending_title">Trending Now</string>
+    <string name="search_section_trending_caption">Hot legal topics this week</string>
+
+    <string name="search_section_quick_title">Quick Access</string>
+    <string name="search_section_quick_caption">Jump straight in</string>
+    <string name="search_quick_browse_laws_title">Browse Laws</string>
+    <string name="search_quick_browse_laws_subtitle">Categorised legal sections</string>
+    <string name="search_quick_coi_title">Constitution of India</string>
+    <string name="search_quick_coi_subtitle">All 395 articles</string>
+    <string name="search_quick_emergency_title">Emergency Rights</string>
+    <string name="search_quick_emergency_subtitle">Know what to do now</string>
+    <string name="search_quick_lawyer_title">Consult Lawyer</string>
+    <string name="search_quick_lawyer_subtitle">Verified legal experts</string>
+
+    <string name="saved_screen_title">My Library</string>
+    <string name="saved_screen_subtitle">Your personal legal collection</string>
+
+    <string name="saved_filter_all">All</string>
+    <string name="saved_filter_laws">Laws</string>
+    <string name="saved_filter_coi">Articles</string>
+    <string name="saved_filter_ai">AI</string>
+    <string name="saved_filter_news">News</string>
+    <string name="saved_filter_notes">Notes</string>
+
+    <string name="saved_section_laws_title">Saved Laws</string>
+    <string name="saved_section_laws_caption">Bookmarked legal sections</string>
+    <string name="saved_section_coi_title">Constitution Articles</string>
+    <string name="saved_section_coi_caption">Saved articles of the Constitution</string>
+    <string name="saved_section_ai_title">AI Conversations</string>
+    <string name="saved_section_ai_caption">Pinned Ask Kanoonify chats</string>
+    <string name="saved_section_news_title">Legal News</string>
+    <string name="saved_section_news_caption">Important headlines you saved</string>
+    <string name="saved_section_notes_title">Lawyer Notes</string>
+    <string name="saved_section_notes_caption">Conversations &amp; consultation notes</string>
+
+    <string name="saved_section_clear">Clear</string>
+    <string name="saved_item_remove">Remove</string>
+    <string name="saved_count_items">%1$d items</string>
+    <string name="saved_count_item">%1$d item</string>
+
+    <string name="saved_empty_title">Nothing saved yet</string>
+    <string name="saved_empty_body">Bookmark laws, articles and lawyer chats to build your personal legal library.</string>
+    <string name="saved_empty_action">Explore Kanoonify</string>
+
+    <string name="saved_sample_law_1_title">IPC Section 379 — Theft</string>
+    <string name="saved_sample_law_1_subtitle">Punishment up to 3 years &amp; fine</string>
+    <string name="saved_sample_law_2_title">MV Act §185 — Drunk driving</string>
+    <string name="saved_sample_law_2_subtitle">₹10,000 fine and/or 6 months jail</string>
+    <string name="saved_sample_coi_1_title">Article 21 — Right to Life</string>
+    <string name="saved_sample_coi_1_subtitle">Protection of life and personal liberty</string>
+    <string name="saved_sample_coi_2_title">Article 19 — Freedom of Speech</string>
+    <string name="saved_sample_coi_2_subtitle">Six fundamental freedoms</string>
+    <string name="saved_sample_ai_1_title">Police stopped my bike without reason</string>
+    <string name="saved_sample_ai_1_subtitle">Rights during a police check · 3 days ago</string>
+    <string name="saved_sample_news_1_title">SC ruling on right to privacy expanded</string>
+    <string name="saved_sample_news_1_subtitle">Bar &amp; Bench · 2 days ago</string>
+    <string name="saved_sample_note_1_title">Notes with Adv. Mehra</string>
+    <string name="saved_sample_note_1_subtitle">Property dispute consultation · last week</string>
+
+    <string name="profile_screen_title">Profile</string>
+    <string name="profile_user_name_default">Hrithik Banerjee</string>
+    <string name="profile_member_since">Member since %1$s</string>
+    <string name="profile_membership_free">Free Member</string>
+    <string name="profile_membership_premium">Premium</string>
+    <string name="profile_edit_action">Edit profile</string>
+
+    <string name="profile_section_stats_title">Your Activity</string>
+    <string name="profile_stat_searches">Searches</string>
+    <string name="profile_stat_saved">Saved</string>
+    <string name="profile_stat_coi_reads">Articles Read</string>
+    <string name="profile_stat_consultations">Consultations</string>
+
+    <string name="profile_section_settings_title">Settings</string>
+    <string name="profile_settings_notifications">Notifications</string>
+    <string name="profile_settings_notifications_sub">Alerts &amp; legal updates</string>
+    <string name="profile_settings_language">Language</string>
+    <string name="profile_settings_language_sub">English (India)</string>
+    <string name="profile_settings_theme">Theme</string>
+    <string name="profile_settings_theme_sub">System default</string>
+    <string name="profile_settings_biometric">Biometric Lock</string>
+    <string name="profile_settings_biometric_sub">Protect sensitive sections</string>
+    <string name="profile_settings_privacy">Privacy Controls</string>
+    <string name="profile_settings_privacy_sub">Data &amp; permissions</string>
+
+    <string name="profile_section_security_title">Security</string>
+    <string name="profile_security_face_id">Face ID / Fingerprint</string>
+    <string name="profile_security_face_id_sub">Quick &amp; secure access</string>
+    <string name="profile_security_documents">Secure Documents</string>
+    <string name="profile_security_documents_sub">Encrypted legal files</string>
+    <string name="profile_security_app_lock">App Lock</string>
+    <string name="profile_security_app_lock_sub">Require auth on launch</string>
+
+    <string name="profile_section_legal_title">Legal &amp; Support</string>
+    <string name="profile_legal_privacy_policy">Privacy Policy</string>
+    <string name="profile_legal_terms">Terms of Service</string>
+    <string name="profile_legal_contact">Contact Support</string>
+    <string name="profile_legal_about">About Kanoonify</string>
+
+    <string name="profile_section_premium_title">Premium</string>
+    <string name="profile_premium_card_title">Kanoonify Premium</string>
+    <string name="profile_premium_card_subtitle">Unlimited AI consultations, priority lawyer access &amp; offline laws.</string>
+    <string name="profile_premium_benefit_ai">Unlimited Ask Kanoonify</string>
+    <string name="profile_premium_benefit_lawyer">Priority lawyer booking</string>
+    <string name="profile_premium_benefit_offline">Offline laws &amp; articles</string>
+    <string name="profile_premium_benefit_export">Export to PDF</string>
+    <string name="profile_premium_badge_coming_soon">Coming Soon</string>
+    <string name="profile_premium_cta">Join the waitlist</string>
+
+    <string name="profile_app_version">v 1.0.0 · Kanoonify</string>
+
+    <string name="news_screen_title">News</string>
+    <string name="news_screen_subtitle">Legal &amp; current affairs, curated for you</string>
+    <string name="news_search_title">Search News</string>
+    <string name="news_search_placeholder">Search news articles…</string>
+    <string name="news_offline_label">Offline</string>
+    <string name="news_offline_indicator">Showing saved &amp; cached articles</string>
+    <string name="news_pull_to_refresh">Pull to refresh</string>
+    <string name="news_refreshing">Refreshing…</string>
+    <string name="news_loading">Loading the latest…</string>
+
+    <string name="news_action_save">Save</string>
+    <string name="news_action_unsave">Unsave</string>
+    <string name="news_action_share">Share</string>
+    <string name="news_action_read_more">Read More</string>
+    <string name="news_action_open_original">Open original article</string>
+    <string name="news_action_retry">Retry</string>
+    <string name="news_action_explore">Explore Kanoonify</string>
+
+    <string name="news_empty_title">No articles right now</string>
+    <string name="news_empty_body">Pull down to refresh or try a different category.</string>
+    <string name="news_error_title">Could not load news</string>
+    <string name="news_error_body">Check your connection and try again. You can still browse cached articles below.</string>
+
+    <string name="news_search_recent_title">Recent searches</string>
+    <string name="news_search_recent_clear">Clear</string>
+    <string name="news_search_empty_title">No matches</string>
+    <string name="news_search_empty_body">We could not find articles matching your query. Try different keywords.</string>
+    <string name="news_search_idle_title">Search the news</string>
+    <string name="news_search_idle_body">Find legal updates, judgments, parliament debates and more.</string>
+
+    <string name="news_detail_published_on">Published</string>
+    <string name="news_detail_by">By %1$s</string>
+    <string name="news_detail_open_original">Open original article</string>
+    <string name="news_detail_unavailable_title">Article unavailable</string>
+    <string name="news_detail_unavailable_body">This article could not be loaded. It may have expired or been removed.</string>
+
+    <string name="news_category_latest">Latest</string>
+    <string name="news_category_politics">Politics</string>
+    <string name="news_category_parliament">Parliament</string>
+    <string name="news_category_corporate">Corporate</string>
+    <string name="news_category_finance">Finance</string>
+    <string name="news_category_technology">Technology</string>
+    <string name="news_category_law">Law</string>
+    <string name="news_category_india">India</string>
+    <string name="news_category_world">World</string>
+    <string name="news_category_business">Business</string>
+    <string name="news_category_sports">Sports</string>
+
+    <string name="landing_bottom_nav_news">News</string>
+
+</resources>

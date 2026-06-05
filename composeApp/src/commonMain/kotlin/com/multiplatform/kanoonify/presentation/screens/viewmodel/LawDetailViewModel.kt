@@ -7,10 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-/**
- * ViewModel for the law-detail screen.
- * All domain logic (tag derivation, user-action text) lives here, not in the Composable.
- */
 class LawDetailViewModel(lawId: Int) {
 
     private val _state = MutableStateFlow(LawDetailState())
@@ -30,4 +26,3 @@ class LawDetailViewModel(lawId: Int) {
         }
     }
 }
-

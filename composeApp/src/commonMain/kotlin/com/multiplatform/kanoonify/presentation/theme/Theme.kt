@@ -39,4 +39,3 @@ fun KanoonifyTheme(content: @Composable () -> Unit) {
         content     = content
     )
 }
-

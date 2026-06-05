@@ -1,9 +1,5 @@
 package com.multiplatform.kanoonify.domain.model
 
-/**
- * A structured deterministic answer used by the Ask flow.
- * No AI — content is composed from a matched [LawItem] using simple rules.
- */
 sealed class AskAnswer {
     data class Found(
         val law: LawItem,
@@ -14,4 +10,3 @@ sealed class AskAnswer {
 
     data object NotFound : AskAnswer()
 }
-

@@ -22,16 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.multiplatform.kanoonify.domain.model.AskAnswer
 import com.multiplatform.kanoonify.presentation.theme.Dimens
+import kanoonify.composeapp.generated.resources.*
 import kotlinx.coroutines.delay
+import org.jetbrains.compose.resources.stringResource
 
-/**
- * Structured AI response broken into three cards:
- *  - Your Rights
- *  - Applicable Law
- *  - What You Should Do
- *
- * Each card animates in sequentially with a typing reveal effect for its body.
- */
 @Composable
 fun AiAnswerCard(
     answer: AskAnswer,
@@ -44,30 +38,30 @@ fun AiAnswerCard(
         ) {
             AnimatedSection(
                 index = 0,
-                title = "Your Rights",
+                title = stringResource(Res.string.ai_answer_section_rights),
                 body  = answer.rights
             )
             AnimatedSection(
                 index = 1,
-                title = "Applicable Law",
+                title = stringResource(Res.string.ai_answer_section_applicable_law),
                 body  = answer.applicableLaw
             )
             AnimatedSection(
                 index = 2,
-                title = "What You Should Do",
+                title = stringResource(Res.string.ai_answer_section_what_to_do),
                 body  = answer.whatToDo
             )
         }
         is AskAnswer.NotFound -> AppCard(modifier = modifier.fillMaxWidth()) {
             Column {
                 Text(
-                    text = "No matching law found",
+                    text = stringResource(Res.string.ai_answer_not_found_title),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(Modifier.height(Dimens.SpaceXS))
                 Text(
-                    text = "Try describing your situation differently — e.g. \"police stopped me without warrant\".",
+                    text = stringResource(Res.string.ai_answer_not_found_body),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -108,4 +102,3 @@ private fun AnimatedSection(
         }
     }
 }
-

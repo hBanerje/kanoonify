@@ -29,6 +29,8 @@ import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.MonogramIcon
 import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SubCategoryScreen(
@@ -56,7 +58,7 @@ fun SubCategoryScreen(
             item {
                 SectionHeader(
                     title   = state.category,
-                    caption = "${state.subcategories.size} topics"
+                    caption = stringResource(Res.string.subcategory_topics_count, state.subcategories.size)
                 )
                 Spacer(Modifier.height(Dimens.SpaceM))
             }
@@ -96,7 +98,7 @@ private fun SubCategoryCard(sc: SubCategory, onClick: () -> Unit) {
             }
             Spacer(Modifier.width(Dimens.SpaceS))
             Text(
-                text  = "›",
+                text  = stringResource(Res.string.common_chevron_right),
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

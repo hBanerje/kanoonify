@@ -38,6 +38,8 @@ import com.multiplatform.kanoonify.presentation.ui.components.AiAnswerCard
 import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AskScreen(viewModel: AskViewModel) {
@@ -61,15 +63,14 @@ fun AskScreen(viewModel: AskViewModel) {
                 .statusBarsPadding()
                 .navigationBarsPadding()
         ) {
-            // Header
+
             Column(modifier = Modifier.padding(horizontal = Dimens.ScreenHorizontal, vertical = Dimens.SpaceL)) {
                 SectionHeader(
-                    title   = "Ask Kanoonify",
-                    caption = "Describe your situation. Get rights, applicable law and next steps."
+                    title   = stringResource(Res.string.ask_screen_title),
+                    caption = stringResource(Res.string.ask_screen_caption)
                 )
             }
 
-            // Conversation
             LazyColumn(
                 state = listState,
                 modifier = Modifier
@@ -92,7 +93,6 @@ fun AskScreen(viewModel: AskViewModel) {
                 }
             }
 
-            // Input bar
             InputBar(
                 value = state.query,
                 onValueChange = viewModel::onQueryChange,
@@ -130,7 +130,7 @@ private fun UserBubble(text: String) {
 private fun ThinkingCard() {
     AppCard(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text  = "Thinking…",
+            text  = stringResource(Res.string.ask_screen_thinking),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -158,7 +158,7 @@ private fun InputBar(
             onValueChange = onValueChange,
             placeholder = {
                 Text(
-                    "Describe your situation…",
+                    stringResource(Res.string.ask_screen_input_placeholder),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -181,7 +181,7 @@ private fun InputBar(
             )
         ) {
             Text(
-                text  = "Send",
+                text  = stringResource(Res.string.ask_screen_send),
                 style = MaterialTheme.typography.labelLarge
             )
         }

@@ -7,4 +7,3 @@ data class Law(
     val description: String,
     val punishment: String
 )
-

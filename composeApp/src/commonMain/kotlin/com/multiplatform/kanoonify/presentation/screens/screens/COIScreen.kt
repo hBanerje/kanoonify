@@ -27,6 +27,8 @@ import com.multiplatform.kanoonify.presentation.theme.Dimens
 import com.multiplatform.kanoonify.presentation.ui.components.AnimatedEntrance
 import com.multiplatform.kanoonify.presentation.ui.components.AppCard
 import com.multiplatform.kanoonify.presentation.ui.components.SectionHeader
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun COIScreen(
@@ -49,8 +51,8 @@ fun COIScreen(
             Spacer(Modifier.height(Dimens.SpaceL))
 
             SectionHeader(
-                title = "Constitution of India",
-                caption = "${state.allArticles.size} articles"
+                title = stringResource(Res.string.coi_screen_title),
+                caption = stringResource(Res.string.coi_screen_articles_count, state.allArticles.size)
             )
 
             Spacer(Modifier.height(Dimens.SpaceM))
@@ -59,7 +61,7 @@ fun COIScreen(
                 value = state.searchQuery,
                 onValueChange = viewModel::updateSearchQuery,
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("Search articles…") },
+                placeholder = { Text(stringResource(Res.string.coi_screen_search_placeholder)) },
                 shape = RoundedCornerShape(Dimens.RadiusL),
                 singleLine = true
             )
@@ -75,12 +77,7 @@ fun COIScreen(
                 )
             ) {
                 items(state.filteredArticles, key = { it.id }) { article ->
-                    // PERF NOTE: AnimatedEntrance runs on every item composition.
-                    // For the current ~17 articles this is fine, but for larger
-                    // datasets (e.g. >100) consider:
-                    //   - animating only first-page items (track via index),
-                    //   - or replacing per-item AnimatedEntrance with a lighter
-                    //     LazyColumn-level fade-in on initial layout.
+
                     AnimatedEntrance {
                         ArticleRow(article = article, onClick = { onArticleClick(article) })
                     }

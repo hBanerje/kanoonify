@@ -55,11 +55,10 @@ class LawsViewModel(
         scope.launch {
             try {
                 repository.insertLaw(law)
-                loadAllLaws() // refresh after insert
+                loadAllLaws()
             } catch (e: Exception) {
                 _state.update { it.copy(error = e.message) }
             }
         }
     }
 }
-

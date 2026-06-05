@@ -28,11 +28,12 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kanoonify.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ChatBubble(message: ChatMessage) {
 
-    // Fade-in animation for AI responses
     val isAiResponse = !message.isUser && message.text != "__typing__"
     var appeared by remember { mutableStateOf(!isAiResponse) }
     LaunchedEffect(Unit) {
@@ -62,10 +63,9 @@ fun ChatBubble(message: ChatMessage) {
             horizontalAlignment = if (message.isUser) Alignment.End else Alignment.Start
         ) {
 
-            // AI Persona
             if (!message.isUser) {
                 Text(
-                    text = "Kanoonify Assistant",
+                    text = stringResource(Res.string.chat_bubble_ai_persona),
                     fontSize = 12.sp,
                     color = Color.Gray,
                     modifier = Modifier.padding(start = 4.dp, bottom = 2.dp)
@@ -106,7 +106,6 @@ fun TypingIndicator() {
     val dotCount = 3
     val infiniteTransition = rememberInfiniteTransition()
 
-    // Each dot bounces with delay
     val bounceValues = List(dotCount) { index ->
         infiniteTransition.animateFloat(
             initialValue = 0f,
@@ -115,9 +114,9 @@ fun TypingIndicator() {
                 animation = keyframes {
                     durationMillis = 1200
                     0f at 0
-                    -12f at 200 // bounce up
-                    0f at 400   // back down
-                    0f at 1200  // hold
+                    -12f at 200
+                    0f at 400
+                    0f at 1200
                 },
                 repeatMode = RepeatMode.Restart,
                 initialStartOffset = StartOffset(index * 150)
@@ -153,7 +152,7 @@ fun TypingIndicator() {
                 modifier = Modifier
                     .size(10.dp)
                     .graphicsLayer {
-                        translationY = bounce.value * 3f // amplify bounce
+                        translationY = bounce.value * 3f
                     }
                     .clip(CircleShape)
                     .background(Color.Gray.copy(alpha = alphaValues[index].value))

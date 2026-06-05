@@ -7,9 +7,18 @@ expect fun loadJsonFile(fileName: String): String
 
 object LawDataSource {
 
+    private val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+    }
+
     fun loadLaws(): List<LawItem> {
         val jsonString = loadJsonFile("laws.json")
-
-        return Json.decodeFromString<List<LawItem>>(jsonString)
+        if (jsonString.isBlank()) return emptyList()
+        return try {
+            json.decodeFromString<List<LawItem>>(jsonString)
+        } catch (_: Throwable) {
+            emptyList()
+        }
     }
 }

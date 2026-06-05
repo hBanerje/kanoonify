@@ -6,4 +6,3 @@ data class SubCategoryState(
     val category: String = "",
     val subcategories: List<SubCategory> = emptyList()
 )
-

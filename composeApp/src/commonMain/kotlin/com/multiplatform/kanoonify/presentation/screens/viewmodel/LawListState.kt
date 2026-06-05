@@ -8,4 +8,3 @@ data class LawListState(
     val title: String = "",
     val isLoading: Boolean = false
 )
-
