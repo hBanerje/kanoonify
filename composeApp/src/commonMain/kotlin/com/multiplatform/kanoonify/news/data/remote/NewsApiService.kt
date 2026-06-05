@@ -3,21 +3,13 @@ package com.multiplatform.kanoonify.news.data.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-/**
- * Thin HTTP client wrapping a NewsAPI-compatible upstream.
- *
- *  - Stateless except for the [HttpClient] which is reused for the lifetime
- *    of the instance.
- *  - Endpoints are sane defaults (GNews-compatible); swap [baseUrl] /
- *    [apiKey] to point at any provider sharing the same envelope.
- *
- * The repository — not this class — owns retry / cache / fallback logic.
- */
 class NewsApiService(
     private val baseUrl: String = DEFAULT_BASE_URL,
     private val apiKey: String = "",
@@ -26,30 +18,45 @@ class NewsApiService(
 
     suspend fun topHeadlines(
         category: String? = null,
-        country: String = DEFAULT_COUNTRY,
+        country: String? = DEFAULT_COUNTRY,
+        query: String? = null,
         pageSize: Int = DEFAULT_PAGE_SIZE
     ): NewsApiResponse = httpClient.get("$baseUrl/top-headlines") {
-        if (apiKey.isNotBlank()) parameter("apikey", apiKey)
-        parameter("country", country)
-        parameter("max", pageSize)
-        if (!category.isNullOrBlank() && category != "latest") {
-            parameter("topic", category)
-        }
+        header(API_KEY_HEADER, apiKey)
+        if (!country.isNullOrBlank()) parameter("country", country)
+        if (!category.isNullOrBlank()) parameter("category", category)
+        if (!query.isNullOrBlank())    parameter("q", query)
+        parameter("pageSize", pageSize.coerceIn(1, 100))
+    }.body()
+
+    suspend fun everything(
+        query: String,
+        language: String = DEFAULT_LANGUAGE,
+        sortBy: String = DEFAULT_SORT,
+        pageSize: Int = DEFAULT_PAGE_SIZE
+    ): NewsApiResponse = httpClient.get("$baseUrl/everything") {
+        header(API_KEY_HEADER, apiKey)
+        parameter("q", query)
+        parameter("language", language)
+        parameter("sortBy", sortBy)
+        parameter("pageSize", pageSize.coerceIn(1, 100))
     }.body()
 
     suspend fun search(
         query: String,
         pageSize: Int = DEFAULT_PAGE_SIZE
-    ): NewsApiResponse = httpClient.get("$baseUrl/search") {
-        if (apiKey.isNotBlank()) parameter("apikey", apiKey)
-        parameter("q", query)
-        parameter("max", pageSize)
-    }.body()
+    ): NewsApiResponse = everything(query = query, pageSize = pageSize)
 
     companion object {
-        const val DEFAULT_BASE_URL  = "https://gnews.io/api/v4"
+        const val DEFAULT_BASE_URL  = "https://newsapi.org/v2"
         const val DEFAULT_COUNTRY   = "in"
-        const val DEFAULT_PAGE_SIZE = 20
+        const val DEFAULT_LANGUAGE  = "en"
+        const val DEFAULT_SORT      = "publishedAt"
+        const val DEFAULT_PAGE_SIZE = 30
+
+        private const val API_KEY_HEADER = "X-Api-Key"
+
+        private const val USER_AGENT = "Kanoonify/1.0 (Kotlin Multiplatform)"
 
         fun defaultClient(): HttpClient = HttpClient {
             install(ContentNegotiation) {
@@ -59,7 +66,10 @@ class NewsApiService(
                     coerceInputValues = true
                 })
             }
+            defaultRequest {
+                header("User-Agent", USER_AGENT)
+                header("Accept", "application/json")
+            }
         }
     }
 }
-

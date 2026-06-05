@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.multiplatform.kanoonify.BuildSecrets
 import com.multiplatform.kanoonify.data.LawRepository
 import com.multiplatform.kanoonify.domain.model.SubCategory
 import com.multiplatform.kanoonify.db.DatabaseHelper
@@ -79,13 +80,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable data class SubCategoryRoute(val category: String)
 
-/**
- * The list-by-sub-category route used to embed `title` and `keywords` as
- * separate path parameters. That broke whenever a sub-category title
- * contained a `/` (e.g. "Voyeurism / secret recording") because the nav
- * matcher splits on `/`. We now carry both fields in a single opaque
- * URL-safe payload via [SubCategoryPayload].
- */
 @Serializable data class LawListRoute(val payload: String) {
     companion object {
         fun of(title: String, keywords: List<String>): LawListRoute =
@@ -119,7 +113,6 @@ private const val TransitionDuration = 280
 fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
     val navController = rememberNavController()
 
-    // Shared infra wired once and held for the lifetime of the navigation host.
     val dbHelper = remember { DatabaseHelper(driverFactory) }
 
     val lawsViewModel = remember {
@@ -129,24 +122,23 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
 
     val coiViewModel = remember { COIViewModel() }
 
-    // News stack: cache (durable) + dual data sources (remote → sample fallback).
     val newsRepository = remember {
-        val cache = NewsCache(dbHelper.database)
-        val remote = RemoteNewsDataSource(NewsApiService())
+        val cache  = NewsCache(dbHelper.database)
         val sample = SampleNewsDataSource()
-        NewsRepository(primary = remote, fallback = sample, cache = cache)
+        val primary = if (BuildSecrets.NEWS_API_KEY.isNotBlank()) {
+            RemoteNewsDataSource(NewsApiService(apiKey = BuildSecrets.NEWS_API_KEY))
+        } else {
+            sample
+        }
+        NewsRepository(primary = primary, fallback = sample, cache = cache)
     }
     val newsViewModel = remember { NewsViewModel(newsRepository) }
     val urlOpener = remember { UrlOpener() }
 
-    // Bottom-tab VMs survive cross-tab navigation so user state (search history,
-    // bookmarks, settings toggles) persists while the user moves around.
     val searchViewModel  = remember { SearchViewModel() }
     val savedViewModel   = remember { SavedViewModel(newsRepository) }
     val profileViewModel = remember { ProfileViewModel() }
 
-    // Bottom-tab switcher — singleTop + state-preserving popUpTo so we don't
-    // stack identical screens when the user toggles tabs.
     fun NavController.switchTab(route: Any) {
         navigate(route) {
             popUpTo(graph.findStartDestination().id) {
@@ -199,7 +191,7 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
             SavedScreen(
                 viewModel = savedViewModel,
                 onItemClick = { item ->
-                    // Route saved news items to the news detail screen.
+
                     if (item.id.startsWith("news:")) {
                         val articleId = item.id.removePrefix("news:")
                         navController.navigate(NewsDetailRoute(articleId = articleId))
@@ -222,7 +214,6 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
             )
         }
 
-        /* ---------------------- News module ---------------------- */
         composable<NewsRoute> {
             NewsFeedScreen(
                 viewModel = newsViewModel,
@@ -270,8 +261,7 @@ fun KanoonifyRoot(driverFactory: DatabaseDriverFactory) {
         }
         composable<LawyerProfileRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<LawyerProfileRoute>()
-            // Biometric-gate VM is scoped to this route entry only — disposed
-            // on leave so authentication state never crosses screen boundaries.
+
             val accessViewModel = remember(route.lawyerId) { LawyerAccessViewModel() }
             DisposableEffect(accessViewModel) {
                 onDispose { accessViewModel.dispose() }
